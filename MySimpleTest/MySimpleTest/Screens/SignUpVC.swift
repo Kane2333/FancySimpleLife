@@ -17,7 +17,6 @@ class SignUpVC: UIViewController {
     var passwordTextField = FSLTextField(placeHolderText: "  Password", textAlignment: .left)
     var passwordConfirmTextField = FSLTextField(placeHolderText: "  Confirm Password", textAlignment: .left)
     var inviteCodeTextField = FSLTextField(placeHolderText: "  Invite Code", textAlignment: .left)
-    var validateMessage:String!
     var errorMessage:String!
 
     let createBtn = FSLButton(backgroundImage: nil, title: "Create a new account", titleColor: .systemBlue, titleHorizontalAlignment: .center)
@@ -84,8 +83,9 @@ class SignUpVC: UIViewController {
     @objc func createNewAccount() {
         print("Button pressed")
         // Check that all fields are filled in
-        validateMessage = ""
+        var validateMessage = ""
         var isValid = true
+        
         if usernameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
             emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
             passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
@@ -102,18 +102,17 @@ class SignUpVC: UIViewController {
         }*/
         
         if !passwordTextField.text!.isValidPassword {
-            validateMessage += "\nPassword entered is invalid."
+            validateMessage += "Password entered is invalid."
             isValid = false
         }
         
         if !passwordTextField.text!.isValidPassword {
-            validateMessage += "\nConfirm password  entered is invalid."
+            validateMessage += "Confirm password  entered is invalid."
             isValid = false
         }
         
         guard isValid else {
-            print("Validation: fail")
-            print(validateMessage!)
+            presentFSLAlertOnMainThread(title: "Validation Message", message: validateMessage, buttonTitle: "Ok")
             return
         }
         
@@ -132,7 +131,7 @@ class SignUpVC: UIViewController {
                 //User was created successfully, now store the user info
                 let db = Firestore.firestore()
                 
-                db.collection("users").addDocument(data: [
+                db.collection("users").document(result!.user.uid).setData([
                     "uid": result!.user.uid,
                     "username": username,
                     "inviteCode": inviteCode
