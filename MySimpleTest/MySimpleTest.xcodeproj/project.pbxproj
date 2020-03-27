@@ -8,12 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		1E1275229E58EB520AFB2822 /* Pods_MySimpleTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2BC2BA154496F0D7B9EE440 /* Pods_MySimpleTest.framework */; };
+		AB4CF7EF24113815001D02E9 /* SignInWithEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4CF7EE24113815001D02E9 /* SignInWithEmailVC.swift */; };
+		AB4CF7F124113895001D02E9 /* FSLTextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4CF7F024113895001D02E9 /* FSLTextLabel.swift */; };
+		AB4CF7F324114165001D02E9 /* FSLAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4CF7F224114165001D02E9 /* FSLAlertVC.swift */; };
+		AB4CF7F62411430A001D02E9 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4CF7F52411430A001D02E9 /* UIViewController+Ext.swift */; };
 		AB76C2EF240F448400D54A4E /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB76C2EE240F448400D54A4E /* HomeVC.swift */; };
 		AB76C2F1240F449D00D54A4E /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB76C2F0240F449D00D54A4E /* SearchVC.swift */; };
 		AB76C2F3240F44B100D54A4E /* FavoritesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB76C2F2240F44B100D54A4E /* FavoritesVC.swift */; };
 		AB76C2F5240F44BC00D54A4E /* AccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB76C2F4240F44BC00D54A4E /* AccountVC.swift */; };
 		AB76C2F7240F463F00D54A4E /* FSLButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB76C2F6240F463F00D54A4E /* FSLButton.swift */; };
-		AB76C2F9240F9E2100D54A4E /* SigninVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB76C2F8240F9E2100D54A4E /* SigninVC.swift */; };
 		AB76C2FB240F9E2C00D54A4E /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB76C2FA240F9E2C00D54A4E /* SignUpVC.swift */; };
 		AB76C2FD240FB07F00D54A4E /* FSLTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB76C2FC240FB07F00D54A4E /* FSLTextField.swift */; };
 		ABFCBDED240F405600480CA7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFCBDEC240F405600480CA7 /* AppDelegate.swift */; };
@@ -25,12 +28,15 @@
 
 /* Begin PBXFileReference section */
 		478488C522634D1CF76B9418 /* Pods-MySimpleTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MySimpleTest.debug.xcconfig"; path = "Target Support Files/Pods-MySimpleTest/Pods-MySimpleTest.debug.xcconfig"; sourceTree = "<group>"; };
+		AB4CF7EE24113815001D02E9 /* SignInWithEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithEmailVC.swift; sourceTree = "<group>"; };
+		AB4CF7F024113895001D02E9 /* FSLTextLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSLTextLabel.swift; sourceTree = "<group>"; };
+		AB4CF7F224114165001D02E9 /* FSLAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSLAlertVC.swift; sourceTree = "<group>"; };
+		AB4CF7F52411430A001D02E9 /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
 		AB76C2EE240F448400D54A4E /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		AB76C2F0240F449D00D54A4E /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		AB76C2F2240F44B100D54A4E /* FavoritesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesVC.swift; sourceTree = "<group>"; };
 		AB76C2F4240F44BC00D54A4E /* AccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVC.swift; sourceTree = "<group>"; };
 		AB76C2F6240F463F00D54A4E /* FSLButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSLButton.swift; sourceTree = "<group>"; };
-		AB76C2F8240F9E2100D54A4E /* SigninVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninVC.swift; sourceTree = "<group>"; };
 		AB76C2FA240F9E2C00D54A4E /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		AB76C2FC240FB07F00D54A4E /* FSLTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSLTextField.swift; sourceTree = "<group>"; };
 		ABFCBDE9240F405600480CA7 /* MySimpleTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MySimpleTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,6 +79,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AB4CF7F4241142E4001D02E9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				AB4CF7F52411430A001D02E9 /* UIViewController+Ext.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		AB76C2E9240F436A00D54A4E /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,8 +119,9 @@
 				AB76C2F0240F449D00D54A4E /* SearchVC.swift */,
 				AB76C2F2240F44B100D54A4E /* FavoritesVC.swift */,
 				AB76C2F4240F44BC00D54A4E /* AccountVC.swift */,
-				AB76C2F8240F9E2100D54A4E /* SigninVC.swift */,
 				AB76C2FA240F9E2C00D54A4E /* SignUpVC.swift */,
+				AB4CF7EE24113815001D02E9 /* SignInWithEmailVC.swift */,
+				AB4CF7F224114165001D02E9 /* FSLAlertVC.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -116,6 +131,7 @@
 			children = (
 				AB76C2F6240F463F00D54A4E /* FSLButton.swift */,
 				AB76C2FC240FB07F00D54A4E /* FSLTextField.swift */,
+				AB4CF7F024113895001D02E9 /* FSLTextLabel.swift */,
 			);
 			path = "Custom Views";
 			sourceTree = "<group>";
@@ -141,6 +157,7 @@
 		ABFCBDEB240F405600480CA7 /* MySimpleTest */ = {
 			isa = PBXGroup;
 			children = (
+				AB4CF7F4241142E4001D02E9 /* Extensions */,
 				AB76C2ED240F43A500D54A4E /* Custom Views */,
 				AB76C2EC240F439800D54A4E /* Screens */,
 				AB76C2EB240F439000D54A4E /* Supports */,
@@ -286,15 +303,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB76C2F3240F44B100D54A4E /* FavoritesVC.swift in Sources */,
+				AB4CF7F62411430A001D02E9 /* UIViewController+Ext.swift in Sources */,
 				AB76C2FD240FB07F00D54A4E /* FSLTextField.swift in Sources */,
 				AB76C2F1240F449D00D54A4E /* SearchVC.swift in Sources */,
-				AB76C2F9240F9E2100D54A4E /* SigninVC.swift in Sources */,
 				AB76C2FB240F9E2C00D54A4E /* SignUpVC.swift in Sources */,
 				AB76C2F5240F44BC00D54A4E /* AccountVC.swift in Sources */,
 				AB76C2EF240F448400D54A4E /* HomeVC.swift in Sources */,
 				ABFCBDED240F405600480CA7 /* AppDelegate.swift in Sources */,
 				ABFCBDEF240F405600480CA7 /* SceneDelegate.swift in Sources */,
 				AB76C2F7240F463F00D54A4E /* FSLButton.swift in Sources */,
+				AB4CF7F324114165001D02E9 /* FSLAlertVC.swift in Sources */,
+				AB4CF7F124113895001D02E9 /* FSLTextLabel.swift in Sources */,
+				AB4CF7EF24113815001D02E9 /* SignInWithEmailVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

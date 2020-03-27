@@ -23,7 +23,8 @@ class AccountVC: UIViewController {
         super.viewDidLoad()
         
         GIDSignIn.sharedInstance()?.presentingViewController = self
-        GIDSignIn.sharedInstance().signIn()
+        //GIDSignIn.sharedInstance()?.restorePreviousSignIn()
+        //GIDSignIn.sharedInstance().signIn()
 
         //let db = Firestore.firestore()
         
