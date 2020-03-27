@@ -7,16 +7,28 @@
 //
 
 import UIKit
+import CoreLocation
+import MapKit
 
 class HomeVC: UIViewController {
     
     enum Section { case main }
     
+    let locationManager = CLLocationManager()
+    
     static let sectionHeaderElementKind = "section-header-element-kind"
     private let containerView   = UIView()
     private let locationView    = UIView()
+    private let homeLocationVC  = HomeLocationVC()
     private let searchBar       = UIView()
     private let adView          = UIView()
+    
+    var location: CLLocation?
+    
+    let geocoder = CLGeocoder()
+    var placemark: CLPlacemark?
+    var isPerformingReverseGeocoding = false
+    var lastGeocodingError: Error?
     
     lazy var contentViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + 400)
     
@@ -36,10 +48,9 @@ class HomeVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.backgroundColor = FLColors.white
-        let homeLocationVC = HomeLocationVC()
-        homeLocationVC.setLocation(location: "639 Lonsdale St, Melbourne VIC 3000")
+        checkLocationSevices()
+
         add(childVC: homeLocationVC, to: locationView)
         add(childVC: SearchBarVC(), to: searchBar)
         add(childVC: FLAdvertVC(), to: adView)
@@ -56,14 +67,6 @@ class HomeVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
-    }
-    
-    
-    private func add(childVC: UIViewController, to containerView: UIView) {
-        addChild(childVC)
-        containerView.addSubview(childVC.view)
-        childVC.view.frame = containerView.bounds
-        childVC.didMove(toParent: self)
     }
     
     
@@ -204,5 +207,100 @@ class HomeVC: UIViewController {
         tuanGoList = [tuanGo1, tuanGo2, tuanGo3, tuanGo4, tuanGo5, tuanGo6]
         
         updateTuanGoData(on: tuanGoList)
+    }
+    
+    
+    func setUpLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+
+    }
+    
+    
+    func updateAddress() {
+        if let location = location {
+            
+            if let placemark = placemark {
+                homeLocationVC.setLocation(location: getAddress(from: placemark))
+                
+            } else if isPerformingReverseGeocoding {
+                homeLocationVC.setLocation(location: "Searching for address..")
+            } else if lastGeocodingError != nil {
+                homeLocationVC.setLocation(location: "Error finding a valid address")
+            } else {
+                homeLocationVC.setLocation(location: "Address Not Found")
+            }
+            
+        } else {
+            homeLocationVC.setLocation(location: "Error locating")
+        }
+    
+    }
+    
+    func getAddress(from placemark: CLPlacemark) -> String {
+        var address = ""
+        if let street1 = placemark.subThoroughfare { address += street1 + " " }
+        if let street2 = placemark.thoroughfare { address += street2 + " " }
+        if let city = placemark.locality { address += city + " " }
+        if let state = placemark.administrativeArea { address += state + " " }
+        if let postalCode = placemark.postalCode { address += postalCode + " " }
+        if let country = placemark.country { address += country }
+        return address
+    }
+    
+    
+    func checkLocationSevices() {
+        if CLLocationManager.locationServicesEnabled() {
+            setUpLocationManager()
+            checkLocationAuthorization()
+        } else {
+            print("didn't turn on the location sevice")
+        }
+    }
+    
+    func checkLocationAuthorization() {
+        switch CLLocationManager.authorizationStatus() {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .denied, .restricted:
+            presentFLAlertOnMainThread(title: "未允许定位服务", message: "请前往系统设置允许本应用取用位置", buttonTitle: "确认")
+        case .authorizedWhenInUse:
+            updateAddress()
+            locationManager.startUpdatingLocation()
+        case .authorizedAlways:
+            locationManager.startUpdatingLocation()
+        @unknown default:
+            presentFLAlertOnMainThread(title: "授权获取位置错误", message: "无法获取您的位置授权", buttonTitle: "确认")
+        }
+    }
+}
+
+
+extension HomeVC: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        location = locations.last!
+        updateAddress()
+        if location != nil {
+            if !isPerformingReverseGeocoding {
+                print("*** Start performing geocoding..")
+                isPerformingReverseGeocoding = true
+                geocoder.reverseGeocodeLocation(location!) { (placemarks, error) in
+                    self.lastGeocodingError = error
+                    if error == nil, let placemarks = placemarks, !placemarks.isEmpty {
+                        self.placemark = placemarks.last!
+                    } else {
+                        self.placemark = nil
+                    }
+                    self.isPerformingReverseGeocoding = false
+                    self.updateAddress()
+                }
+            }
+        }
+    }
+    
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        checkLocationAuthorization()
     }
 }

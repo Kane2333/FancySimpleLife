@@ -12,7 +12,7 @@ class SearchBarVC: UIViewController {
     
     private let transparentButton   = UIButton()
     private let searchBar           = UISearchBar()
-    private let mapButton           = FLTextButton(title: "附近商家")
+    private let mapButton           = FLTextButton(title: "附近商家", textColor: FLColors.red, fontSize: 12)
     
     
     override func viewDidLoad() {
@@ -59,7 +59,7 @@ class SearchBarVC: UIViewController {
             searchBar.heightAnchor.constraint(equalToConstant: 30),
             searchBar.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -8),
-            searchBar.trailingAnchor.constraint(equalTo: mapButton.leadingAnchor, constant: -8),
+            searchBar.widthAnchor.constraint(equalToConstant: 300),
             
             transparentButton.topAnchor.constraint(equalTo: searchBar.topAnchor),
             transparentButton.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor),
@@ -67,7 +67,7 @@ class SearchBarVC: UIViewController {
             transparentButton.bottomAnchor.constraint(equalTo: searchBar.bottomAnchor),
             
             mapButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            mapButton.widthAnchor.constraint(equalToConstant: 50),
+            //mapButton.leadingAnchor.constraint(equalTo: searchBar.trailingAnchor, constant: 8),
             mapButton.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor),
             mapButton.heightAnchor.constraint(equalToConstant: 20)
         ])

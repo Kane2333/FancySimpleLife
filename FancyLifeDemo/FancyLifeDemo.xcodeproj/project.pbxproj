@@ -16,6 +16,10 @@
 		5721C1C2242DB3C900358042 /* FLError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1C1242DB3C900358042 /* FLError.swift */; };
 		5721C1C4242DBF4600358042 /* FLStrikeThroughLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1C3242DBF4600358042 /* FLStrikeThroughLabel.swift */; };
 		5721C1C6242DC34400358042 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5721C1C5242DC34400358042 /* GoogleService-Info.plist */; };
+		5721C1C8242DD52E00358042 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1C7242DD52E00358042 /* UIViewController+Ext.swift */; };
+		5721C1CB242E2F2200358042 /* FLAlertContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1CA242E2F2200358042 /* FLAlertContainerView.swift */; };
+		5721C1CD242E2F7E00358042 /* FLAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1CC242E2F7E00358042 /* FLAlertVC.swift */; };
+		5721C1CF242E2FF900358042 /* FLButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1CE242E2FF900358042 /* FLButton.swift */; };
 		57563F9D242C2DA600909DA2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563F9C242C2DA600909DA2 /* AppDelegate.swift */; };
 		57563F9F242C2DA600909DA2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563F9E242C2DA600909DA2 /* SceneDelegate.swift */; };
 		57563FA6242C2DA700909DA2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57563FA5242C2DA700909DA2 /* Assets.xcassets */; };
@@ -72,6 +76,10 @@
 		5721C1C1242DB3C900358042 /* FLError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLError.swift; sourceTree = "<group>"; };
 		5721C1C3242DBF4600358042 /* FLStrikeThroughLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLStrikeThroughLabel.swift; sourceTree = "<group>"; };
 		5721C1C5242DC34400358042 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5721C1C7242DD52E00358042 /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
+		5721C1CA242E2F2200358042 /* FLAlertContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLAlertContainerView.swift; sourceTree = "<group>"; };
+		5721C1CC242E2F7E00358042 /* FLAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLAlertVC.swift; sourceTree = "<group>"; };
+		5721C1CE242E2FF900358042 /* FLButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLButton.swift; sourceTree = "<group>"; };
 		57563F99242C2DA600909DA2 /* FancyLifeDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FancyLifeDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57563F9C242C2DA600909DA2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57563F9E242C2DA600909DA2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -145,6 +153,14 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
+		5721C1C9242E2EFF00358042 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5721C1CA242E2F2200358042 /* FLAlertContainerView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		57563F90242C2DA600909DA2 = {
 			isa = PBXGroup;
 			children = (
@@ -216,6 +232,7 @@
 		57563FCD242C2DDD00909DA2 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				5721C1C9242E2EFF00358042 /* Views */,
 				57563FFA242CE6F800909DA2 /* Labels */,
 				57563FF1242C997B00909DA2 /* Cells and Supplementary Views */,
 				57563FE2242C884800909DA2 /* Buttons */,
@@ -242,6 +259,7 @@
 			isa = PBXGroup;
 			children = (
 				57563FE7242C8CDB00909DA2 /* UIView+Ext.swift */,
+				5721C1C7242DD52E00358042 /* UIViewController+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -278,6 +296,7 @@
 				57563FE0242C87B200909DA2 /* SearchBarVC.swift */,
 				57563FEB242C980D00909DA2 /* FLAdvertVC.swift */,
 				5721C1BC242D9B0F00358042 /* HomeLocationVC.swift */,
+				5721C1CC242E2F7E00358042 /* FLAlertVC.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -286,6 +305,7 @@
 			isa = PBXGroup;
 			children = (
 				57563FE3242C885F00909DA2 /* FLTextButton.swift */,
+				5721C1CE242E2FF900358042 /* FLButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -577,11 +597,14 @@
 				57563FFC242CE70A00909DA2 /* FLTitleLabel.swift in Sources */,
 				57563FE1242C87B200909DA2 /* SearchBarVC.swift in Sources */,
 				5721C1BD242D9B0F00358042 /* HomeLocationVC.swift in Sources */,
+				5721C1CB242E2F2200358042 /* FLAlertContainerView.swift in Sources */,
 				57563FF7242C9D4900909DA2 /* HomeCategoryCell.swift in Sources */,
 				57563FE8242C8CDB00909DA2 /* UIView+Ext.swift in Sources */,
 				5721C1C0242DB39900358042 /* FirestoreManager.swift in Sources */,
+				5721C1CF242E2FF900358042 /* FLButton.swift in Sources */,
 				57563FD5242C323900909DA2 /* HomeVC.swift in Sources */,
 				57563FF9242CE5A100909DA2 /* HomeTuanGoCell.swift in Sources */,
+				5721C1CD242E2F7E00358042 /* FLAlertVC.swift in Sources */,
 				5721C1C4242DBF4600358042 /* FLStrikeThroughLabel.swift in Sources */,
 				57563FEE242C985700909DA2 /* FLPageControl.swift in Sources */,
 				5721C1B3242D750700358042 /* HomeTuanGoSV.swift in Sources */,
@@ -598,6 +621,7 @@
 				5721C1BB242D8AB900358042 /* FLScrollView.swift in Sources */,
 				57563FD9242C327C00909DA2 /* WalletVC.swift in Sources */,
 				57563FDE242C331E00909DA2 /* FLTabbarController.swift in Sources */,
+				5721C1C8242DD52E00358042 /* UIViewController+Ext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

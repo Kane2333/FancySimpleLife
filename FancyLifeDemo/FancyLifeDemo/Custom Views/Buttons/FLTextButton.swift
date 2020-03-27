@@ -16,9 +16,11 @@ class FLTextButton: UIButton {
     }
     
     
-    convenience init(title: String) {
+    convenience init(title: String, textColor: UIColor, fontSize: CGFloat) {
         self.init(frame: .zero)
         self.setTitle(title, for: .normal)
+        self.setTitleColor(textColor, for: .normal)
+        self.titleLabel?.font = UIFont.systemFont(ofSize: fontSize, weight: .regular)
     }
     
     
@@ -29,10 +31,10 @@ class FLTextButton: UIButton {
     
     private func configure() {
         //backgroundColor                             = FLColors.white
-        setTitleColor(FLColors.red, for: .normal)
+       
         titleLabel?.textAlignment                   = .center
         translatesAutoresizingMaskIntoConstraints   = false
-        titleLabel?.font                            = UIFont.systemFont(ofSize: 12, weight: .regular)
+
     }
 
 }

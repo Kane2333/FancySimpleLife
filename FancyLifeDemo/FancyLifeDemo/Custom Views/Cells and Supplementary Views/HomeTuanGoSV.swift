@@ -13,7 +13,7 @@ class HomeTuanGoSV: UICollectionReusableView {
     static let reuseID  = "HomeTuanGoSV"
     
     private let label   = FLTitleLabel(textAlignment: .center, fontSize: 16, textColor: FLColors.black, fontWeight: .medium)
-    private let button  = FLTextButton(title: "更多")
+    private let button  = FLTextButton(title: "更多", textColor: FLColors.red, fontSize: 12)
     
     
     override init(frame: CGRect) {
