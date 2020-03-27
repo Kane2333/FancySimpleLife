@@ -1,0 +1,929 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		137DBF35126EE31F39A361B5 /* Pods_FancyLifeDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8EB0D29C5B5268FD4FC1962 /* Pods_FancyLifeDemoTests.framework */; };
+		5721C1B3242D750700358042 /* HomeTuanGoSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1B2242D750700358042 /* HomeTuanGoSV.swift */; };
+		5721C1B7242D7AC600358042 /* TuanGo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1B6242D7AC600358042 /* TuanGo.swift */; };
+		5721C1BB242D8AB900358042 /* FLScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1BA242D8AB900358042 /* FLScrollView.swift */; };
+		5721C1BD242D9B0F00358042 /* HomeLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1BC242D9B0F00358042 /* HomeLocationVC.swift */; };
+		5721C1C0242DB39900358042 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1BF242DB39900358042 /* FirestoreManager.swift */; };
+		5721C1C2242DB3C900358042 /* FLError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1C1242DB3C900358042 /* FLError.swift */; };
+		5721C1C4242DBF4600358042 /* FLStrikeThroughLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1C3242DBF4600358042 /* FLStrikeThroughLabel.swift */; };
+		5721C1C6242DC34400358042 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5721C1C5242DC34400358042 /* GoogleService-Info.plist */; };
+		57563F9D242C2DA600909DA2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563F9C242C2DA600909DA2 /* AppDelegate.swift */; };
+		57563F9F242C2DA600909DA2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563F9E242C2DA600909DA2 /* SceneDelegate.swift */; };
+		57563FA6242C2DA700909DA2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57563FA5242C2DA700909DA2 /* Assets.xcassets */; };
+		57563FA9242C2DA700909DA2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57563FA7242C2DA700909DA2 /* LaunchScreen.storyboard */; };
+		57563FB4242C2DA700909DA2 /* FancyLifeDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563FB3242C2DA700909DA2 /* FancyLifeDemoTests.swift */; };
+		57563FBF242C2DA700909DA2 /* FancyLifeDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563FBE242C2DA700909DA2 /* FancyLifeDemoUITests.swift */; };
+		57563FD5242C323900909DA2 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563FD4242C323900909DA2 /* HomeVC.swift */; };
+		57563FD7242C324700909DA2 /* ShopVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563FD6242C324700909DA2 /* ShopVC.swift */; };
+		57563FD9242C327C00909DA2 /* WalletVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563FD8242C327C00909DA2 /* WalletVC.swift */; };
+		57563FDB242C328700909DA2 /* AccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563FDA242C328700909DA2 /* AccountVC.swift */; };
+		57563FDE242C331E00909DA2 /* FLTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563FDD242C331E00909DA2 /* FLTabbarController.swift */; };
+		57563FE1242C87B200909DA2 /* SearchBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563FE0242C87B200909DA2 /* SearchBarVC.swift */; };
+		57563FE4242C885F00909DA2 /* FLTextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563FE3242C885F00909DA2 /* FLTextButton.swift */; };
+		57563FE6242C89DD00909DA2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563FE5242C89DD00909DA2 /* Constants.swift */; };
+		57563FE8242C8CDB00909DA2 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563FE7242C8CDB00909DA2 /* UIView+Ext.swift */; };
+		57563FEA242C8DBA00909DA2 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563FE9242C8DBA00909DA2 /* SearchVC.swift */; };
+		57563FEC242C980D00909DA2 /* FLAdvertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563FEB242C980D00909DA2 /* FLAdvertVC.swift */; };
+		57563FEE242C985700909DA2 /* FLPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563FED242C985700909DA2 /* FLPageControl.swift */; };
+		57563FF0242C98BB00909DA2 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563FEF242C98BB00909DA2 /* UIHelper.swift */; };
+		57563FF5242C99CD00909DA2 /* AdvertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563FF4242C99CD00909DA2 /* AdvertCell.swift */; };
+		57563FF7242C9D4900909DA2 /* HomeCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563FF6242C9D4900909DA2 /* HomeCategoryCell.swift */; };
+		57563FF9242CE5A100909DA2 /* HomeTuanGoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563FF8242CE5A100909DA2 /* HomeTuanGoCell.swift */; };
+		57563FFC242CE70A00909DA2 /* FLTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57563FFB242CE70A00909DA2 /* FLTitleLabel.swift */; };
+		EB17500CAEE65BA14194595E /* Pods_FancyLifeDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C88F56368B7703BF5AFC9214 /* Pods_FancyLifeDemo.framework */; };
+		F0F09FFDBB92E3D1572147F2 /* Pods_FancyLifeDemo_FancyLifeDemoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EA0CF75629331C45EE19389 /* Pods_FancyLifeDemo_FancyLifeDemoUITests.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		57563FB0242C2DA700909DA2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 57563F91242C2DA600909DA2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 57563F98242C2DA600909DA2;
+			remoteInfo = FancyLifeDemo;
+		};
+		57563FBB242C2DA700909DA2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 57563F91242C2DA600909DA2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 57563F98242C2DA600909DA2;
+			remoteInfo = FancyLifeDemo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		24FFCF7770D31EA85A1EEC47 /* Pods-FancyLifeDemo-FancyLifeDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FancyLifeDemo-FancyLifeDemoUITests.debug.xcconfig"; path = "Target Support Files/Pods-FancyLifeDemo-FancyLifeDemoUITests/Pods-FancyLifeDemo-FancyLifeDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		3EA0CF75629331C45EE19389 /* Pods_FancyLifeDemo_FancyLifeDemoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FancyLifeDemo_FancyLifeDemoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		48D63728ADB6304456388702 /* Pods-FancyLifeDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FancyLifeDemo.debug.xcconfig"; path = "Target Support Files/Pods-FancyLifeDemo/Pods-FancyLifeDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		5721C1B2242D750700358042 /* HomeTuanGoSV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTuanGoSV.swift; sourceTree = "<group>"; };
+		5721C1B6242D7AC600358042 /* TuanGo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuanGo.swift; sourceTree = "<group>"; };
+		5721C1BA242D8AB900358042 /* FLScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLScrollView.swift; sourceTree = "<group>"; };
+		5721C1BC242D9B0F00358042 /* HomeLocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeLocationVC.swift; sourceTree = "<group>"; };
+		5721C1BF242DB39900358042 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
+		5721C1C1242DB3C900358042 /* FLError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLError.swift; sourceTree = "<group>"; };
+		5721C1C3242DBF4600358042 /* FLStrikeThroughLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLStrikeThroughLabel.swift; sourceTree = "<group>"; };
+		5721C1C5242DC34400358042 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		57563F99242C2DA600909DA2 /* FancyLifeDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FancyLifeDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		57563F9C242C2DA600909DA2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		57563F9E242C2DA600909DA2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		57563FA5242C2DA700909DA2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		57563FA8242C2DA700909DA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		57563FAA242C2DA700909DA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		57563FAF242C2DA700909DA2 /* FancyLifeDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FancyLifeDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		57563FB3242C2DA700909DA2 /* FancyLifeDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyLifeDemoTests.swift; sourceTree = "<group>"; };
+		57563FB5242C2DA700909DA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		57563FBA242C2DA700909DA2 /* FancyLifeDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FancyLifeDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		57563FBE242C2DA700909DA2 /* FancyLifeDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyLifeDemoUITests.swift; sourceTree = "<group>"; };
+		57563FC0242C2DA700909DA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		57563FD4242C323900909DA2 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
+		57563FD6242C324700909DA2 /* ShopVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopVC.swift; sourceTree = "<group>"; };
+		57563FD8242C327C00909DA2 /* WalletVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletVC.swift; sourceTree = "<group>"; };
+		57563FDA242C328700909DA2 /* AccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVC.swift; sourceTree = "<group>"; };
+		57563FDD242C331E00909DA2 /* FLTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLTabbarController.swift; sourceTree = "<group>"; };
+		57563FE0242C87B200909DA2 /* SearchBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarVC.swift; sourceTree = "<group>"; };
+		57563FE3242C885F00909DA2 /* FLTextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLTextButton.swift; sourceTree = "<group>"; };
+		57563FE5242C89DD00909DA2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		57563FE7242C8CDB00909DA2 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
+		57563FE9242C8DBA00909DA2 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
+		57563FEB242C980D00909DA2 /* FLAdvertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLAdvertVC.swift; sourceTree = "<group>"; };
+		57563FED242C985700909DA2 /* FLPageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLPageControl.swift; sourceTree = "<group>"; };
+		57563FEF242C98BB00909DA2 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
+		57563FF4242C99CD00909DA2 /* AdvertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertCell.swift; sourceTree = "<group>"; };
+		57563FF6242C9D4900909DA2 /* HomeCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCategoryCell.swift; sourceTree = "<group>"; };
+		57563FF8242CE5A100909DA2 /* HomeTuanGoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTuanGoCell.swift; sourceTree = "<group>"; };
+		57563FFB242CE70A00909DA2 /* FLTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLTitleLabel.swift; sourceTree = "<group>"; };
+		74A2617DC837E74B6A07DC62 /* Pods-FancyLifeDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FancyLifeDemo.release.xcconfig"; path = "Target Support Files/Pods-FancyLifeDemo/Pods-FancyLifeDemo.release.xcconfig"; sourceTree = "<group>"; };
+		8845330522F160741AED0576 /* Pods-FancyLifeDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FancyLifeDemoTests.release.xcconfig"; path = "Target Support Files/Pods-FancyLifeDemoTests/Pods-FancyLifeDemoTests.release.xcconfig"; sourceTree = "<group>"; };
+		A8EB0D29C5B5268FD4FC1962 /* Pods_FancyLifeDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FancyLifeDemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C88F56368B7703BF5AFC9214 /* Pods_FancyLifeDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FancyLifeDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E8D7A511808231398F0C05D8 /* Pods-FancyLifeDemo-FancyLifeDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FancyLifeDemo-FancyLifeDemoUITests.release.xcconfig"; path = "Target Support Files/Pods-FancyLifeDemo-FancyLifeDemoUITests/Pods-FancyLifeDemo-FancyLifeDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
+		FBB7367051194E113C9DBE3E /* Pods-FancyLifeDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FancyLifeDemoTests.debug.xcconfig"; path = "Target Support Files/Pods-FancyLifeDemoTests/Pods-FancyLifeDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		57563F96242C2DA600909DA2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB17500CAEE65BA14194595E /* Pods_FancyLifeDemo.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57563FAC242C2DA700909DA2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				137DBF35126EE31F39A361B5 /* Pods_FancyLifeDemoTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57563FB7242C2DA700909DA2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F0F09FFDBB92E3D1572147F2 /* Pods_FancyLifeDemo_FancyLifeDemoUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5721C1BE242DB38600358042 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				5721C1BF242DB39900358042 /* FirestoreManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		57563F90242C2DA600909DA2 = {
+			isa = PBXGroup;
+			children = (
+				57563F9B242C2DA600909DA2 /* FancyLifeDemo */,
+				57563FB2242C2DA700909DA2 /* FancyLifeDemoTests */,
+				57563FBD242C2DA700909DA2 /* FancyLifeDemoUITests */,
+				57563F9A242C2DA600909DA2 /* Products */,
+				A936BFD8114B6128A0B717AA /* Pods */,
+				9878121CCB1B3B37E1774CB0 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		57563F9A242C2DA600909DA2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				57563F99242C2DA600909DA2 /* FancyLifeDemo.app */,
+				57563FAF242C2DA700909DA2 /* FancyLifeDemoTests.xctest */,
+				57563FBA242C2DA700909DA2 /* FancyLifeDemoUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		57563F9B242C2DA600909DA2 /* FancyLifeDemo */ = {
+			isa = PBXGroup;
+			children = (
+				5721C1C5242DC34400358042 /* GoogleService-Info.plist */,
+				5721C1BE242DB38600358042 /* Managers */,
+				57563FCE242C2DE000909DA2 /* Support */,
+				57563FD1242C2E1900909DA2 /* Utilities */,
+				57563FD0242C2DE500909DA2 /* Models */,
+				57563FCF242C2DE300909DA2 /* Extensions */,
+				57563FCD242C2DDD00909DA2 /* Custom Views */,
+				57563FCC242C2DD400909DA2 /* Screens */,
+				57563FAA242C2DA700909DA2 /* Info.plist */,
+			);
+			path = FancyLifeDemo;
+			sourceTree = "<group>";
+		};
+		57563FB2242C2DA700909DA2 /* FancyLifeDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				57563FB3242C2DA700909DA2 /* FancyLifeDemoTests.swift */,
+				57563FB5242C2DA700909DA2 /* Info.plist */,
+			);
+			path = FancyLifeDemoTests;
+			sourceTree = "<group>";
+		};
+		57563FBD242C2DA700909DA2 /* FancyLifeDemoUITests */ = {
+			isa = PBXGroup;
+			children = (
+				57563FBE242C2DA700909DA2 /* FancyLifeDemoUITests.swift */,
+				57563FC0242C2DA700909DA2 /* Info.plist */,
+			);
+			path = FancyLifeDemoUITests;
+			sourceTree = "<group>";
+		};
+		57563FCC242C2DD400909DA2 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				57563FD4242C323900909DA2 /* HomeVC.swift */,
+				57563FD6242C324700909DA2 /* ShopVC.swift */,
+				57563FD8242C327C00909DA2 /* WalletVC.swift */,
+				57563FDA242C328700909DA2 /* AccountVC.swift */,
+				57563FE9242C8DBA00909DA2 /* SearchVC.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		57563FCD242C2DDD00909DA2 /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				57563FFA242CE6F800909DA2 /* Labels */,
+				57563FF1242C997B00909DA2 /* Cells and Supplementary Views */,
+				57563FE2242C884800909DA2 /* Buttons */,
+				57563FDF242C877E00909DA2 /* View Controllers */,
+				57563FDC242C32EC00909DA2 /* TabbarControllers */,
+				57563FED242C985700909DA2 /* FLPageControl.swift */,
+				5721C1BA242D8AB900358042 /* FLScrollView.swift */,
+			);
+			path = "Custom Views";
+			sourceTree = "<group>";
+		};
+		57563FCE242C2DE000909DA2 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				57563F9C242C2DA600909DA2 /* AppDelegate.swift */,
+				57563F9E242C2DA600909DA2 /* SceneDelegate.swift */,
+				57563FA5242C2DA700909DA2 /* Assets.xcassets */,
+				57563FA7242C2DA700909DA2 /* LaunchScreen.storyboard */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		57563FCF242C2DE300909DA2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				57563FE7242C8CDB00909DA2 /* UIView+Ext.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		57563FD0242C2DE500909DA2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5721C1B6242D7AC600358042 /* TuanGo.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		57563FD1242C2E1900909DA2 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				57563FE5242C89DD00909DA2 /* Constants.swift */,
+				57563FEF242C98BB00909DA2 /* UIHelper.swift */,
+				5721C1C1242DB3C900358042 /* FLError.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		57563FDC242C32EC00909DA2 /* TabbarControllers */ = {
+			isa = PBXGroup;
+			children = (
+				57563FDD242C331E00909DA2 /* FLTabbarController.swift */,
+			);
+			path = TabbarControllers;
+			sourceTree = "<group>";
+		};
+		57563FDF242C877E00909DA2 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				57563FE0242C87B200909DA2 /* SearchBarVC.swift */,
+				57563FEB242C980D00909DA2 /* FLAdvertVC.swift */,
+				5721C1BC242D9B0F00358042 /* HomeLocationVC.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		57563FE2242C884800909DA2 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				57563FE3242C885F00909DA2 /* FLTextButton.swift */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
+		57563FF1242C997B00909DA2 /* Cells and Supplementary Views */ = {
+			isa = PBXGroup;
+			children = (
+				57563FF4242C99CD00909DA2 /* AdvertCell.swift */,
+				57563FF6242C9D4900909DA2 /* HomeCategoryCell.swift */,
+				57563FF8242CE5A100909DA2 /* HomeTuanGoCell.swift */,
+				5721C1B2242D750700358042 /* HomeTuanGoSV.swift */,
+			);
+			path = "Cells and Supplementary Views";
+			sourceTree = "<group>";
+		};
+		57563FFA242CE6F800909DA2 /* Labels */ = {
+			isa = PBXGroup;
+			children = (
+				57563FFB242CE70A00909DA2 /* FLTitleLabel.swift */,
+				5721C1C3242DBF4600358042 /* FLStrikeThroughLabel.swift */,
+			);
+			path = Labels;
+			sourceTree = "<group>";
+		};
+		9878121CCB1B3B37E1774CB0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C88F56368B7703BF5AFC9214 /* Pods_FancyLifeDemo.framework */,
+				3EA0CF75629331C45EE19389 /* Pods_FancyLifeDemo_FancyLifeDemoUITests.framework */,
+				A8EB0D29C5B5268FD4FC1962 /* Pods_FancyLifeDemoTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A936BFD8114B6128A0B717AA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				48D63728ADB6304456388702 /* Pods-FancyLifeDemo.debug.xcconfig */,
+				74A2617DC837E74B6A07DC62 /* Pods-FancyLifeDemo.release.xcconfig */,
+				24FFCF7770D31EA85A1EEC47 /* Pods-FancyLifeDemo-FancyLifeDemoUITests.debug.xcconfig */,
+				E8D7A511808231398F0C05D8 /* Pods-FancyLifeDemo-FancyLifeDemoUITests.release.xcconfig */,
+				FBB7367051194E113C9DBE3E /* Pods-FancyLifeDemoTests.debug.xcconfig */,
+				8845330522F160741AED0576 /* Pods-FancyLifeDemoTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		57563F98242C2DA600909DA2 /* FancyLifeDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 57563FC3242C2DA700909DA2 /* Build configuration list for PBXNativeTarget "FancyLifeDemo" */;
+			buildPhases = (
+				73E31096040D5BB289D42AD8 /* [CP] Check Pods Manifest.lock */,
+				57563F95242C2DA600909DA2 /* Sources */,
+				57563F96242C2DA600909DA2 /* Frameworks */,
+				57563F97242C2DA600909DA2 /* Resources */,
+				A124310610B0DA160A431500 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FancyLifeDemo;
+			productName = FancyLifeDemo;
+			productReference = 57563F99242C2DA600909DA2 /* FancyLifeDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		57563FAE242C2DA700909DA2 /* FancyLifeDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 57563FC6242C2DA700909DA2 /* Build configuration list for PBXNativeTarget "FancyLifeDemoTests" */;
+			buildPhases = (
+				57FF6C82C47991D15E53D79C /* [CP] Check Pods Manifest.lock */,
+				57563FAB242C2DA700909DA2 /* Sources */,
+				57563FAC242C2DA700909DA2 /* Frameworks */,
+				57563FAD242C2DA700909DA2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				57563FB1242C2DA700909DA2 /* PBXTargetDependency */,
+			);
+			name = FancyLifeDemoTests;
+			productName = FancyLifeDemoTests;
+			productReference = 57563FAF242C2DA700909DA2 /* FancyLifeDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		57563FB9242C2DA700909DA2 /* FancyLifeDemoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 57563FC9242C2DA700909DA2 /* Build configuration list for PBXNativeTarget "FancyLifeDemoUITests" */;
+			buildPhases = (
+				808A531406DE79BCDCB4D43E /* [CP] Check Pods Manifest.lock */,
+				57563FB6242C2DA700909DA2 /* Sources */,
+				57563FB7242C2DA700909DA2 /* Frameworks */,
+				57563FB8242C2DA700909DA2 /* Resources */,
+				D4CF01E6C5332C9194F77671 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				57563FBC242C2DA700909DA2 /* PBXTargetDependency */,
+			);
+			name = FancyLifeDemoUITests;
+			productName = FancyLifeDemoUITests;
+			productReference = 57563FBA242C2DA700909DA2 /* FancyLifeDemoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		57563F91242C2DA600909DA2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1140;
+				LastUpgradeCheck = 1140;
+				ORGANIZATIONNAME = FancyLife;
+				TargetAttributes = {
+					57563F98242C2DA600909DA2 = {
+						CreatedOnToolsVersion = 11.4;
+					};
+					57563FAE242C2DA700909DA2 = {
+						CreatedOnToolsVersion = 11.4;
+						TestTargetID = 57563F98242C2DA600909DA2;
+					};
+					57563FB9242C2DA700909DA2 = {
+						CreatedOnToolsVersion = 11.4;
+						TestTargetID = 57563F98242C2DA600909DA2;
+					};
+				};
+			};
+			buildConfigurationList = 57563F94242C2DA600909DA2 /* Build configuration list for PBXProject "FancyLifeDemo" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 57563F90242C2DA600909DA2;
+			productRefGroup = 57563F9A242C2DA600909DA2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				57563F98242C2DA600909DA2 /* FancyLifeDemo */,
+				57563FAE242C2DA700909DA2 /* FancyLifeDemoTests */,
+				57563FB9242C2DA700909DA2 /* FancyLifeDemoUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		57563F97242C2DA600909DA2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57563FA9242C2DA700909DA2 /* LaunchScreen.storyboard in Resources */,
+				57563FA6242C2DA700909DA2 /* Assets.xcassets in Resources */,
+				5721C1C6242DC34400358042 /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57563FAD242C2DA700909DA2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57563FB8242C2DA700909DA2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		57FF6C82C47991D15E53D79C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FancyLifeDemoTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		73E31096040D5BB289D42AD8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FancyLifeDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		808A531406DE79BCDCB4D43E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FancyLifeDemo-FancyLifeDemoUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A124310610B0DA160A431500 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FancyLifeDemo/Pods-FancyLifeDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FancyLifeDemo/Pods-FancyLifeDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FancyLifeDemo/Pods-FancyLifeDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D4CF01E6C5332C9194F77671 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FancyLifeDemo-FancyLifeDemoUITests/Pods-FancyLifeDemo-FancyLifeDemoUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FancyLifeDemo-FancyLifeDemoUITests/Pods-FancyLifeDemo-FancyLifeDemoUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FancyLifeDemo-FancyLifeDemoUITests/Pods-FancyLifeDemo-FancyLifeDemoUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		57563F95242C2DA600909DA2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57563FEA242C8DBA00909DA2 /* SearchVC.swift in Sources */,
+				57563FF5242C99CD00909DA2 /* AdvertCell.swift in Sources */,
+				57563FFC242CE70A00909DA2 /* FLTitleLabel.swift in Sources */,
+				57563FE1242C87B200909DA2 /* SearchBarVC.swift in Sources */,
+				5721C1BD242D9B0F00358042 /* HomeLocationVC.swift in Sources */,
+				57563FF7242C9D4900909DA2 /* HomeCategoryCell.swift in Sources */,
+				57563FE8242C8CDB00909DA2 /* UIView+Ext.swift in Sources */,
+				5721C1C0242DB39900358042 /* FirestoreManager.swift in Sources */,
+				57563FD5242C323900909DA2 /* HomeVC.swift in Sources */,
+				57563FF9242CE5A100909DA2 /* HomeTuanGoCell.swift in Sources */,
+				5721C1C4242DBF4600358042 /* FLStrikeThroughLabel.swift in Sources */,
+				57563FEE242C985700909DA2 /* FLPageControl.swift in Sources */,
+				5721C1B3242D750700358042 /* HomeTuanGoSV.swift in Sources */,
+				57563F9D242C2DA600909DA2 /* AppDelegate.swift in Sources */,
+				5721C1B7242D7AC600358042 /* TuanGo.swift in Sources */,
+				57563FE4242C885F00909DA2 /* FLTextButton.swift in Sources */,
+				57563FDB242C328700909DA2 /* AccountVC.swift in Sources */,
+				5721C1C2242DB3C900358042 /* FLError.swift in Sources */,
+				57563FF0242C98BB00909DA2 /* UIHelper.swift in Sources */,
+				57563FEC242C980D00909DA2 /* FLAdvertVC.swift in Sources */,
+				57563FE6242C89DD00909DA2 /* Constants.swift in Sources */,
+				57563FD7242C324700909DA2 /* ShopVC.swift in Sources */,
+				57563F9F242C2DA600909DA2 /* SceneDelegate.swift in Sources */,
+				5721C1BB242D8AB900358042 /* FLScrollView.swift in Sources */,
+				57563FD9242C327C00909DA2 /* WalletVC.swift in Sources */,
+				57563FDE242C331E00909DA2 /* FLTabbarController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57563FAB242C2DA700909DA2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57563FB4242C2DA700909DA2 /* FancyLifeDemoTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57563FB6242C2DA700909DA2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57563FBF242C2DA700909DA2 /* FancyLifeDemoUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		57563FB1242C2DA700909DA2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 57563F98242C2DA600909DA2 /* FancyLifeDemo */;
+			targetProxy = 57563FB0242C2DA700909DA2 /* PBXContainerItemProxy */;
+		};
+		57563FBC242C2DA700909DA2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 57563F98242C2DA600909DA2 /* FancyLifeDemo */;
+			targetProxy = 57563FBB242C2DA700909DA2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		57563FA7242C2DA700909DA2 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				57563FA8242C2DA700909DA2 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		57563FC1242C2DA700909DA2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		57563FC2242C2DA700909DA2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		57563FC4242C2DA700909DA2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 48D63728ADB6304456388702 /* Pods-FancyLifeDemo.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M6H7Q89SZN;
+				INFOPLIST_FILE = FancyLifeDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fancylife.FancyLifeDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		57563FC5242C2DA700909DA2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 74A2617DC837E74B6A07DC62 /* Pods-FancyLifeDemo.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M6H7Q89SZN;
+				INFOPLIST_FILE = FancyLifeDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fancylife.FancyLifeDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		57563FC7242C2DA700909DA2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FBB7367051194E113C9DBE3E /* Pods-FancyLifeDemoTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M6H7Q89SZN;
+				INFOPLIST_FILE = FancyLifeDemoTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fancylife.FancyLifeDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FancyLifeDemo.app/FancyLifeDemo";
+			};
+			name = Debug;
+		};
+		57563FC8242C2DA700909DA2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8845330522F160741AED0576 /* Pods-FancyLifeDemoTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M6H7Q89SZN;
+				INFOPLIST_FILE = FancyLifeDemoTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fancylife.FancyLifeDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FancyLifeDemo.app/FancyLifeDemo";
+			};
+			name = Release;
+		};
+		57563FCA242C2DA700909DA2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 24FFCF7770D31EA85A1EEC47 /* Pods-FancyLifeDemo-FancyLifeDemoUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M6H7Q89SZN;
+				INFOPLIST_FILE = FancyLifeDemoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fancylife.FancyLifeDemoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FancyLifeDemo;
+			};
+			name = Debug;
+		};
+		57563FCB242C2DA700909DA2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E8D7A511808231398F0C05D8 /* Pods-FancyLifeDemo-FancyLifeDemoUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M6H7Q89SZN;
+				INFOPLIST_FILE = FancyLifeDemoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fancylife.FancyLifeDemoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FancyLifeDemo;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		57563F94242C2DA600909DA2 /* Build configuration list for PBXProject "FancyLifeDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57563FC1242C2DA700909DA2 /* Debug */,
+				57563FC2242C2DA700909DA2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		57563FC3242C2DA700909DA2 /* Build configuration list for PBXNativeTarget "FancyLifeDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57563FC4242C2DA700909DA2 /* Debug */,
+				57563FC5242C2DA700909DA2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		57563FC6242C2DA700909DA2 /* Build configuration list for PBXNativeTarget "FancyLifeDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57563FC7242C2DA700909DA2 /* Debug */,
+				57563FC8242C2DA700909DA2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		57563FC9242C2DA700909DA2 /* Build configuration list for PBXNativeTarget "FancyLifeDemoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57563FCA242C2DA700909DA2 /* Debug */,
+				57563FCB242C2DA700909DA2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 57563F91242C2DA600909DA2 /* Project object */;
+}
