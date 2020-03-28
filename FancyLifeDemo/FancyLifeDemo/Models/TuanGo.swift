@@ -10,10 +10,15 @@ import Foundation
 import UIKit
 
 struct TuanGo: Codable, Hashable {
+    var id: String
     var title: String
     var secondaryTitle: String
-    var amount: Int
+    var amount: Double
     var price: Double
     var originalPrice: Double
-    var imageName: String
+    var imageURL: String
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }

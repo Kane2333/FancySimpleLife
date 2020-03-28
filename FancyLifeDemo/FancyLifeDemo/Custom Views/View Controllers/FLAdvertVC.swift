@@ -9,15 +9,14 @@
 import UIKit
 
 class FLAdvertVC: UIViewController {
-
-    enum Section {case main}
     
     var sliderCollectionView: UICollectionView!
-    var dataSource: UICollectionViewDiffableDataSource<Section, UIImage>!
+    var flowLayout: UICollectionViewFlowLayout!
+    var dataSource: UICollectionViewDiffableDataSource<Int, AdImage>!
     let pageControl         = FLPageContorl()
     var currentIndex        = 0
     var timer               = Timer()
-    var images: [UIImage]   = []
+    var images: [AdImage]   = []
     
     
     override func viewDidLoad() {
@@ -25,29 +24,28 @@ class FLAdvertVC: UIViewController {
         configureUI()
         configureDataSource()
         getImages()
-        activateScrollImages()
     }
     
     
     func configureUI() {
-        sliderCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createAdImageFlowLayout(in: view))
+        flowLayout = UIHelper.createAdImageFlowLayout(in: view)
+        sliderCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: flowLayout)
+        sliderCollectionView.register(AdvertCell.self, forCellWithReuseIdentifier: AdvertCell.reuseID)
         view.addSubViews(sliderCollectionView, pageControl)
-        
+  
         sliderCollectionView.layer.cornerRadius     = 3
         sliderCollectionView.layer.masksToBounds    = true
-
-        sliderCollectionView.showsVerticalScrollIndicator               = false
+        sliderCollectionView.autoresizesSubviews    = true
         sliderCollectionView.showsHorizontalScrollIndicator             = false
         sliderCollectionView.isPagingEnabled                            = true
         sliderCollectionView.isScrollEnabled                            = true
         sliderCollectionView.isPrefetchingEnabled                       = true
         sliderCollectionView.translatesAutoresizingMaskIntoConstraints  = false
-        pageControl.translatesAutoresizingMaskIntoConstraints           = false
-        sliderCollectionView.translatesAutoresizingMaskIntoConstraints  = false
         
         NSLayoutConstraint.activate([
             sliderCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
             sliderCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor),
+            sliderCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             sliderCollectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
             
             pageControl.centerYAnchor.constraint(equalTo: sliderCollectionView.bottomAnchor, constant: -10),
@@ -57,7 +55,7 @@ class FLAdvertVC: UIViewController {
     
     
     func activateScrollImages() {
-        pageControl.numberOfPages   = 3
+        pageControl.numberOfPages   = images.count
         pageControl.currentPage     = 0
         DispatchQueue.main.async {
             self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
@@ -66,7 +64,7 @@ class FLAdvertVC: UIViewController {
     
     
     @objc func changeImage() {
-        if currentIndex < 3 {
+        if currentIndex < images.count {
             let indexPath = IndexPath.init(item: currentIndex, section: 0)
             self.sliderCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             pageControl.currentPage = currentIndex
@@ -82,27 +80,38 @@ class FLAdvertVC: UIViewController {
     
     
     func getImages() {
-        images    = [UIImage(named: "home1")!,
-                     UIImage(named: "home2")!,
-                     UIImage(named: "home3")!]
-        updateData()
+        FirestoreManager.shared.getAdList(for: "homepage") { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let imageList):
+                self.images = imageList
+                self.activateScrollImages()
+                self.updateData()
+            case .failure(let error):
+                self.presentFLAlertOnMainThread(title: "错误！", message: error.rawValue, buttonTitle: "确认")
+            }
+        }
+
     }
     
+
     
     func configureDataSource() {
-        sliderCollectionView.register(AdvertCell.self, forCellWithReuseIdentifier: AdvertCell.reuseID)
-        dataSource = UICollectionViewDiffableDataSource(collectionView: sliderCollectionView, cellProvider: { (sliderCollectionView, indexPath, image) -> UICollectionViewCell? in
+        dataSource = UICollectionViewDiffableDataSource(collectionView: sliderCollectionView, cellProvider: { (sliderCollectionView, indexPath, adImageItem) -> UICollectionViewCell? in
             let cell = sliderCollectionView.dequeueReusableCell(withReuseIdentifier:AdvertCell.reuseID, for: indexPath) as! AdvertCell
-            cell.set(image: image)
+            cell.set(imageURL: adImageItem.imageURL)
             return cell
         })
     }
     
     
     func updateData() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
-        snapshot.appendSections([.main])
+        var snapshot = NSDiffableDataSourceSnapshot<Int, AdImage>()
+        snapshot.appendSections([0])
         snapshot.appendItems(images)
-        DispatchQueue.main.async{self.dataSource.apply(snapshot, animatingDifferences: true)}
+        DispatchQueue.main.async{self.dataSource.apply(snapshot, animatingDifferences: false)}
     }
 }
+
+

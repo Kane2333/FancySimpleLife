@@ -23,7 +23,7 @@ class HomeLocationVC: UIViewController {
     
     
     private func configure() {
-        locationSymbol.image        = UIImage(systemName: "mappin", withConfiguration: UIImage.SymbolConfiguration(pointSize: 12, weight: .bold))
+        locationSymbol.image        = FLImages.location
         arrowSymbol.image           = UIImage(systemName: "chevron.down", withConfiguration: UIImage.SymbolConfiguration(pointSize: 10, weight: .regular))
         locationSymbol.tintColor    = FLColors.red
         arrowSymbol.tintColor       = FLColors.red

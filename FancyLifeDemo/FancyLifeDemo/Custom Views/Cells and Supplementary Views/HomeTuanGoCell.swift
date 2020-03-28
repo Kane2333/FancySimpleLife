@@ -13,7 +13,7 @@ class HomeTuanGoCell: UICollectionViewCell {
     static let reuseID              = "HomeTuanGoCell"
     
     private let containerView       = UIView()
-    private let imageView           = UIImageView()
+    private let imageView           = FLRegularImageView(frame: .zero)
     private let titleLabel          = FLTitleLabel(textAlignment: .center, fontSize: 14, textColor: FLColors.black, fontWeight: .regular)
     private let secondaryLabel      = FLTitleLabel(textAlignment: .center, fontSize: 12, textColor: FLColors.gray, fontWeight: .regular)
     private let amountLabel         = FLTitleLabel(textAlignment: .center, fontSize: 10, textColor: FLColors.red, fontWeight: .regular)
@@ -35,7 +35,7 @@ class HomeTuanGoCell: UICollectionViewCell {
     
     
     func set(tuanGoItem: TuanGo) {
-        imageView.image         = UIImage(named: tuanGoItem.imageName)
+        imageView.downloadImage(fromURL: tuanGoItem.imageURL)
         titleLabel.text         = tuanGoItem.title
         secondaryLabel.text     = tuanGoItem.secondaryTitle
         amountLabel.text        = "剩余\(tuanGoItem.amount)件"
@@ -49,14 +49,11 @@ class HomeTuanGoCell: UICollectionViewCell {
         containerView.layer.cornerRadius    = 6
         containerView.layer.masksToBounds   = true
         
-        imageView.clipsToBounds             = true
-        imageView.contentMode               = .scaleAspectFill
-        
         button.backgroundColor              = FLColors.red
         button.tintColor                    = FLColors.white
         button.titleLabel?.font             = UIFont.systemFont(ofSize: 10, weight: .regular)
         button.layer.cornerRadius           = 17 / 2
-        button.setImage(UIImage(systemName: "cart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)), for: .normal)
+        button.setImage(FLImages.cart, for: .normal)
         button.setTitle("马上抢", for: .normal)
         button.imageEdgeInsets              = UIEdgeInsets(top: 0, left: -1, bottom: 0, right: 0)
         button.titleEdgeInsets              = UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 0)
@@ -69,7 +66,6 @@ class HomeTuanGoCell: UICollectionViewCell {
         containerView.addSubViews(imageView, titleLabel, secondaryLabel, amountLabel, priceLabel, orignalPriceLabel, button)
         bringSubviewToFront(containerView)
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.translatesAutoresizingMaskIntoConstraints     = false
         button.translatesAutoresizingMaskIntoConstraints        = false
         
         NSLayoutConstraint.activate([

@@ -13,7 +13,7 @@ struct UIHelper {
     static func createAdImageFlowLayout(in view: UIView) -> UICollectionViewFlowLayout {
         let flowLayout                  = UICollectionViewFlowLayout()
         flowLayout.sectionInset         = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        flowLayout.itemSize             = CGSize(width: view.bounds.width, height: 139)
+        flowLayout.estimatedItemSize    = CGSize(width: view.bounds.width, height: 139)
         flowLayout.scrollDirection      = .horizontal
         
         return flowLayout
@@ -22,7 +22,7 @@ struct UIHelper {
     
     static func createHorizontalFlowLayoutOneSection(in view: UIView) -> UICollectionViewLayout {
 
-        let padding: CGFloat            = 11
+        let padding: CGFloat            = 13
         
         let flowLayout                  = UICollectionViewFlowLayout()
         flowLayout.sectionInset         = UIEdgeInsets(top: 0, left: padding, bottom: 0, right: padding)

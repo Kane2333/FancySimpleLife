@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreLocation
-import MapKit
+import Firebase
 
 class HomeVC: UIViewController {
     
@@ -31,7 +31,6 @@ class HomeVC: UIViewController {
     var lastGeocodingError: Error?
     
     lazy var contentViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + 400)
-    
     lazy var scrollView: FLScrollView = {
         let scrollView = FLScrollView(view: view, containerView: containerView, contentViewSize: contentViewSize, bounces: true)
         return scrollView
@@ -41,23 +40,25 @@ class HomeVC: UIViewController {
     var tuanGoCollectionView: UICollectionView!
     var categrotyDataSource: UICollectionViewDiffableDataSource<Int, UIImage>!
     var tuanGoDataSource: UICollectionViewDiffableDataSource<Section, TuanGo>!
-    var categoryImages: [UIImage] = []
+    var categoryImages: [UIImage] = [FLImages.foodDrink!, FLImages.shengXian!, FLImages.fun!, FLImages.travel!]
     var tuanGoList: [TuanGo]      = []
     
-    
+    let db = Firestore.firestore()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = FLColors.white
         checkLocationSevices()
-
-        add(childVC: homeLocationVC, to: locationView)
-        add(childVC: SearchBarVC(), to: searchBar)
-        add(childVC: FLAdvertVC(), to: adView)
+        
         configureCategoryCollectionView()
         configureTuanGoCollectionView()
         configureUI()
-        getCategoryItems()
+        
+        add(childVC: homeLocationVC, to: locationView)
+        add(childVC: SearchBarVC(), to: searchBar)
+        add(childVC: FLAdvertVC(), to: adView)
+
+        updateCategoryData()
         configureCategoryDataSource()
         getTuanGoItems()
         configureTuanGoDataSource()
@@ -135,17 +136,9 @@ class HomeVC: UIViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Int, UIImage>()
         snapshot.appendSections([0])
         snapshot.appendItems(categoryImages)
-        DispatchQueue.main.async {self.categrotyDataSource.apply(snapshot, animatingDifferences: true)}
+        DispatchQueue.main.async {self.categrotyDataSource.apply(snapshot, animatingDifferences: false)}
     }
     
-    
-    func getCategoryItems() {
-        categoryImages = [UIImage(named: "item1")!,
-                          UIImage(named: "item2")!,
-                          UIImage(named: "item3")!,
-                          UIImage(named: "item4")!]
-        updateCategoryData()
-    }
     
     
     func configureTuanGoCollectionView() {
@@ -192,21 +185,22 @@ class HomeVC: UIViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, TuanGo>()
         snapshot.appendSections([.main])
         snapshot.appendItems(tuanGoItems)
-        DispatchQueue.main.async {self.tuanGoDataSource.apply(snapshot, animatingDifferences: true)}
+        DispatchQueue.main.async {self.tuanGoDataSource.apply(snapshot, animatingDifferences: false)}
     }
     
     
     func getTuanGoItems() {
-        let tuanGo1 = TuanGo(title: "麻辣土豆香锅", secondaryTitle: "中式传统美食", amount: Int(99), price: Double(23.46), originalPrice: Double(30.50), imageName: "item4")
-        let tuanGo2 = TuanGo(title: "意大利面", secondaryTitle: "经典西餐", amount: Int(50), price: Double(19.99), originalPrice: Double(25.50), imageName: "item3")
-        let tuanGo3 = TuanGo(title: "中式双人套餐", secondaryTitle: "网红打卡中餐厅", amount: Int(20), price: Double(59.99), originalPrice: Double(90.50), imageName: "item2")
-        let tuanGo4 = TuanGo(title: "法式蜗牛套餐", secondaryTitle: "经典法国风味", amount: Int(18), price: Double(64.89), originalPrice: Double(98.50), imageName: "item1")
-        let tuanGo5 = TuanGo(title: "中式双人套餐2", secondaryTitle: "网红打卡中餐厅", amount: Int(20), price: Double(59.99), originalPrice: Double(90.50), imageName: "item2")
-        let tuanGo6 = TuanGo(title: "法式蜗牛套餐2", secondaryTitle: "经典法国风味", amount: Int(18), price: Double(64.89), originalPrice: Double(98.50), imageName: "item1")
-        
-        tuanGoList = [tuanGo1, tuanGo2, tuanGo3, tuanGo4, tuanGo5, tuanGo6]
-        
-        updateTuanGoData(on: tuanGoList)
+        FirestoreManager.shared.getTuanGoList(for: "homepage") { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let tuanGoList):
+                self.tuanGoList = tuanGoList
+                self.updateTuanGoData(on: tuanGoList)
+            case .failure(let error):
+                self.presentFLAlertOnMainThread(title: "错误！", message: error.rawValue, buttonTitle: "确认")
+            }
+        }
     }
     
     
@@ -218,7 +212,7 @@ class HomeVC: UIViewController {
     
     
     func updateAddress() {
-        if let location = location {
+        if location != nil {
             
             if let placemark = placemark {
                 homeLocationVC.setLocation(location: getAddress(from: placemark))
@@ -234,7 +228,7 @@ class HomeVC: UIViewController {
         } else {
             homeLocationVC.setLocation(location: "Error locating")
         }
-    
+        
     }
     
     func getAddress(from placemark: CLPlacemark) -> String {

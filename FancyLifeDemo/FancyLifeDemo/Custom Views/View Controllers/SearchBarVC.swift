@@ -44,6 +44,7 @@ class SearchBarVC: UIViewController {
         searchBar.searchTextField.layer.cornerRadius    = 3
         searchBar.searchTextField.layer.masksToBounds   = true
         searchBar.searchTextField.backgroundColor       = FLColors.lightGray
+        searchBar.showsCancelButton                     = false
         searchBar.setPositionAdjustment(UIOffset(horizontal: 8, vertical: 1), for: .search)
         searchBar.searchTextPositionAdjustment.vertical = 1
         // change search bar textfield font size and color
@@ -53,23 +54,24 @@ class SearchBarVC: UIViewController {
 
         transparentButton.backgroundColor  = UIColor.white.withAlphaComponent(0.0)
         view.bringSubviewToFront(transparentButton)
+        let width = view.bounds.width
         
         NSLayoutConstraint.activate([
+            
+            mapButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            mapButton.widthAnchor.constraint(equalToConstant: 50),
+            mapButton.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor),
+            mapButton.heightAnchor.constraint(equalToConstant: 20),
             
             searchBar.heightAnchor.constraint(equalToConstant: 30),
             searchBar.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -8),
-            searchBar.widthAnchor.constraint(equalToConstant: 300),
+            searchBar.widthAnchor.constraint(equalToConstant: width * 305 / 375),
             
             transparentButton.topAnchor.constraint(equalTo: searchBar.topAnchor),
             transparentButton.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor),
             transparentButton.trailingAnchor.constraint(equalTo: searchBar.trailingAnchor),
-            transparentButton.bottomAnchor.constraint(equalTo: searchBar.bottomAnchor),
-            
-            mapButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            //mapButton.leadingAnchor.constraint(equalTo: searchBar.trailingAnchor, constant: 8),
-            mapButton.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor),
-            mapButton.heightAnchor.constraint(equalToConstant: 20)
+            transparentButton.bottomAnchor.constraint(equalTo: searchBar.bottomAnchor)
         ])
     }
     

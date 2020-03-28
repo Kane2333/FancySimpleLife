@@ -11,7 +11,7 @@ import UIKit
 class AdvertCell: UICollectionViewCell {
     
     static let reuseID  = "AdvertCell"
-    let imageView       = UIImageView()
+    let imageView       = FLRegularImageView(frame: .zero)
     
     
     override init(frame: CGRect) {
@@ -20,8 +20,8 @@ class AdvertCell: UICollectionViewCell {
     }
     
     
-    func set(image: UIImage) {
-        imageView.image = image
+    func set(imageURL: String) {
+        imageView.downloadImage(fromURL: imageURL)
     }
     
     
@@ -32,9 +32,8 @@ class AdvertCell: UICollectionViewCell {
     
     private func configure() {
         addSubview(imageView)
-
-        imageView.contentMode                               = .scaleAspectFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        imageView.backgroundColor = FLColors.white
         
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),

@@ -99,6 +99,6 @@ class FLAlertVC: UIViewController {
     @objc func dismissVC() {
         dismiss(animated: true)
     }
-    
-    
 }
+
+

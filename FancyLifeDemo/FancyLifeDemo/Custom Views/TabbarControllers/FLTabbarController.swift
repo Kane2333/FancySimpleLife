@@ -9,10 +9,12 @@
 import UIKit
 
 class FLTabbarController: UITabBarController {
+    
+    let offset: CGFloat = 5
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        UITabBar.appearance().tintColor = .black
+        UITabBar.appearance().tintColor = FLColors.red
         viewControllers = [createHomeNC(), createShopNC(), createWalletNC(), createAccountNC()]
     }
     
@@ -20,8 +22,10 @@ class FLTabbarController: UITabBarController {
     func createHomeNC() -> UINavigationController {
         let homeVC = HomeVC()
         homeVC.title = "Home"
-        homeVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
-        
+        homeVC.tabBarItem = UITabBarItem(title: "首页", image: FLImages.home, tag: 0)
+        homeVC.tabBarItem.imageInsets = UIEdgeInsets(top: offset, left: 0, bottom: -offset, right: 0)
+        homeVC.tabBarItem.titlePositionAdjustment = .init(horizontal: 0, vertical: offset)
+
         return UINavigationController(rootViewController: homeVC)
     }
     
@@ -29,7 +33,9 @@ class FLTabbarController: UITabBarController {
     func createShopNC() -> UINavigationController {
         let shopVC = ShopVC()
         shopVC.title = "Shop"
-        shopVC.tabBarItem = UITabBarItem(title: "Shop", image: UIImage(systemName: "cart"), tag: 1)
+        shopVC.tabBarItem = UITabBarItem(title: "商店", image: FLImages.shop, tag: 1)
+        shopVC.tabBarItem.imageInsets = UIEdgeInsets(top: offset, left: 0, bottom: -offset, right: 0)
+        shopVC.tabBarItem.titlePositionAdjustment = .init(horizontal: 0, vertical: offset)
         
         return UINavigationController(rootViewController: shopVC)
     }
@@ -38,7 +44,9 @@ class FLTabbarController: UITabBarController {
     func createWalletNC() -> UINavigationController {
         let walletVC = WalletVC()
         walletVC.title = "Wallet"
-        walletVC.tabBarItem = UITabBarItem(title: "Wallet", image: UIImage(systemName: "briefcase"), tag: 2)
+        walletVC.tabBarItem = UITabBarItem(title: "荷包", image: FLImages.wallet, tag: 2)
+        walletVC.tabBarItem.imageInsets = UIEdgeInsets(top: offset, left: 0, bottom: -offset, right: 0)
+        walletVC.tabBarItem.titlePositionAdjustment = .init(horizontal: 0, vertical: offset)
         
         return UINavigationController(rootViewController: walletVC)
     }
@@ -47,7 +55,9 @@ class FLTabbarController: UITabBarController {
     func createAccountNC() -> UINavigationController {
         let accountVC = AccountVC()
         accountVC.title = "Account"
-        accountVC.tabBarItem = UITabBarItem(title: "Account", image: UIImage(systemName: "person"), tag: 3)
+        accountVC.tabBarItem = UITabBarItem(title: "我", image: FLImages.account, tag: 3)
+        accountVC.tabBarItem.imageInsets = UIEdgeInsets(top: offset, left: 0, bottom: -offset, right: 0)
+        accountVC.tabBarItem.titlePositionAdjustment = .init(horizontal: 0, vertical: offset)
         
         return UINavigationController(rootViewController: accountVC)
     }
