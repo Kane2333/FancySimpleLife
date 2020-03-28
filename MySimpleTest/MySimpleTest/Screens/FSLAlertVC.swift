@@ -10,9 +10,9 @@ import UIKit
 class FSLAlertVC: UIViewController {
 
     let containerView = UIView()
-    let titleLabel = FSLTextLabel(textAlignment: .center, fontSize: 20, text: "")
-    let messageLabel = FSLTextLabel(textAlignment: .center, fontSize: 20, text: "")
-    let actionButton = FSLButton(backgroundImage: nil, title: "Ok", titleColor: .white, titleHorizontalAlignment: .center)
+    let titleLabel = FLTitleLabel(textAlignment: .center, fontSize: 20)
+    let messageLabel = FLTitleLabel(textAlignment: .center, fontSize: 20)
+    let actionButton = FLButton(backgroundColor: .systemPink, title: "Ok", titleColor: .white)
     
     var alertTitle: String?
     var message: String?

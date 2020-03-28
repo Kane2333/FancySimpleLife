@@ -6,16 +6,16 @@
 //  Copyright © 2020 RickJin. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 import FirebaseAuth
 
 class SignInWithEmailVC: UIViewController {
     
-    var emailLabel = FSLTextLabel(textAlignment: .left, fontSize: 16, text: "Email")
-    var passwordLabel = FSLTextLabel(textAlignment: .left, fontSize: 16, text: "Passwrod")
+    var emailLabel = FSLTitleLabel(textAlignment: .left, fontSize: 16)
+    var passwordLabel = FSLTitleLabel(textAlignment: .left, fontSize: 16)
 
-    var emailTextField = FSLTextField(placeHolderText: "", textAlignment: .left)
-    var passwordTextField = FSLTextField(placeHolderText: "", textAlignment: .left)
+    var emailTextField = FSLTextField()
+    var passwordTextField = FSLTextField()
     
     var signinButton = FSLButton(backgroundImage: nil, title: "Sign in", titleColor: .systemBlue, titleHorizontalAlignment: .center)
     
@@ -39,6 +39,9 @@ class SignInWithEmailVC: UIViewController {
     func configureTextLabel() {
         view.addSubview(emailLabel)
         view.addSubview(passwordLabel)
+        
+        emailLabel.text = "Email"
+        passwordLabel.text = "Password"
         
         NSLayoutConstraint.activate([
             emailLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -108,3 +111,4 @@ extension SignInWithEmailVC: UITextFieldDelegate {
         return true
     }
 }
+*/
