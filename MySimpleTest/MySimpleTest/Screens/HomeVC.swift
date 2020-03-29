@@ -1,30 +1,300 @@
 //
 //  HomeVC.swift
-//  MySimpleTest
+//  FancyLifeDemo
 //
-//  Created by YIPIN JIN on 4/3/20.
-//  Copyright © 2020 RickJin. All rights reserved.
+//  Created by Laverne  on 2020/3/26.
+//  Copyright © 2020 FancyLife. All rights reserved.
 //
 
 import UIKit
+import CoreLocation
+import Firebase
 
 class HomeVC: UIViewController {
+    
+    enum Section { case main }
+    
+    let locationManager = CLLocationManager()
+    
+    static let sectionHeaderElementKind = "section-header-element-kind"
+    private let containerView   = UIView()
+    private let locationView    = UIView()
+    private let homeLocationVC  = HomeLocationVC()
+    private let searchBar       = UIView()
+    private let adView          = UIView()
+    
+    var location: CLLocation?
+    
+    let geocoder = CLGeocoder()
+    var placemark: CLPlacemark?
+    var isPerformingReverseGeocoding = false
+    var lastGeocodingError: Error?
+    
+    lazy var contentViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + 400)
+    lazy var scrollView: FLScrollView = {
+        let scrollView = FLScrollView(view: view, containerView: containerView, contentViewSize: contentViewSize, bounces: true)
+        return scrollView
+    }()
+    
+    var categoryCollectionView: UICollectionView!
+    var tuanGoCollectionView: UICollectionView!
+    var categrotyDataSource: UICollectionViewDiffableDataSource<Int, UIImage>!
+    var tuanGoDataSource: UICollectionViewDiffableDataSource<Section, TuanGo>!
+    var categoryImages: [UIImage] = [FLImages.foodDrink!, FLImages.shengXian!, FLImages.fun!, FLImages.travel!]
+    var tuanGoList: [TuanGo]      = []
+    
+    let db = Firestore.firestore()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = FLColors.white
+        checkLocationSevices()
+        
+        configureCategoryCollectionView()
+        configureTuanGoCollectionView()
+        configureUI()
+        
+        add(childVC: homeLocationVC, to: locationView)
+        add(childVC: SearchBarVC(), to: searchBar)
+        add(childVC: FLAdvertVC(), to: adView)
 
-        // Do any additional setup after loading the view.
+        updateCategoryData()
+        configureCategoryDataSource()
+        getTuanGoItems()
+        configureTuanGoDataSource()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
-    */
+    
+    
+    private func configureUI() {
+        view.addSubview(scrollView)
+        containerView.addSubviews(locationView, searchBar, adView, categoryCollectionView, tuanGoCollectionView)
+        
+        locationView.translatesAutoresizingMaskIntoConstraints           = false
+        searchBar.translatesAutoresizingMaskIntoConstraints              = false
+        adView.translatesAutoresizingMaskIntoConstraints                 = false
+        categoryCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        tuanGoCollectionView.translatesAutoresizingMaskIntoConstraints   = false
+        
+        let padding: CGFloat = 13
+        
+        NSLayoutConstraint.activate([
+            locationView.topAnchor.constraint(equalTo: containerView.safeAreaLayoutGuide.topAnchor, constant: 7),
+            locationView.heightAnchor.constraint(equalToConstant: 18),
+            locationView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
+            locationView.widthAnchor.constraint(equalTo: locationView.widthAnchor),
+            
+            searchBar.topAnchor.constraint(equalTo: locationView.bottomAnchor, constant: 9),
+            searchBar.leadingAnchor.constraint(equalTo: containerView.leadingAnchor,constant: padding),
+            searchBar.trailingAnchor.constraint(equalTo: containerView.trailingAnchor,constant: -padding),
+            searchBar.heightAnchor.constraint(equalToConstant: 30),
+            
+            adView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 15),
+            adView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
+            adView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
+            adView.heightAnchor.constraint(equalToConstant: 139),
+            
+            categoryCollectionView.topAnchor.constraint(equalTo: adView.bottomAnchor, constant: 15),
+            categoryCollectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            categoryCollectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            categoryCollectionView.heightAnchor.constraint(equalToConstant: 139),
+            
+            tuanGoCollectionView.topAnchor.constraint(equalTo: categoryCollectionView.bottomAnchor, constant: 10),
+            tuanGoCollectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
+            tuanGoCollectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
+            tuanGoCollectionView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+        ])
+    }
+    
+    
+    func configureCategoryCollectionView() {
+        categoryCollectionView = UICollectionView(frame: containerView.bounds, collectionViewLayout: UIHelper.createHorizontalFlowLayoutOneSection(in: containerView))
+        categoryCollectionView.register(HomeCategoryCell.self, forCellWithReuseIdentifier: HomeCategoryCell.reuseID)
+        categoryCollectionView.backgroundColor = FLColors.white
+        categoryCollectionView.showsHorizontalScrollIndicator = false
+    }
+    
+    
+    func configureCategoryDataSource() {
+        categrotyDataSource = UICollectionViewDiffableDataSource<Int, UIImage>(collectionView: categoryCollectionView) {
+            (collectionView, indexPath, image) -> UICollectionViewCell? in
+            
+            guard let cell = self.categoryCollectionView.dequeueReusableCell(withReuseIdentifier: HomeCategoryCell.reuseID, for: indexPath) as? HomeCategoryCell
+                else { fatalError("Cannot create new cell") }
+            cell.set(image: image)
+            return cell
+        }
+    }
+    
+    
+    func updateCategoryData() {
+        var snapshot = NSDiffableDataSourceSnapshot<Int, UIImage>()
+        snapshot.appendSections([0])
+        snapshot.appendItems(categoryImages)
+        DispatchQueue.main.async {self.categrotyDataSource.apply(snapshot, animatingDifferences: false)}
+    }
+    
+    
+    
+    func configureTuanGoCollectionView() {
+        tuanGoCollectionView = UICollectionView(frame: containerView.bounds, collectionViewLayout: UIHelper.createTwoColumnFlowLayout(in: containerView))
+        tuanGoCollectionView.register(HomeTuanGoCell.self, forCellWithReuseIdentifier: HomeTuanGoCell.reuseID)
+        tuanGoCollectionView.register(HomeTuanGoSV.self, forSupplementaryViewOfKind: HomeVC.sectionHeaderElementKind, withReuseIdentifier: HomeTuanGoSV.reuseID)
+        tuanGoCollectionView.backgroundColor = FLColors.white
+        tuanGoCollectionView.isScrollEnabled = false
+        //categoryCollectionView.showsHorizontalScrollIndicator = false
+    }
+    
+    
+    func configureTuanGoDataSource() {
+        tuanGoDataSource = UICollectionViewDiffableDataSource<Section, TuanGo>(collectionView: tuanGoCollectionView) {
+            (collectionView, indexPath, tuanGo) -> UICollectionViewCell? in
+            
+            guard let cell = self.tuanGoCollectionView.dequeueReusableCell(withReuseIdentifier: HomeTuanGoCell.reuseID, for: indexPath) as? HomeTuanGoCell
+                else { fatalError("Cannot create new cell") }
+            cell.set(tuanGoItem: tuanGo)
+            cell.layer.shadowColor     = FLColors.black.cgColor
+            cell.layer.shadowOpacity   = 0.07
+            cell.layer.shadowOffset    = CGSize(width: 1, height: 3)
+            cell.layer.shadowRadius    = 3
+            return cell
+        }
+        
+        tuanGoDataSource.supplementaryViewProvider = { (
+            collectionView: UICollectionView,
+            kind: String,
+            indexPath: IndexPath) -> UICollectionReusableView? in
 
+            guard let supplementaryView = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: HomeTuanGoSV.reuseID,
+                for: indexPath) as? HomeTuanGoSV else { fatalError("Cannot create new supplementary") }
+
+            supplementaryView.backgroundColor       = FLColors.white
+            return supplementaryView
+        }
+    }
+    
+    
+    func updateTuanGoData(on tuanGoItems: [TuanGo]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, TuanGo>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(tuanGoItems)
+        DispatchQueue.main.async {self.tuanGoDataSource.apply(snapshot, animatingDifferences: false)}
+    }
+    
+    
+    func getTuanGoItems() {
+        FirestoreManager.shared.getTuanGoList(for: "homepage") { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let tuanGoList):
+                self.tuanGoList = tuanGoList
+                self.updateTuanGoData(on: tuanGoList)
+            case .failure(let error):
+                self.presentFLAlertOnMainThread(title: "错误！", message: error.rawValue, buttonTitle: "确认")
+            }
+        }
+    }
+    
+    
+    func setUpLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+
+    }
+    
+    
+    func updateAddress() {
+        if location != nil {
+            
+            if let placemark = placemark {
+                homeLocationVC.setLocation(location: getAddress(from: placemark))
+                
+            } else if isPerformingReverseGeocoding {
+                homeLocationVC.setLocation(location: "Searching for address..")
+            } else if lastGeocodingError != nil {
+                homeLocationVC.setLocation(location: "Error finding a valid address")
+            } else {
+                homeLocationVC.setLocation(location: "Address Not Found")
+            }
+            
+        } else {
+            homeLocationVC.setLocation(location: "Error locating")
+        }
+        
+    }
+    
+    func getAddress(from placemark: CLPlacemark) -> String {
+        var address = ""
+        if let street1 = placemark.subThoroughfare { address += street1 + " " }
+        if let street2 = placemark.thoroughfare { address += street2 + " " }
+        if let city = placemark.locality { address += city + " " }
+        if let state = placemark.administrativeArea { address += state + " " }
+        if let postalCode = placemark.postalCode { address += postalCode + " " }
+        if let country = placemark.country { address += country }
+        return address
+    }
+    
+    
+    func checkLocationSevices() {
+        if CLLocationManager.locationServicesEnabled() {
+            setUpLocationManager()
+            checkLocationAuthorization()
+        } else {
+            print("didn't turn on the location sevice")
+        }
+    }
+    
+    func checkLocationAuthorization() {
+        switch CLLocationManager.authorizationStatus() {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .denied, .restricted:
+            presentFLAlertOnMainThread(title: "未允许定位服务", message: "请前往系统设置允许本应用取用位置", buttonTitle: "确认")
+        case .authorizedWhenInUse:
+            updateAddress()
+            locationManager.startUpdatingLocation()
+        case .authorizedAlways:
+            locationManager.startUpdatingLocation()
+        @unknown default:
+            presentFLAlertOnMainThread(title: "授权获取位置错误", message: "无法获取您的位置授权", buttonTitle: "确认")
+        }
+    }
+}
+
+
+extension HomeVC: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        location = locations.last!
+        updateAddress()
+        if location != nil {
+            if !isPerformingReverseGeocoding {
+                print("*** Start performing geocoding..")
+                isPerformingReverseGeocoding = true
+                geocoder.reverseGeocodeLocation(location!) { (placemarks, error) in
+                    self.lastGeocodingError = error
+                    if error == nil, let placemarks = placemarks, !placemarks.isEmpty {
+                        self.placemark = placemarks.last!
+                    } else {
+                        self.placemark = nil
+                    }
+                    self.isPerformingReverseGeocoding = false
+                    self.updateAddress()
+                }
+            }
+        }
+    }
+    
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        checkLocationAuthorization()
+    }
 }

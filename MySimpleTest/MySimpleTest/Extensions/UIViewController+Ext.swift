@@ -9,7 +9,7 @@ import UIKit
 
 extension UIViewController {
     
-    func presentFSLAlertOnMainThread(title: String, message: String, buttonTitle: String) {
+    func presentFLAlertOnMainThread(title: String, message: String, buttonTitle: String) {
         DispatchQueue.main.async {
             let alertVC = FSLAlertVC(title: title, message: message, buttonTitle: buttonTitle)
             alertVC.modalPresentationStyle  = .overFullScreen
@@ -21,5 +21,12 @@ extension UIViewController {
     func createDismissKeyboardTapGesture() {
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
         view.addGestureRecognizer(tap)
+    }
+    
+    func add(childVC: UIViewController, to containerView: UIView) {
+        addChild(childVC)
+        containerView.addSubview(childVC.view)
+        childVC.view.frame = containerView.bounds
+        childVC.didMove(toParent: self)
     }
 }
