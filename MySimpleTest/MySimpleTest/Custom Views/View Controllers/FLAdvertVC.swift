@@ -58,7 +58,7 @@ class FLAdvertVC: UIViewController {
         pageControl.numberOfPages   = images.count
         pageControl.currentPage     = 0
         DispatchQueue.main.async {
-            self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
+            self.timer = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
         }
     }
     
@@ -66,14 +66,14 @@ class FLAdvertVC: UIViewController {
     @objc func changeImage() {
         if currentIndex < images.count {
             let indexPath = IndexPath.init(item: currentIndex, section: 0)
-            self.sliderCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            self.sliderCollectionView.scrollToItem(at: indexPath, at: .left, animated: true)
             pageControl.currentPage = currentIndex
             currentIndex += 1
         }
         else {
             currentIndex = 0
             let indexPath = IndexPath.init(item: currentIndex, section: 0)
-            self.sliderCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            self.sliderCollectionView.scrollToItem(at: indexPath, at: .left, animated: true)
             pageControl.currentPage = currentIndex
         }
     }
@@ -100,6 +100,7 @@ class FLAdvertVC: UIViewController {
     func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource(collectionView: sliderCollectionView, cellProvider: { (sliderCollectionView, indexPath, adImageItem) -> UICollectionViewCell? in
             let cell = sliderCollectionView.dequeueReusableCell(withReuseIdentifier:AdvertCell.reuseID, for: indexPath) as! AdvertCell
+            cell.backgroundColor = FLColors.lightGray
             cell.set(imageURL: adImageItem.imageURL)
             return cell
         })

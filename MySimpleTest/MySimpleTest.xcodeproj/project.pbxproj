@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		1E1275229E58EB520AFB2822 /* Pods_MySimpleTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2BC2BA154496F0D7B9EE440 /* Pods_MySimpleTest.framework */; };
+		5721C1FB24317B2700358042 /* ShopFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1FA24317B2700358042 /* ShopFilterCell.swift */; };
+		5721C1FD24317B7300358042 /* ShopHeaderSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1FC24317B7300358042 /* ShopHeaderSV.swift */; };
+		5721C1FF24317B9700358042 /* ShopListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1FE24317B9700358042 /* ShopListCell.swift */; };
+		5721C20124317BE200358042 /* ShopFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C20024317BE200358042 /* ShopFilterView.swift */; };
 		AB2B465A241F36B6006EFE10 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2B4659241F36B6006EFE10 /* Constants.swift */; };
 		AB2B466B241F3C74006EFE10 /* FSLHeadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2B466A241F3C74006EFE10 /* FSLHeadView.swift */; };
 		AB2B466D241F47BA006EFE10 /* SignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2B466C241F47BA006EFE10 /* SignInVC.swift */; };
@@ -72,6 +76,10 @@
 
 /* Begin PBXFileReference section */
 		478488C522634D1CF76B9418 /* Pods-MySimpleTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MySimpleTest.debug.xcconfig"; path = "Target Support Files/Pods-MySimpleTest/Pods-MySimpleTest.debug.xcconfig"; sourceTree = "<group>"; };
+		5721C1FA24317B2700358042 /* ShopFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopFilterCell.swift; sourceTree = "<group>"; };
+		5721C1FC24317B7300358042 /* ShopHeaderSV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopHeaderSV.swift; sourceTree = "<group>"; };
+		5721C1FE24317B9700358042 /* ShopListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopListCell.swift; sourceTree = "<group>"; };
+		5721C20024317BE200358042 /* ShopFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopFilterView.swift; sourceTree = "<group>"; };
 		AB2B4659241F36B6006EFE10 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AB2B466A241F3C74006EFE10 /* FSLHeadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSLHeadView.swift; sourceTree = "<group>"; };
 		AB2B466C241F47BA006EFE10 /* SignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVC.swift; sourceTree = "<group>"; };
@@ -150,6 +158,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5721C1F62431793300358042 /* Shop */ = {
+			isa = PBXGroup;
+			children = (
+				5721C1FA24317B2700358042 /* ShopFilterCell.swift */,
+				5721C1FC24317B7300358042 /* ShopHeaderSV.swift */,
+				5721C1FE24317B9700358042 /* ShopListCell.swift */,
+			);
+			path = Shop;
+			sourceTree = "<group>";
+		};
+		5721C1F72431793B00358042 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				AB3C1622242F570500EB87E2 /* advertCell.swift */,
+				AB3C1624242F571600EB87E2 /* HomeCategoryCell.swift */,
+				AB3C1626242F572300EB87E2 /* HomeTuanGoCell.swift */,
+				AB3C1628242F573300EB87E2 /* HomeTuanGoSV.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		632999539234A714D61FE82D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,6 +252,7 @@
 				AB2B466A241F3C74006EFE10 /* FSLHeadView.swift */,
 				AB2B46742420B9B6006EFE10 /* FSLItemInfoView.swift */,
 				AB3C1617242F565F00EB87E2 /* FLAlertContainerView.swift */,
+				5721C20024317BE200358042 /* ShopFilterView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -254,10 +284,8 @@
 		AB3C1621242F56E800EB87E2 /* Cells and Supplementary Views */ = {
 			isa = PBXGroup;
 			children = (
-				AB3C1622242F570500EB87E2 /* advertCell.swift */,
-				AB3C1624242F571600EB87E2 /* HomeCategoryCell.swift */,
-				AB3C1626242F572300EB87E2 /* HomeTuanGoCell.swift */,
-				AB3C1628242F573300EB87E2 /* HomeTuanGoSV.swift */,
+				5721C1F72431793B00358042 /* Home */,
+				5721C1F62431793300358042 /* Shop */,
 			);
 			path = "Cells and Supplementary Views";
 			sourceTree = "<group>";
@@ -420,7 +448,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
 				LastUpgradeCheck = 1130;
-				ORGANIZATIONNAME = RickJin;
+				ORGANIZATIONNAME = FancyLife;
 				TargetAttributes = {
 					ABFCBDE8240F405600480CA7 = {
 						CreatedOnToolsVersion = 11.3.1;
@@ -522,12 +550,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5721C20124317BE200358042 /* ShopFilterView.swift in Sources */,
 				AB76C2F3240F44B100D54A4E /* FavoritesVC.swift in Sources */,
 				AB2B46792420C241006EFE10 /* FSLAccountDetailVC.swift in Sources */,
 				AB3C163F242F5DCC00EB87E2 /* FLIconImage.swift in Sources */,
 				AB3C1635242F57CF00EB87E2 /* FLAlertVC.swift in Sources */,
 				AB3C1616242F55C300EB87E2 /* FLRegularImageView.swift in Sources */,
+				5721C1FD24317B7300358042 /* ShopHeaderSV.swift in Sources */,
 				AB4CF7F62411430A001D02E9 /* UIViewController+Ext.swift in Sources */,
+				5721C1FF24317B9700358042 /* ShopListCell.swift in Sources */,
 				AB2B466B241F3C74006EFE10 /* FSLHeadView.swift in Sources */,
 				AB3C1627242F572300EB87E2 /* HomeTuanGoCell.swift in Sources */,
 				ABCD3BED2413B6700049AC73 /* Kandan.swift in Sources */,
@@ -557,6 +588,7 @@
 				AB3C163D242F584B00EB87E2 /* WalletVC.swift in Sources */,
 				ABFCBDEF240F405600480CA7 /* SceneDelegate.swift in Sources */,
 				AB2B46712420A59D006EFE10 /* String+Ext.swift in Sources */,
+				5721C1FB24317B2700358042 /* ShopFilterCell.swift in Sources */,
 				AB3C162D242F577F00EB87E2 /* FLButton.swift in Sources */,
 				AB3C161A242F568100EB87E2 /* FLTitleLabel.swift in Sources */,
 				AB2B466D241F47BA006EFE10 /* SignInVC.swift in Sources */,
@@ -716,6 +748,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M6H7Q89SZN;
 				INFOPLIST_FILE = MySimpleTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -734,6 +767,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M6H7Q89SZN;
 				INFOPLIST_FILE = MySimpleTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

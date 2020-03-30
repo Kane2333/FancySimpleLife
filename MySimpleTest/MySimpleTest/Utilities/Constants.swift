@@ -8,11 +8,11 @@
 
 import UIKit
 
-import UIKit
 
 enum TestMessages {
     static let defaultTestMessage = "defaultTestMessage"
 }
+
 
 enum FLColors {
     
@@ -33,15 +33,20 @@ enum FLColors {
     static let lightGray    = UIColor(red:0.94, green:0.94, blue:0.94, alpha:1.00)
 }
 
+
 enum FLImages {
-    static let foodDrink    = UIImage(named: "fooddrink")
-    static let shengXian    = UIImage(named: "shengxian")
-    static let fun          = UIImage(named: "fun")
-    static let travel       = UIImage(named: "travel")
-    static let location     = UIImage(named: "location")
-    static let home         = UIImage(named: "home")
-    static let shop         = UIImage(named: "shop")
-    static let wallet       = UIImage(named: "wallet")
-    static let account      = UIImage(named: "account")
-    static let cart         = UIImage(named: "cart")
+    static let foodDrink        = UIImage(named: "fooddrink")
+    static let shengXian        = UIImage(named: "shengxian")
+    static let fun              = UIImage(named: "fun")
+    static let travel           = UIImage(named: "travel")
+    static let location         = UIImage(named: "location")
+    static let home             = UIImage(named: "home")
+    static let shop             = UIImage(named: "shop")
+    static let wallet           = UIImage(named: "wallet")
+    static let account          = UIImage(named: "account")
+    static let cart             = UIImage(named: "cart")
+    static let star             = UIImage(named: "star")
+    static let clear            = UIImage(named: "clear")
+    static let searchBackgroumd = UIImage(named: "searchBackground")
+    static let searchBar        = UIImage(named: "searchBar")
 }

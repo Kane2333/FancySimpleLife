@@ -11,14 +11,15 @@ import UIKit
 class SearchVC: UIViewController {
     
     let searchController = UISearchController()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         configureSearchController()
         customCancelButton()
-        createDismissKeyboardTapGesture()
-        
-        
+        dismissKeyboardTapGesture()
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -27,9 +28,8 @@ class SearchVC: UIViewController {
         searchController.hidesNavigationBarDuringPresentation           = false
         searchController.searchBar.showsCancelButton                    = false
         searchController.isActive = true
-        
-        
     }
+    
     
     
     private func configureNavigationBar() {
@@ -44,11 +44,13 @@ class SearchVC: UIViewController {
         searchController.searchBar.delegate                             = self
         searchController.delegate                                       = self
         searchController.searchBar.placeholder                          = "搜索商家、活动"
+        searchController.searchBar.setSearchFieldBackgroundImage(FLImages.searchBackgroumd, for: .normal)
         searchController.searchBar.searchTextField.layer.cornerRadius   = 3
         searchController.searchBar.searchTextField.layer.masksToBounds  = true
         searchController.obscuresBackgroundDuringPresentation           = false
         searchController.searchBar.tintColor                            = FLColors.black
         searchController.automaticallyShowsCancelButton                 = true
+        searchController.searchBar.setImage(FLImages.clear, for: .clear, state: .normal)
         navigationItem.titleView                                        = searchController.searchBar
         navigationItem.hidesBackButton                                  = true
     }
@@ -69,6 +71,12 @@ class SearchVC: UIViewController {
             self.navigationController?.popViewController(animated: true)
         }
     }
+    
+    func dismissKeyboardTapGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+ 
 }
 
 extension SearchVC: UISearchControllerDelegate {

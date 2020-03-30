@@ -57,6 +57,49 @@ class FirestoreManager {
     }
         
     
+    func getShopList(from category: String? = nil, byRating: Bool, completed: @escaping (Result<[Shop], FLError>) -> Void) {
+        let shopRef = db.collection("Shop")
+        let order = byRating ? "score" : "priority"
+        if category != nil {
+            shopRef.whereField("\(category!)", isEqualTo: "food").order(by: "priority").getDocuments { (snapshot, error) in
+                var shopList: [Shop] = []
+                if error == nil && snapshot != nil {
+                    for document in snapshot!.documents {
+                        let id          = document.get("id")
+                        let imageURL    = document.get("imageURL")
+                        let title       = document.get("title")
+                        let secondaryTitle  = document.get("secondaryTitle")
+                        let score           = document.get("score")
+                        let location        = document.get("location")
+                        let openingTime     = document.get("openingTime")
+                        let shopItem = Shop(id: id as! String, imageURL: imageURL as! String, title: title as! String, secondaryTitle: secondaryTitle as! String, score: score as! Double, location: location as! [Double], openingTime: openingTime as! String)
+                        shopList.append(shopItem)
+                    }
+                    completed(.success(shopList))
+                } else { completed(.failure(.invalidData)) }
+            }
+        }
+        else {
+            shopRef.order(by: "\(order)").getDocuments { (snapshot, error) in
+                var shopList: [Shop] = []
+                if error == nil && snapshot != nil {
+                    for document in snapshot!.documents {
+                        let id          = document.get("id")
+                        let imageURL    = document.get("imageURL")
+                        let title       = document.get("title")
+                        let secondaryTitle  = document.get("secondaryTitle")
+                        let score           = document.get("score")
+                        let location        = document.get("location")
+                        let openingTime     = document.get("openingTime")
+                        let shopItem = Shop(id: id as! String, imageURL: imageURL as! String, title: title as! String, secondaryTitle: secondaryTitle as! String, score: score as! Double, location: location as! [Double], openingTime: openingTime as! String)
+                        shopList.append(shopItem)
+                    }
+                    completed(.success(shopList))
+                } else { completed(.failure(.invalidData)) }
+            }
+        }
+    }
+    
     
     func downloadImage(from urlString: String, completed: @escaping (UIImage?) -> Void) {
         let cacheKey = NSString(string: urlString)
@@ -87,7 +130,6 @@ class FirestoreManager {
         
         task.resume()
     }
-    
    
 }
 

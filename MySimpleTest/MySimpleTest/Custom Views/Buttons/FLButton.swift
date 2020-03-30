@@ -13,6 +13,7 @@ class FLButton: UIButton {
 
     override init(frame:CGRect) {
         super.init(frame: frame)
+        translateConstraint()
     }
     
     required init?(coder: NSCoder) {
@@ -51,6 +52,10 @@ class FLButton: UIButton {
         layer.borderColor                   = UIColor.systemGray4.cgColor
         titleLabel?.textAlignment           = .center
         titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
+        
+    }
+    
+    private func translateConstraint() {
         translatesAutoresizingMaskIntoConstraints = false
     }
 }

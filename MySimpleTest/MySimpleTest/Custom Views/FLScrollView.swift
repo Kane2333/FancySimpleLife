@@ -19,7 +19,7 @@ class FLScrollView: UIScrollView {
         frame = view.bounds
         contentSize = contentViewSize
         autoresizingMask = .flexibleHeight
-        showsHorizontalScrollIndicator = false
+        showsVerticalScrollIndicator = false
         self.bounces = bounces
         
         containerView.backgroundColor = FLColors.white
@@ -28,6 +28,8 @@ class FLScrollView: UIScrollView {
         addSubview(containerView)
         
         self.containerView = containerView
+        
+        
     }
     
     

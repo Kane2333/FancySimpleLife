@@ -62,6 +62,7 @@ class HomeVC: UIViewController {
         configureCategoryDataSource()
         getTuanGoItems()
         configureTuanGoDataSource()
+        
     }
     
     
@@ -105,8 +106,8 @@ class HomeVC: UIViewController {
             categoryCollectionView.heightAnchor.constraint(equalToConstant: 139),
             
             tuanGoCollectionView.topAnchor.constraint(equalTo: categoryCollectionView.bottomAnchor, constant: 10),
-            tuanGoCollectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
-            tuanGoCollectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
+            tuanGoCollectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding - 1),
+            tuanGoCollectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding + 1),
             tuanGoCollectionView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
     }
@@ -160,7 +161,7 @@ class HomeVC: UIViewController {
             cell.set(tuanGoItem: tuanGo)
             cell.layer.shadowColor     = FLColors.black.cgColor
             cell.layer.shadowOpacity   = 0.07
-            cell.layer.shadowOffset    = CGSize(width: 1, height: 3)
+            cell.layer.shadowOffset    = CGSize(width: 0, height: 3)
             cell.layer.shadowRadius    = 3
             return cell
         }
@@ -213,7 +214,6 @@ class HomeVC: UIViewController {
     
     func updateAddress() {
         if location != nil {
-            
             if let placemark = placemark {
                 homeLocationVC.setLocation(location: getAddress(from: placemark))
                 
@@ -228,7 +228,6 @@ class HomeVC: UIViewController {
         } else {
             homeLocationVC.setLocation(location: "Error locating")
         }
-        
     }
     
     func getAddress(from placemark: CLPlacemark) -> String {
@@ -258,10 +257,8 @@ class HomeVC: UIViewController {
             locationManager.requestWhenInUseAuthorization()
         case .denied, .restricted:
             presentFLAlertOnMainThread(title: "未允许定位服务", message: "请前往系统设置允许本应用取用位置", buttonTitle: "确认")
-        case .authorizedWhenInUse:
+        case .authorizedWhenInUse, .authorizedAlways:
             updateAddress()
-            locationManager.startUpdatingLocation()
-        case .authorizedAlways:
             locationManager.startUpdatingLocation()
         @unknown default:
             presentFLAlertOnMainThread(title: "授权获取位置错误", message: "无法获取您的位置授权", buttonTitle: "确认")
@@ -298,3 +295,5 @@ extension HomeVC: CLLocationManagerDelegate {
         checkLocationAuthorization()
     }
 }
+
+

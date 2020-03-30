@@ -17,8 +17,9 @@ struct TuanGo: Codable, Hashable {
     var price: Double
     var originalPrice: Double
     var imageURL: String
-
+/*
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
+     */
 }
