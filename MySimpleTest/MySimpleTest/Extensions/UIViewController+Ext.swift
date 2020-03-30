@@ -9,9 +9,10 @@ import UIKit
 
 extension UIViewController {
     
+    
     func presentFLAlertOnMainThread(title: String, message: String, buttonTitle: String) {
         DispatchQueue.main.async {
-            let alertVC = FSLAlertVC(title: title, message: message, buttonTitle: buttonTitle)
+            let alertVC = FLAlertVC(title: title, message: message, buttonTitle: buttonTitle)
             alertVC.modalPresentationStyle  = .overFullScreen
             alertVC.modalTransitionStyle    = .crossDissolve
             self.present(alertVC, animated: true)
@@ -29,5 +30,5 @@ extension UIViewController {
         childVC.view.frame = containerView.bounds
         childVC.didMove(toParent: self)
     }
-
+    
 }

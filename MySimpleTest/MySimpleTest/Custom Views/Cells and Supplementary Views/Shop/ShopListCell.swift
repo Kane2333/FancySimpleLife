@@ -38,7 +38,7 @@ class ShopListCell: UICollectionViewCell {
         secondaryTitleLabel.text = secondaryTitle
         
         if distance > 1000 {
-            let dist = String(format: "%.2f", distance)
+            let dist = Int(distance / 1000)
             distanceLabel.text = "距离\(dist)千米"
         } else {
             let dist = Int(distance)
@@ -86,7 +86,7 @@ class ShopListCell: UICollectionViewCell {
             distanceLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -padding),
             distanceLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             distanceLabel.heightAnchor.constraint(equalToConstant: 17),
-            distanceLabel.widthAnchor.constraint(equalToConstant: 65),
+            distanceLabel.widthAnchor.constraint(equalToConstant: 100),
             
             scoreLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             scoreLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),

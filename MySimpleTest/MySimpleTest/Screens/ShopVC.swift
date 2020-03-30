@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import CoreLocation
 
 
 class ShopVC: UIViewController {
@@ -25,6 +26,9 @@ class ShopVC: UIViewController {
     private var shopList: [Shop] = []
     private var filterShopList: [Shop] = []
     private var dataList: [[Shop]] = [[], []]
+    
+    let locationManager = CLLocationManager()
+    var userLocation: CLLocation?
 
     
     init() {
@@ -53,6 +57,7 @@ class ShopVC: UIViewController {
         configureDataSource()
         configureSearchBar()
         customRightButton()
+        setUpLocationManager()
         
 
     }
@@ -122,12 +127,15 @@ class ShopVC: UIViewController {
             
             guard let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: ShopListCell.reuseID, for: indexPath) as? ShopListCell
                 else { fatalError("Cannot create new cell") }
-            cell.set(imageURL: shop.imageURL, title: shop.title, secondaryTitle: shop.secondaryTitle, distance: shop.distance, score: shop.score)
+            let shopLocation = CLLocation(latitude: shop.location[0], longitude: shop.location[1])
+            let distance = self.userLocation?.distance(from: shopLocation) ?? 0
+            cell.set(imageURL: shop.imageURL, title: shop.title, secondaryTitle: shop.secondaryTitle, distance: distance, score: shop.score)
             cell.layer.shadowColor     = FLColors.black.cgColor
             cell.layer.shadowOpacity   = 0.06
             cell.layer.shadowOffset    = CGSize(width: 0, height: 3)
             cell.layer.masksToBounds   = false
             cell.layer.shadowRadius    = 3
+            
             return cell
         }
         
@@ -246,13 +254,29 @@ class ShopVC: UIViewController {
         dataList[1] = filterShopList
         updateData(on: dataList)
     }
+    
+
+    func setUpLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+    }
+    
 
 }
-
 
 extension ShopVC: ShopHeaderSVDelegate {
     func didRequestToUpdateShops(for category: String) {
         filterShop(category: category)
+    }
+}
+
+
+extension ShopVC: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        userLocation = locations.last!
+
+        
     }
 }
 

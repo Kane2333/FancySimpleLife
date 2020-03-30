@@ -207,13 +207,6 @@ class HomeVC: UIViewController {
     }
     
     
-    func setUpLocationManager() {
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-
-    }
-    
-    
     func updateAddress() {
         if location != nil {
             if let placemark = placemark {
@@ -232,6 +225,7 @@ class HomeVC: UIViewController {
         }
     }
     
+    
     func getAddress(from placemark: CLPlacemark) -> String {
         var address = ""
         if let street1 = placemark.subThoroughfare { address += street1 + " " }
@@ -244,12 +238,19 @@ class HomeVC: UIViewController {
     }
     
     
+    func setUpLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+
+    }
+    
+    
     func checkLocationSevices() {
         if CLLocationManager.locationServicesEnabled() {
             setUpLocationManager()
             checkLocationAuthorization()
         } else {
-            print("didn't turn on the location sevice")
+            presentFLAlertOnMainThread(title: "未开启定位服务", message: "请前往系统设置开启定位服务，来获取更好体验吧！😄", buttonTitle: "确认")
         }
     }
     
@@ -258,7 +259,8 @@ class HomeVC: UIViewController {
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         case .denied, .restricted:
-            presentFLAlertOnMainThread(title: "未允许定位服务", message: "请前往系统设置允许本应用取用位置", buttonTitle: "确认")
+            locationManager.requestWhenInUseAuthorization()
+            presentFLAlertOnMainThread(title: "未允许定位服务", message: "请前往系统设置允许本应用取用位置, 来享受更好的体验吧！😄", buttonTitle: "确认")
         case .authorizedWhenInUse, .authorizedAlways:
             updateAddress()
             locationManager.startUpdatingLocation()
@@ -290,7 +292,9 @@ extension HomeVC: CLLocationManagerDelegate {
                 }
             }
         }
+        
     }
+    
     
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
