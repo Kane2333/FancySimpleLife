@@ -18,6 +18,7 @@ struct Shop: Codable, Hashable {
     var score: Double
     var location: [Double]
     var openingTime: String
+    var category: String
 
 }
 

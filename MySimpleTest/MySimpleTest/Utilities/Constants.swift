@@ -49,4 +49,5 @@ enum FLImages {
     static let clear            = UIImage(named: "clear")
     static let searchBackgroumd = UIImage(named: "searchBackground")
     static let searchBar        = UIImage(named: "searchBar")
+    static let backButton       = UIImage(named: "back")
 }

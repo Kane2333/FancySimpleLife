@@ -69,6 +69,7 @@ class HomeVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     
@@ -118,6 +119,7 @@ class HomeVC: UIViewController {
         categoryCollectionView.register(HomeCategoryCell.self, forCellWithReuseIdentifier: HomeCategoryCell.reuseID)
         categoryCollectionView.backgroundColor = FLColors.white
         categoryCollectionView.showsHorizontalScrollIndicator = false
+        categoryCollectionView.delegate = self
     }
     
     
@@ -296,4 +298,13 @@ extension HomeVC: CLLocationManagerDelegate {
     }
 }
 
-
+extension HomeVC: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let options = ["餐饮", "生鲜", "娱乐", "旅行"]
+        let shopVC = ShopVC(category: options[indexPath.item])
+        
+        navigationController?.pushViewController(shopVC, animated: true)
+        //tabBarController?.selectedIndex = 1
+        //tabBarController?.selectedViewController = shopVC
+    }
+}

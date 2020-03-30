@@ -8,19 +8,25 @@
 
 import UIKit
 
+protocol ShopHeaderSVDelegate: class {
+    func didRequestToUpdateShops(for category: String)
+}
+
 class ShopHeaderSV: UICollectionReusableView {
+    
+    weak var delegate: ShopHeaderSVDelegate!
     
     static let reuseID      = "ShopHeaderSV"
     
-    private let containerViewOne    = UIView(frame: .zero)
-    private let containerViewTwo    = UIView(frame: .zero)
+    private let containerViewOne    = UIView()
+    private let containerViewTwo    = UIView()
     private let adView              = FLRegularImageView(frame: .zero)
     private let filterBar           = ShopFilterView()
     
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        filterBar.delegate = self
     }
     
     
@@ -81,13 +87,44 @@ class ShopHeaderSV: UICollectionReusableView {
     private func configureUI(containerView: UIView) {
         addSubview(containerView)
         containerView.translatesAutoresizingMaskIntoConstraints = false
+        filterBar.translatesAutoresizingMaskIntoConstraints = false
         containerView.layer.cornerRadius = 3
+        
         
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: topAnchor),
             containerView.leadingAnchor.constraint(equalTo: leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            containerView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            /*
+            filterBar.topAnchor.constraint(equalTo: containerViewTwo.topAnchor),
+            filterBar.leadingAnchor.constraint(equalTo: containerViewTwo.leadingAnchor),
+            filterBar.trailingAnchor.constraint(equalTo: containerViewTwo.trailingAnchor),
+            filterBar.heightAnchor.constraint(equalToConstant: 60),
+            
+            adView.topAnchor.constraint(equalTo: containerViewOne.topAnchor),
+            adView.leadingAnchor.constraint(equalTo: containerViewOne.leadingAnchor),
+            adView.trailingAnchor.constraint(equalTo: containerViewOne.trailingAnchor),
+            adView.heightAnchor.constraint(equalToConstant: 139)
+            */
         ])
     }
+    
+    
+    func changeOption(category: String) {
+        filterBar.changeOption(category: category)
+    }
 }
+
+extension ShopHeaderSV: ShopFilterViewDelegate {
+    func sendCategory(category: String) {
+        delegate.didRequestToUpdateShops(for: category)
+    }
+}
+/*
+extension ShopHeaderSV: ShopVCDelegate {
+    func optionChanged(category: String) {
+        <#code#>
+    }
+}
+*/

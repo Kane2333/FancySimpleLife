@@ -21,7 +21,10 @@ class ShopFilterCell: UICollectionViewCell {
             titleLabel.textColor    = isSelected ? FLColors.black : FLColors.gray
             titleLabel.textAlignment = isSelected ? .justified : .center
         }
+        
+        
     }
+ 
     
     
     override init(frame: CGRect) {
@@ -38,10 +41,18 @@ class ShopFilterCell: UICollectionViewCell {
     func set(text: String) {
         titleLabel.text = text
     }
+    /*
     
+    func changeUI(isSelected: Bool) {
+        titleLabel.font         = isSelected ? UIFont.boldSystemFont(ofSize: 16) : UIFont.systemFont(ofSize: 14)
+        titleLabel.textColor    = isSelected ? FLColors.black : FLColors.gray
+        titleLabel.textAlignment = isSelected ? .justified : .center
+    }
+ */
     
     func configureUI() {
         backgroundColor = FLColors.white
+        
         addSubview(titleLabel)
         
         titleLabel.center(of: self)

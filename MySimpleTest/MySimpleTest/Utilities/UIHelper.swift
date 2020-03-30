@@ -24,8 +24,7 @@
      static func shopFilterBarFlowLayout(in view: UIView) -> UICollectionViewFlowLayout {
          let flowLayout                  = UICollectionViewFlowLayout()
 
-
-         flowLayout.itemSize    = CGSize(width: 58, height: 60)
+        flowLayout.itemSize    = CGSize(width: 58, height: 60)
          //flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 13, bottom: 0, right: 13)
          flowLayout.minimumInteritemSpacing = 0
          

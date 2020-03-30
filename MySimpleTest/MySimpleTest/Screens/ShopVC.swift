@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 
+
 class ShopVC: UIViewController {
     
     let db = Firestore.firestore()
@@ -16,13 +17,13 @@ class ShopVC: UIViewController {
     static let sectionHeaderElementKind = "section-header-element-kind"
     
     private var category: String?   = nil
-    private var byRating: Bool      = false
 
     private let searchBar       = UIButton()
     
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Int, Shop>!
     private var shopList: [Shop] = []
+    private var filterShopList: [Shop] = []
     private var dataList: [[Shop]] = [[], []]
 
     
@@ -34,6 +35,7 @@ class ShopVC: UIViewController {
     init(category:String) {
         super.init(nibName: nil, bundle: nil)
         self.category = category
+
     }
     
     
@@ -59,6 +61,12 @@ class ShopVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavigationBar()
+        if category != nil {
+            self.tabBarController?.tabBar.isHidden = true
+        }
+            
+        
+        
     }
     
     
@@ -67,14 +75,22 @@ class ShopVC: UIViewController {
         navigationItem.titleView = searchBar
     }
     
+    
     private func configureNavigationBar() {
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.backgroundColor             = FLColors.white
         navigationController?.navigationBar.isTranslucent               = false
         navigationController?.navigationBar.shadowImage                 = UIImage()
-        navigationItem.hidesBackButton  = false
         navigationItem.backBarButtonItem?.title = ""
-        
+        if category != nil {
+            let backButton = UIBarButtonItem(image: FLImages.backButton, style: .done, target: self, action: #selector(backToHome))
+            navigationItem.leftBarButtonItem = backButton
+        }
+    }
+    
+    
+    @objc func backToHome() {
+        navigationController?.popViewController(animated: true)
     }
     
     
@@ -130,6 +146,11 @@ class ShopVC: UIViewController {
             } else {
                 header.setFilterBar()
             }
+            
+            if self.category != nil {
+                header.changeOption(category: self.category!)
+            }
+            header.delegate = self
             return header
         }
         
@@ -141,21 +162,26 @@ class ShopVC: UIViewController {
         for section in [0,1] {
             snapshot.appendSections([section])
             snapshot.appendItems(shops[section])
-            DispatchQueue.main.async {self.dataSource.apply(snapshot, animatingDifferences: false)}
+            DispatchQueue.main.async {self.dataSource.apply(snapshot, animatingDifferences: true)}
         }
         
     }
     
     
     func getShopItems() {
-        FirestoreManager.shared.getShopList(from: category, byRating: byRating) { [weak self] result in
+        FirestoreManager.shared.getShopList() { [weak self] result in
             guard let self = self else { return }
             
             switch result {
             case .success(let shopList):
                 self.shopList = shopList
-                self.dataList[1] = shopList
-                self.updateData(on: self.dataList)
+                if self.category == nil {
+                    self.dataList[1] = shopList
+                    self.updateData(on: self.dataList)
+                } else {
+                    self.filterShop(category: self.category!)
+                }
+               
             case .failure(let error):
                 self.presentFLAlertOnMainThread(title: "错误！", message: error.rawValue, buttonTitle: "确认")
             }
@@ -173,5 +199,60 @@ class ShopVC: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+    
+    
+    func filterShop(category: String) {
+        switch category {
+        case "推荐":
+            filterShopList.removeAll()
+            filterShopList = shopList
+        case "餐饮":
+            filterShopList.removeAll()
+            for shop in shopList {
+                if shop.category == "food" {
+                    self.filterShopList.append(shop)
+                }
+            }
+        case "生鲜":
+            filterShopList.removeAll()
+            for shop in shopList {
+                if shop.category == "fresh" {
+                    self.filterShopList.append(shop)
+                }
+            }
+        case "娱乐":
+            filterShopList.removeAll()
+            for shop in shopList {
+                if shop.category == "fun" {
+                    self.filterShopList.append(shop)
+                }
+            }
+        case "旅行":
+            filterShopList.removeAll()
+            for shop in shopList {
+                if shop.category == "travel" {
+                    self.filterShopList.append(shop)
+                }
+            }
+        case "榜单":
+            filterShopList.removeAll()
+            filterShopList = shopList.sorted(by: { (shop1, shop2) -> Bool in
+                return shop1.score > shop2.score
+            })
+            
+        default:
+            break
+        }
+        dataList[1] = filterShopList
+        updateData(on: dataList)
+    }
 
 }
+
+
+extension ShopVC: ShopHeaderSVDelegate {
+    func didRequestToUpdateShops(for category: String) {
+        filterShop(category: category)
+    }
+}
+
