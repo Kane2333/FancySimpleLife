@@ -50,4 +50,11 @@ enum FLImages {
     static let searchBackgroumd = UIImage(named: "searchBackground")
     static let searchBar        = UIImage(named: "searchBar")
     static let backButton       = UIImage(named: "back")
+    static let heart            = UIImage(named: "heart")
+    static let redHeart         = UIImage(named: "redHeart")
+    static let smallHeart       = UIImage(named: "smallHeart")
+    static let smallRedHeart    = UIImage(named: "smallRedHeart")
+    static let share            = UIImage(named: "share")
+    static let ticket           = UIImage(named: "ticket")
+    
 }

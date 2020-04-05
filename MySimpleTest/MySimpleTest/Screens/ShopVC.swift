@@ -275,8 +275,6 @@ extension ShopVC: ShopHeaderSVDelegate {
 extension ShopVC: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         userLocation = locations.last!
-
-        
     }
 }
 

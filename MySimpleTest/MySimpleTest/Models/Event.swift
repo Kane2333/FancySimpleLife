@@ -10,10 +10,13 @@ import Foundation
 
 struct Event {
     
-    var id:String
-    var startDate:Date
-    var endDate:Date
-    var description:String
-    var photoUrl:String
-    
+    var id: String
+    var shopID: String
+    var title: String
+    var startDate: Date
+    var endDate: Date
+    var description: String
+    var imageUrl: String
+    var price: Double
+    var originalPrice: Double
 }

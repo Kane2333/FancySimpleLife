@@ -10,9 +10,12 @@ import Foundation
 
 struct Product {
     
-    var id:String
-    var shopID:String
-    var photoUrl:String
-    var name:String
+    var id: String
+    var shopID: String
+    var imageUrl: String
+    var title: String
+    var description: String
+    var price: Double
+    var sale: Double
     
 }

@@ -121,10 +121,4 @@ extension ShopHeaderSV: ShopFilterViewDelegate {
         delegate.didRequestToUpdateShops(for: category)
     }
 }
-/*
-extension ShopHeaderSV: ShopVCDelegate {
-    func optionChanged(category: String) {
-        <#code#>
-    }
-}
-*/
+

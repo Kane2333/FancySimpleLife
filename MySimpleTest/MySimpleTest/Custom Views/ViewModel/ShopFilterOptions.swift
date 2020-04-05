@@ -11,17 +11,17 @@ import Foundation
 enum ShopFilterOptions: Int, CaseIterable {
     case recommendation
     case food
-    case drink
+    case fresh
     case fun
     case travel
     case list
     
     var description: String {
         switch self {
-        case .recommendation: return "推荐商家"
-        case .food: return "吃的"
-        case .drink: return "喝的"
-        case .fun: return "玩的"
+        case .recommendation: return "推荐"
+        case .food: return "餐饮"
+        case .fresh: return "生鲜"
+        case .fun: return "娱乐"
         case . travel: return "旅行"
         case .list: return "榜单"
         }

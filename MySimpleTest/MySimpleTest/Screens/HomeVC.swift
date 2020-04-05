@@ -30,7 +30,7 @@ class HomeVC: UIViewController {
     var isPerformingReverseGeocoding = false
     var lastGeocodingError: Error?
     
-    lazy var contentViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + 400)
+    lazy var contentViewSize = CGSize(width: self.view.frame.width, height: 1140)
     lazy var scrollView: FLScrollView = {
         let scrollView = FLScrollView(view: view, containerView: containerView, contentViewSize: contentViewSize, bounces: true)
         return scrollView
@@ -262,8 +262,9 @@ class HomeVC: UIViewController {
             locationManager.requestWhenInUseAuthorization()
             presentFLAlertOnMainThread(title: "未允许定位服务", message: "请前往系统设置允许本应用取用位置, 来享受更好的体验吧！😄", buttonTitle: "确认")
         case .authorizedWhenInUse, .authorizedAlways:
-            updateAddress()
             locationManager.startUpdatingLocation()
+            updateAddress()
+
         @unknown default:
             presentFLAlertOnMainThread(title: "授权获取位置错误", message: "无法获取您的位置授权", buttonTitle: "确认")
         }

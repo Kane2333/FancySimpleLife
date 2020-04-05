@@ -18,7 +18,7 @@ class ShopListCell: UICollectionViewCell {
     private let secondaryTitleLabel  = FLTitleLabel(textAlignment: .left, fontSize: 12, textColor: FLColors.gray, fontWeight: .regular)
     private let distanceLabel   = FLTitleLabel(textAlignment: .left, fontSize: 12, textColor: FLColors.gray, fontWeight: .regular)
     private let starSymbol      = UIImageView()
-    private let scoreLabel      = FLTitleLabel(textAlignment: .left, fontSize: 10, textColor: FLColors.black, fontWeight: .regular)
+    private let scoreLabel      = FLTitleLabel(textAlignment: .left, fontSize: 12, textColor: FLColors.black, fontWeight: .regular)
     
     
     override init(frame: CGRect) {
@@ -62,7 +62,7 @@ class ShopListCell: UICollectionViewCell {
         imageView.layer.cornerRadius    = 3
         imageView.layer.masksToBounds   = true
         
-        containerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.pinToEdges(of: contentView)
         starSymbol.translatesAutoresizingMaskIntoConstraints    = false
         
         let padding: CGFloat = 9
@@ -97,11 +97,7 @@ class ShopListCell: UICollectionViewCell {
             starSymbol.trailingAnchor.constraint(equalTo: scoreLabel.leadingAnchor, constant: -7),
             starSymbol.heightAnchor.constraint(equalTo: starSymbol.heightAnchor),
             starSymbol.widthAnchor.constraint(equalTo: starSymbol.widthAnchor),
-            
-            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+
         ])
     }
     

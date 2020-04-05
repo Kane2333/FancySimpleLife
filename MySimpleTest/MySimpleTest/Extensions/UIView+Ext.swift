@@ -26,6 +26,11 @@ extension UIView {
     }
     
     
+    func removeSubViews(_ views: UIView...) {
+        for view in views { view.removeFromSuperview() }
+    }
+    
+    
     func center(of superview: UIView) {
         translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

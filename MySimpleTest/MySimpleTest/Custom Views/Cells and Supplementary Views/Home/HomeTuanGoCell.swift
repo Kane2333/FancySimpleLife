@@ -18,7 +18,7 @@ class HomeTuanGoCell: UICollectionViewCell {
     private let secondaryLabel      = FLTitleLabel(textAlignment: .center, fontSize: 12, textColor: FLColors.gray, fontWeight: .regular)
     private let amountLabel         = FLTitleLabel(textAlignment: .center, fontSize: 10, textColor: FLColors.red, fontWeight: .regular)
     private let priceLabel          = FLTitleLabel(textAlignment: .center, fontSize: 16, textColor: FLColors.red, fontWeight: .regular)
-    private let orignalPriceLabel   = FLStrikeThroughLabel(textAlignment: .center, fontSize: 8)
+    private let originalPriceLabel   = FLStrikeThroughLabel(textAlignment: .center, fontSize: 8)
     private let button              = UIButton()
     
     
@@ -35,12 +35,14 @@ class HomeTuanGoCell: UICollectionViewCell {
     
     
     func set(tuanGoItem: TuanGo) {
+        let priceStr = String(format: "%.2f", tuanGoItem.price)
+        let originalPriceStr = String(format: "%.2f", tuanGoItem.originalPrice)
         imageView.downloadImage(fromURL: tuanGoItem.imageURL)
         titleLabel.text         = tuanGoItem.title
         secondaryLabel.text     = tuanGoItem.secondaryTitle
         amountLabel.text        = "剩余\(tuanGoItem.amount)件"
-        priceLabel.text         = "$\(tuanGoItem.price)"
-        orignalPriceLabel.set(text: "$\(tuanGoItem.originalPrice)")
+        priceLabel.text         = "$\(priceStr)"
+        originalPriceLabel.set(text: "$\(originalPriceStr)")
     }
     
     
@@ -63,7 +65,7 @@ class HomeTuanGoCell: UICollectionViewCell {
     
     private func configureLayout() {
         addSubviews(containerView)
-        containerView.addSubviews(imageView, titleLabel, secondaryLabel, amountLabel, priceLabel, orignalPriceLabel, button)
+        containerView.addSubviews(imageView, titleLabel, secondaryLabel, amountLabel, priceLabel, originalPriceLabel, button)
         bringSubviewToFront(containerView)
         containerView.translatesAutoresizingMaskIntoConstraints = false
         button.translatesAutoresizingMaskIntoConstraints        = false
@@ -94,10 +96,10 @@ class HomeTuanGoCell: UICollectionViewCell {
             priceLabel.widthAnchor.constraint(equalTo: priceLabel.widthAnchor),
             priceLabel.heightAnchor.constraint(equalToConstant: 19),
             
-            orignalPriceLabel.leadingAnchor.constraint(equalTo: priceLabel.trailingAnchor, constant: 2),
-            orignalPriceLabel.widthAnchor.constraint(equalTo: orignalPriceLabel.widthAnchor),
-            orignalPriceLabel.centerYAnchor.constraint(equalTo: priceLabel.centerYAnchor),
-            orignalPriceLabel.heightAnchor.constraint(equalToConstant: 10),
+            originalPriceLabel.leadingAnchor.constraint(equalTo: priceLabel.trailingAnchor, constant: 2),
+            originalPriceLabel.widthAnchor.constraint(equalTo: originalPriceLabel.widthAnchor),
+            originalPriceLabel.centerYAnchor.constraint(equalTo: priceLabel.centerYAnchor),
+            originalPriceLabel.heightAnchor.constraint(equalToConstant: 10),
             
             button.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
             button.heightAnchor.constraint(equalToConstant: 17),

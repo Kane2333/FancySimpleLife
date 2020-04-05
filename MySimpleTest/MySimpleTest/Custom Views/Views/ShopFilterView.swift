@@ -110,7 +110,6 @@ extension ShopFilterView: UICollectionViewDelegate {
         guard self.collectionView.cellForItem(at: indexPath) != nil else {
               return
         }
-        print("indexpath \(indexPath.item)")
         let category = optionList[indexPath.item]
         delegate.sendCategory(category: category)
     }
