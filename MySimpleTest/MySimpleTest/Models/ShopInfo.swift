@@ -12,6 +12,7 @@ import Foundation
 
 
 struct ShopInfo: Codable, Hashable {
+    var id: UUID
     var shopID: String
     var shopImageURL: String
     var shopTitle: String

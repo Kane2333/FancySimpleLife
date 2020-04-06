@@ -19,7 +19,7 @@ class ShopInfoSV: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configure()
+        
     }
     
     
@@ -28,10 +28,19 @@ class ShopInfoSV: UICollectionReusableView {
     }
     
     
+    func removeView() {
+        let views: [UIView] = [titleLabel, countLabel, button]
+        for view in views {
+            view.removeFromSuperview()
+        }
+    }
+    
     
     func set(title: String, hasButton: Bool, commentCount: Int?=nil) {
+        configure()
         titleLabel.text = title
-        
+        countLabel.removeFromSuperview()
+        button.removeFromSuperview()
         if hasButton {
            addSubview(button)
             
@@ -45,7 +54,7 @@ class ShopInfoSV: UICollectionReusableView {
         
         if commentCount != nil {
             addSubview(countLabel)
-            countLabel.text = "(\(Int(commentCount!))条"
+            countLabel.text = "(\(Int(commentCount!)))条"
             
             NSLayoutConstraint.activate([
                 countLabel.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 7),

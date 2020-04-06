@@ -12,7 +12,7 @@ struct Product {
     
     var id: String
     var shopID: String
-    var imageUrl: String
+    var imageURL: String
     var title: String
     var description: String
     var price: Double

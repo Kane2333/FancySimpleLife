@@ -91,7 +91,7 @@ class ShopListCell: UICollectionViewCell {
             scoreLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             scoreLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
             scoreLabel.heightAnchor.constraint(equalToConstant: 14),
-            scoreLabel.widthAnchor.constraint(equalToConstant: 15),
+            scoreLabel.widthAnchor.constraint(equalToConstant: 20),
             
             starSymbol.centerYAnchor.constraint(equalTo: scoreLabel.centerYAnchor),
             starSymbol.trailingAnchor.constraint(equalTo: scoreLabel.leadingAnchor, constant: -7),

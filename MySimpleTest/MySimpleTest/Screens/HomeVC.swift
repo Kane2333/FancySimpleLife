@@ -63,6 +63,12 @@ class HomeVC: UIViewController {
         getTuanGoItems()
         configureTuanGoDataSource()
         
+        /*
+        db.collection("Shop").addDocument(data: ["imageURL": "https://firebasestorage.googleapis.com/v0/b/mysimpletest-a3323.appspot.com/o/shop11.png?alt=media&token=142b7ef3-949e-4032-a028-9dea24e724fe", "title": "寿司次郎", "address": "11 Star Alley, Melbourne, VIC, 3000", "category": "food", "location": [-37.812597, 144.965574], "openingTime": "10:30-21:00", "priority": "13", "score": 4.3, "secondaryTitle": "做最好吃的寿司", "kind": "日料"])
+*/
+        
+
+        
     }
     
     

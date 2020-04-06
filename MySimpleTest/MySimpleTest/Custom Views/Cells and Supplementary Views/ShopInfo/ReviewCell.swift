@@ -84,6 +84,7 @@ class ReviewCell: UICollectionViewCell {
         contentLabel.adjustsFontSizeToFitWidth  = false
         usernameLabel.adjustsFontSizeToFitWidth = false
         
+        contentLabel.numberOfLines = 2
         likeButton.backgroundColor  = FLColors.white
         likeButton.setImage(FLImages.smallHeart, for: .normal)
         likeButton.setImage(FLImages.smallRedHeart, for: .selected)
@@ -120,6 +121,7 @@ class ReviewCell: UICollectionViewCell {
             collectionView.heightAnchor.constraint(equalToConstant: 40),
             collectionView.widthAnchor.constraint(equalToConstant: 140)
         ])
+        
     }
     
     

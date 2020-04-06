@@ -20,12 +20,11 @@ class ShopVC: UIViewController {
     private var category: String?   = nil
 
     private let searchBar       = UIButton()
-    
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Int, Shop>!
-    private var shopList: [Shop] = []
-    private var filterShopList: [Shop] = []
-    private var dataList: [[Shop]] = [[], []]
+    private var shopList: [Shop]        = []
+    private var filterShopList: [Shop]  = []
+    private var dataList: [[Shop]]      = [[], []]
     
     let locationManager = CLLocationManager()
     var userLocation: CLLocation?
@@ -113,6 +112,7 @@ class ShopVC: UIViewController {
     
     private func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createListFlowLayout(in: view))
+        collectionView.delegate = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(ShopListCell.self, forCellWithReuseIdentifier: ShopListCell.reuseID)
         collectionView.register(ShopHeaderSV.self, forSupplementaryViewOfKind: ShopVC.sectionHeaderElementKind, withReuseIdentifier: ShopHeaderSV.reuseID)
@@ -268,6 +268,7 @@ class ShopVC: UIViewController {
 extension ShopVC: ShopHeaderSVDelegate {
     func didRequestToUpdateShops(for category: String) {
         filterShop(category: category)
+        
     }
 }
 
@@ -278,3 +279,19 @@ extension ShopVC: CLLocationManagerDelegate {
     }
 }
 
+
+extension ShopVC: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let activeArray = dataList[1]
+        let shop        = activeArray[indexPath.item]
+        let destVC      = ShopInfoVC()
+        destVC.shopCategory = shop.category
+        destVC.shopImageURL = shop.imageURL
+        destVC.shopOpenTime = shop.openingTime
+        destVC.shopTitle    = shop.title
+        destVC.shopID       = shop.id
+        destVC.shopAddress  = shop.address
+        destVC.shopKind     = shop.kind
+        navigationController?.pushViewController(destVC, animated: true)
+    }
+}

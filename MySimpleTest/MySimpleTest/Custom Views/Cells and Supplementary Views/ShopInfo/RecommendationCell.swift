@@ -9,7 +9,7 @@
 import UIKit
 
 class RecommendationCell: UICollectionViewCell {
-    static let reuseID              = "HomeTuanGoCell"
+    static let reuseID              = "RecommendationCell"
     
     private let containerView   = UIView()
     private let imageView       = FLRegularImageView(frame: .zero)
@@ -32,7 +32,7 @@ class RecommendationCell: UICollectionViewCell {
     func set(title: String, imageURL: String, score: Double) {
         titleLabel.text = title
         imageView.downloadImage(fromURL: imageURL)
-        let scoreStr    = String(format: "%.2f", score)
+        let scoreStr    = String(format: "%.1f", score)
         scoreLabel.text = scoreStr
     }
     
@@ -40,6 +40,8 @@ class RecommendationCell: UICollectionViewCell {
     private func configureUI() {
         addSubview(containerView)
         containerView.addSubviews(imageView, titleLabel, starSymbol, scoreLabel)
+        
+        titleLabel.numberOfLines = 2
 
         starSymbol.image                                        = FLImages.star
         starSymbol.translatesAutoresizingMaskIntoConstraints    = false
@@ -47,6 +49,9 @@ class RecommendationCell: UICollectionViewCell {
         imageView.layer.cornerRadius    = 3
         imageView.layer.masksToBounds   = true
         
+        containerView.backgroundColor       = FLColors.white
+        containerView.layer.cornerRadius    = 6
+        containerView.layer.masksToBounds   = true
         
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
@@ -67,7 +72,8 @@ class RecommendationCell: UICollectionViewCell {
             scoreLabel.centerYAnchor.constraint(equalTo: starSymbol.centerYAnchor),
             scoreLabel.leadingAnchor.constraint(equalTo: starSymbol.trailingAnchor, constant: 7),
             scoreLabel.heightAnchor.constraint(equalToConstant: 17),
-            scoreLabel.widthAnchor.constraint(equalToConstant: 18)
+            scoreLabel.widthAnchor.constraint(equalToConstant: 22)
         ])
+        containerView.pinToEdges(of: self.contentView)
     }
 }

@@ -16,7 +16,7 @@ struct Event {
     var startDate: Date
     var endDate: Date
     var description: String
-    var imageUrl: String
+    var imageURL: String
     var price: Double
     var originalPrice: Double
 }

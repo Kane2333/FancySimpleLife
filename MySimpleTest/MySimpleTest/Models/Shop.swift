@@ -20,6 +20,9 @@ struct Shop: Codable, Hashable {
     var openingTime: String
     //var closeTime: String
     var category: String
+    var address: String
+    var sameCategoryShops: Int?=0
+    var kind: String
 
 }
 

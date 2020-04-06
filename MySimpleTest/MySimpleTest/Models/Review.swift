@@ -12,9 +12,13 @@ struct Review {
     
     var id: String
     var shopID: String
-    var imageUrl: String
+    var username: String
+    var avatarImageURL: String
+    var imageURLs: [String]
     var content: String
     var likeAmount: Double
+    var userID: String
+    var totalReviews: Int = 0
     //var rating: Double
     //var date: Date
     
