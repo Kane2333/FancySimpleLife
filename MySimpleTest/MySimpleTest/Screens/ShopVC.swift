@@ -7,13 +7,10 @@
 //
 
 import UIKit
-import Firebase
 import CoreLocation
 
 
 class ShopVC: UIViewController {
-    
-    let db = Firestore.firestore()
     
     static let sectionHeaderElementKind = "section-header-element-kind"
     
@@ -57,8 +54,6 @@ class ShopVC: UIViewController {
         configureSearchBar()
         customRightButton()
         setUpLocationManager()
-        
-
     }
     
     

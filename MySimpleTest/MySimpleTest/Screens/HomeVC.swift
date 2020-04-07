@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreLocation
-import Firebase
 
 class HomeVC: UIViewController {
     
@@ -42,8 +41,6 @@ class HomeVC: UIViewController {
     var tuanGoDataSource: UICollectionViewDiffableDataSource<Section, TuanGo>!
     var categoryImages: [UIImage] = [FLImages.foodDrink!, FLImages.shengXian!, FLImages.fun!, FLImages.travel!]
     var tuanGoList: [TuanGo]      = []
-    
-    let db = Firestore.firestore()
 
     override func viewDidLoad() {
         super.viewDidLoad()
