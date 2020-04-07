@@ -31,25 +31,7 @@
          return flowLayout
      }
      
-     /*
-     
-     static func shopFilterBarFlowLayout(in view: UIView) -> UICollectionViewCompositionalLayout {
-         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(6/10),
-                                              heightDimension: .fractionalHeight(1.0))
-         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                heightDimension: .fractionalWidth(1.0))
-          let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 6)
-
-         let section = NSCollectionLayoutSection(group: group)
-         //section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 13, bottom: 0, trailing: 13)
-
-         let layout = UICollectionViewCompositionalLayout(section: section)
-         return layout
-     }
-     
-     */
      static func createHorizontalFlowLayoutOneSection(in view: UIView) -> UICollectionViewLayout {
 
          let padding: CGFloat            = 13

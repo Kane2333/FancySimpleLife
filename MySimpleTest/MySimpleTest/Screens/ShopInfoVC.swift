@@ -113,13 +113,12 @@ class ShopInfoVC: UIViewController {
                                     case .success(let shops):
                                         self.recommendationShops = shops
                                         shopList = shops
-                                        print(":::::total: \(shops.count)")
                                         var shopIDs: [String] = []
                                         var shopTitles: [String] = []
                                         var shopImages: [String] = []
                                         var shopScores: [Double] = []
                                         let shopCount: Int = shops.count
-                                        //print("::::\(shopCount)")
+
                                         for shop in shopList {
                                             shopIDs.append(shop.id)
                                             shopTitles.append(shop.title)

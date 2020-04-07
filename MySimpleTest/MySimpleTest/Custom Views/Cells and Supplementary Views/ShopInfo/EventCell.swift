@@ -71,7 +71,7 @@ class EventCell: UICollectionViewCell {
         likeButton.setImage(FLImages.heart, for: .normal)
         likeButton.setImage(FLImages.redHeart, for: .selected)
         likeButton.addTarget(self, action: #selector(ShopCell.likeButtonPressed), for: .touchUpInside)
-        ticketButton.setBackgroundImage(FLImages.ticket, for: .normal)
+        ticketButton.setBackgroundImage(FLImages.moreTicket, for: .normal)
 
         
         imageView.layer.cornerRadius    = 3

@@ -16,6 +16,7 @@ class ShopCell: UICollectionViewCell {
     private let titleLabel      = FLTitleLabel(textAlignment: .left, fontSize: 16, textColor: FLColors.black, fontWeight: .regular)
     private let addressLabel    = FLTitleLabel(textAlignment: .left, fontSize: 12, textColor: FLColors.gray, fontWeight: .regular)
     private let timeLabel       = FLTitleLabel(textAlignment: .left, fontSize: 12, textColor: FLColors.gray, fontWeight: .regular)
+    private let entryButton     = FLButton()
     private let likeButton      = FLButton()
     private let shareButton     = FLButton()
     
@@ -25,6 +26,7 @@ class ShopCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
+        entryButtonTapped()
     }
     
     
@@ -45,13 +47,25 @@ class ShopCell: UICollectionViewCell {
         likeButton.isSelected = isOn
     }
     
+    
     @objc func likeButtonPressed() {
         activateLikeButton(bool: !isOn)
     }
     
+    
+    func entryButtonTapped() {
+        entryButton.addTarget(self, action: #selector(pushProductVC), for: .touchUpInside)
+    }
+    
+    
+    @objc func pushProductVC() {
+        print("push to product VC")
+    }
+    
+    
     private func configureUI() {
         addSubview(containerView)
-        containerView.addSubviews(imageView, titleLabel, addressLabel, timeLabel, likeButton, shareButton)
+        containerView.addSubviews(imageView, titleLabel, addressLabel, timeLabel, likeButton, shareButton, entryButton)
         
         containerView.backgroundColor       = FLColors.white
         containerView.layer.cornerRadius    = 6
@@ -65,6 +79,8 @@ class ShopCell: UICollectionViewCell {
         shareButton.setImage(FLImages.share, for: .normal)
         shareButton.backgroundColor = FLColors.white
         
+        entryButton.setBackgroundImage(FLImages.entryShop, for: .normal)
+        
         imageView.layer.cornerRadius    = 3
         imageView.layer.masksToBounds   = true
         
@@ -75,7 +91,7 @@ class ShopCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 12),
             imageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
-            imageView.heightAnchor.constraint(equalToConstant: 104),
+            imageView.heightAnchor.constraint(equalToConstant: 105),
             imageView.widthAnchor.constraint(equalToConstant: 108),
             
             titleLabel.topAnchor.constraint(equalTo: imageView.topAnchor),
@@ -102,6 +118,11 @@ class ShopCell: UICollectionViewCell {
             shareButton.bottomAnchor.constraint(equalTo: likeButton.bottomAnchor),
             shareButton.heightAnchor.constraint(equalToConstant: 19),
             shareButton.widthAnchor.constraint(equalToConstant: 19),
+            
+            entryButton.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
+            entryButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
+            entryButton.heightAnchor.constraint(equalToConstant: 26),
+            entryButton.widthAnchor.constraint(equalToConstant: 101)
 
         ])
     }

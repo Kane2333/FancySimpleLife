@@ -56,5 +56,7 @@ enum FLImages {
     static let smallRedHeart    = UIImage(named: "smallRedHeart")
     static let share            = UIImage(named: "share")
     static let ticket           = UIImage(named: "ticket")
+    static let moreTicket       = UIImage(named: "moreTicket")
+    static let entryShop       = UIImage(named: "entry")
     
 }
