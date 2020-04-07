@@ -78,7 +78,7 @@ class FLHeaderSV: UICollectionReusableView {
             button.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             button.heightAnchor.constraint(equalToConstant: 17),
             button.trailingAnchor.constraint(equalTo: trailingAnchor),
-            button.widthAnchor.constraint(equalToConstant: 24)
+            button.widthAnchor.constraint(equalTo: button.widthAnchor)
         ])
     }
     
