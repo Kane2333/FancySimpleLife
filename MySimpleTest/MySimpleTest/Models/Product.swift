@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Product {
+struct Product: Codable, Hashable {
     
     var id: String
     var shopID: String

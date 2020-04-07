@@ -175,9 +175,10 @@ class FirestoreManager {
     }
     
     
-    func getThreeProducts(for shopID: String, completed: @escaping (Result<[Product], FLError>) -> Void) {
-        db.collection("Product").whereField("shopID", isEqualTo: shopID).order(by: "priority").limit(to: 3).getDocuments { (snapshot, error) in
+    func getProducts(for shopID: String, isLimisted: Bool, completed: @escaping (Result<[Product], FLError>) -> Void) {
+        db.collection("Product").whereField("shopID", isEqualTo: shopID).order(by: "priority").getDocuments { (snapshot, error) in
             var productList: [Product] = []
+            var count: Int = 0
             if error == nil && snapshot != nil {
                 for document in snapshot!.documents {
                     let id          = document.documentID
@@ -188,6 +189,8 @@ class FirestoreManager {
                     let sale        = document.get("sale")
                     let product = Product(id: id, shopID: shopID, imageURL: imageURL as! String, title: title as! String, description: description as! String, price: price as! Double, sale: sale as! Double)
                     productList.append(product)
+                    count += 1
+                    if isLimisted && count == 3 { break }
                 }
                 completed(.success(productList))
             } else { completed(.failure(.invalidData)) }

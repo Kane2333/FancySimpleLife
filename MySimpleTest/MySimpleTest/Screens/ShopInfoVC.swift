@@ -61,7 +61,6 @@ class ShopInfoVC: UIViewController {
         configureUI()
         configureDataSource()
         getShopInfoItems()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,7 +90,7 @@ class ShopInfoVC: UIViewController {
             switch result {
             case .success(let event):
                 firstEvent = event
-                FirestoreManager.shared.getThreeProducts(for: self.shopID) { [weak self] result in
+                FirestoreManager.shared.getProducts(for: self.shopID, isLimisted: true) { [weak self] result in
                     guard let self = self else { return }
                     switch result {
                     case .success(let products):
@@ -208,9 +207,19 @@ extension ShopInfoVC {
         collectionView.register(ProductCell.self, forCellWithReuseIdentifier: ProductCell.reuseID)
         collectionView.register(ReviewCell.self, forCellWithReuseIdentifier: ReviewCell.reuseID)
         collectionView.register(RecommendationCell.self, forCellWithReuseIdentifier: RecommendationCell.reuseID)
-        collectionView.register(ShopInfoSV.self, forSupplementaryViewOfKind: ShopInfoVC.sectionHeaderElementKind, withReuseIdentifier: ShopInfoSV.reuseID)
+        collectionView.register(FLHeaderSV.self, forSupplementaryViewOfKind: ShopInfoVC.sectionHeaderElementKind, withReuseIdentifier: FLHeaderSV.reuseID)
 
         collectionView.delegate = self
+    }
+    
+    
+    func configureCell(cell: UICollectionViewCell) -> UICollectionViewCell {
+        cell.layer.shadowColor     = FLColors.black.cgColor
+        cell.layer.shadowOpacity   = 0.06
+        cell.layer.shadowOffset    = CGSize(width: 0, height: 3)
+        cell.layer.masksToBounds   = false
+        cell.layer.shadowRadius    = 3
+        return cell
     }
     
     
@@ -226,23 +235,20 @@ extension ShopInfoVC {
             switch section {
             case .shop:
                 if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShopCell.reuseID, for: indexPath) as? ShopCell {
-                    cell.set(title: shopInfo.shopTitle, address: shopInfo.shopAddress, time: shopInfo.shopOpeningTime, imageURL: shopInfo.shopImageURL)
+                    cell.set(title: shopInfo.shopTitle, address: shopInfo.shopAddress, time: shopInfo.shopOpeningTime, imageURL: shopInfo.shopImageURL, hasEntryButton: true)
                     cell.layer.shadowColor     = FLColors.black.cgColor
                     cell.layer.shadowOpacity   = 0.06
                     cell.layer.shadowOffset    = CGSize(width: 0, height: 3)
                     cell.layer.masksToBounds   = false
                     cell.layer.shadowRadius    = 3
+                    cell.delegate              = self
                     return cell
                 } else { fatalError("Cannot create new cell") }
             case .event:
                 if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EventCell.reuseID, for: indexPath) as? EventCell {
                     cell.set(title: shopInfo.eventTitle, description: shopInfo.eventDescription, startDate: shopInfo.eventStartDate, endDate: shopInfo.eventEndDate, price: shopInfo.eventPrice, originalPrice: shopInfo.eventOriginalPirce, imageURL: shopInfo.eventImageURL)
-                    cell.layer.shadowColor     = FLColors.black.cgColor
-                    cell.layer.shadowOpacity   = 0.06
-                    cell.layer.shadowOffset    = CGSize(width: 0, height: 3)
-                    cell.layer.masksToBounds   = false
-                    cell.layer.shadowRadius    = 3
-                    return cell
+                    
+                    return self.configureCell(cell: cell)
                 } else { fatalError("Cannot create new cell") }
             case .product:
                 if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCell.reuseID, for: indexPath) as? ProductCell {
@@ -261,18 +267,14 @@ extension ShopInfoVC {
             case .recommendation:
                 if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendationCell.reuseID, for: indexPath) as? RecommendationCell {
                     cell.set(title: shopInfo.recommendShopTitles[indexPath.item], imageURL: shopInfo.recommendShopImages[indexPath.item], score: shopInfo.recommendShopScores[indexPath.item])
-                    cell.layer.shadowColor     = FLColors.black.cgColor
-                    cell.layer.shadowOpacity   = 0.06
-                    cell.layer.shadowOffset    = CGSize(width: 0, height: 3)
-                    cell.layer.masksToBounds   = false
-                    cell.layer.shadowRadius    = 3
-                    return cell
+                    
+                    return self.configureCell(cell: cell)
                 } else { fatalError("Cannot create new cell") }
             }
         }
         dataSource.supplementaryViewProvider = { ( collectionView: UICollectionView, kind: String, indexPath: IndexPath) -> UICollectionReusableView? in
             
-            guard let supplementaryView = collectionView.dequeueReusableSupplementaryView( ofKind: kind, withReuseIdentifier: ShopInfoSV.reuseID, for: indexPath) as? ShopInfoSV else { fatalError("Cannot create new supplementary") }
+            guard let supplementaryView = collectionView.dequeueReusableSupplementaryView( ofKind: kind, withReuseIdentifier: FLHeaderSV.reuseID, for: indexPath) as? FLHeaderSV else { fatalError("Cannot create new supplementary") }
             let section = indexPath.section
             let sectionTitle = self.sectionTitles[section]
             switch section {
@@ -280,10 +282,14 @@ extension ShopInfoVC {
                 supplementaryView.removeView()
             case 1:
                 supplementaryView.set(title: sectionTitle, hasButton: false)
-            case 2, 4:
+            case 2:
                 supplementaryView.set(title: sectionTitle, hasButton: true)
+                supplementaryView.addTargetToPushProductVC()
+                supplementaryView.delegate = self
             case 3:
                 supplementaryView.set(title: sectionTitle, hasButton: true, commentCount: self.totalReviews)
+            case 4:
+                supplementaryView.set(title: sectionTitle, hasButton: true)
             default:
                 break
             }
@@ -303,21 +309,46 @@ extension ShopInfoVC {
         }
         DispatchQueue.main.async {self.dataSource.apply(snapshot, animatingDifferences: true)}
     }
+    
+    private func pushProductVC() {
+        let destVC  = ProductVC()
+        destVC.shopID       = shopID
+        destVC.shopImageURL = shopImageURL
+        destVC.shopOpenTime = shopOpenTime
+        destVC.shopAddress  = shopAddress
+        destVC.shopTitle    = shopTitle
+        navigationController?.pushViewController(destVC, animated: true)
+    }
 }
 
 
 extension ShopInfoVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let activeArray = recommendationShops
-        let shop        = activeArray[indexPath.item]
-        let destVC      = ShopInfoVC()
-        destVC.shopCategory = shop.category
-        destVC.shopImageURL = shop.imageURL
-        destVC.shopOpenTime = shop.openingTime
-        destVC.shopTitle    = shop.title
-        destVC.shopID       = shop.id
-        destVC.shopAddress  = shop.address
-        destVC.shopKind     = shop.kind
-        navigationController?.pushViewController(destVC, animated: true)
+        if SectionKind(rawValue: indexPath.section) == .recommendation {
+            let activeArray = recommendationShops
+            let shop        = activeArray[indexPath.item]
+            let destVC      = ShopInfoVC()
+            destVC.shopCategory = shop.category
+            destVC.shopImageURL = shop.imageURL
+            destVC.shopOpenTime = shop.openingTime
+            destVC.shopTitle    = shop.title
+            destVC.shopID       = shop.id
+            destVC.shopAddress  = shop.address
+            destVC.shopKind     = shop.kind
+            navigationController?.pushViewController(destVC, animated: true)
+        }
+    }
+}
+
+
+extension ShopInfoVC: ShopCellDelegate {
+    func didRequestToPushProductVC() {
+        pushProductVC()
+    }
+}
+
+extension ShopInfoVC: FLHeaderSVDelegate {
+    func requestToPushProductVC() {
+        pushProductVC()
     }
 }

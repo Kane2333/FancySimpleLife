@@ -110,8 +110,8 @@ class HomeVC: UIViewController {
             categoryCollectionView.heightAnchor.constraint(equalToConstant: 139),
             
             tuanGoCollectionView.topAnchor.constraint(equalTo: categoryCollectionView.bottomAnchor, constant: 10),
-            tuanGoCollectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding - 1),
-            tuanGoCollectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding + 1),
+            tuanGoCollectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            tuanGoCollectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             tuanGoCollectionView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
     }
@@ -150,7 +150,7 @@ class HomeVC: UIViewController {
     func configureTuanGoCollectionView() {
         tuanGoCollectionView = UICollectionView(frame: containerView.bounds, collectionViewLayout: UIHelper.createTwoColumnFlowLayout(in: containerView))
         tuanGoCollectionView.register(HomeTuanGoCell.self, forCellWithReuseIdentifier: HomeTuanGoCell.reuseID)
-        tuanGoCollectionView.register(HomeTuanGoSV.self, forSupplementaryViewOfKind: HomeVC.sectionHeaderElementKind, withReuseIdentifier: HomeTuanGoSV.reuseID)
+        tuanGoCollectionView.register(FLHeaderSV.self, forSupplementaryViewOfKind: HomeVC.sectionHeaderElementKind, withReuseIdentifier: FLHeaderSV.reuseID)
         tuanGoCollectionView.backgroundColor = FLColors.white
         tuanGoCollectionView.isScrollEnabled = false
         //categoryCollectionView.showsHorizontalScrollIndicator = false
@@ -178,9 +178,9 @@ class HomeVC: UIViewController {
 
             guard let supplementaryView = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,
-                withReuseIdentifier: HomeTuanGoSV.reuseID,
-                for: indexPath) as? HomeTuanGoSV else { fatalError("Cannot create new supplementary") }
-
+                withReuseIdentifier: FLHeaderSV.reuseID,
+                for: indexPath) as? FLHeaderSV else { fatalError("Cannot create new supplementary") }
+            supplementaryView.set(title: "团购", hasButton: true)
             supplementaryView.backgroundColor       = FLColors.white
             return supplementaryView
         }

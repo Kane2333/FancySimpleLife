@@ -8,8 +8,14 @@
 
 import UIKit
 
+protocol ShopCellDelegate: class {
+    func didRequestToPushProductVC()
+}
+
 class ShopCell: UICollectionViewCell {
     static let reuseID = "ShopCell"
+    
+    weak var delegate: ShopCellDelegate!
     
     private let containerView   = UIView()
     private let imageView       = FLRegularImageView(frame: .zero)
@@ -35,11 +41,12 @@ class ShopCell: UICollectionViewCell {
     }
     
     
-    func set(title: String, address: String, time: String, imageURL: String) {
+    func set(title: String, address: String, time: String, imageURL: String, hasEntryButton: Bool) {
         titleLabel.text     = title
         addressLabel.text   = address
         timeLabel.text      = "营业时间： \(time)"
         imageView.downloadImage(fromURL: imageURL)
+        if hasEntryButton { configureEntryButton() }
     }
     
     func activateLikeButton(bool: Bool) {
@@ -59,13 +66,26 @@ class ShopCell: UICollectionViewCell {
     
     
     @objc func pushProductVC() {
-        print("push to product VC")
+        delegate.didRequestToPushProductVC()
     }
     
     
+    private func configureEntryButton() {
+        containerView.addSubview(entryButton)
+        entryButton.setBackgroundImage(FLImages.entryShop, for: .normal)
+        
+        NSLayoutConstraint.activate([
+            entryButton.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
+            entryButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
+            entryButton.heightAnchor.constraint(equalToConstant: 26),
+            entryButton.widthAnchor.constraint(equalToConstant: 101)
+        ])
+        
+    }
+    
     private func configureUI() {
         addSubview(containerView)
-        containerView.addSubviews(imageView, titleLabel, addressLabel, timeLabel, likeButton, shareButton, entryButton)
+        containerView.addSubviews(imageView, titleLabel, addressLabel, timeLabel, likeButton, shareButton)
         
         containerView.backgroundColor       = FLColors.white
         containerView.layer.cornerRadius    = 6
@@ -78,8 +98,6 @@ class ShopCell: UICollectionViewCell {
         
         shareButton.setImage(FLImages.share, for: .normal)
         shareButton.backgroundColor = FLColors.white
-        
-        entryButton.setBackgroundImage(FLImages.entryShop, for: .normal)
         
         imageView.layer.cornerRadius    = 3
         imageView.layer.masksToBounds   = true
@@ -117,12 +135,7 @@ class ShopCell: UICollectionViewCell {
             shareButton.leadingAnchor.constraint(equalTo: likeButton.trailingAnchor, constant: 15),
             shareButton.bottomAnchor.constraint(equalTo: likeButton.bottomAnchor),
             shareButton.heightAnchor.constraint(equalToConstant: 19),
-            shareButton.widthAnchor.constraint(equalToConstant: 19),
-            
-            entryButton.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
-            entryButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
-            entryButton.heightAnchor.constraint(equalToConstant: 26),
-            entryButton.widthAnchor.constraint(equalToConstant: 101)
+            shareButton.widthAnchor.constraint(equalToConstant: 19)
 
         ])
     }

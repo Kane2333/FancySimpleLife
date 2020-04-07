@@ -1,5 +1,5 @@
 //
-//  ProductCell.swift
+//  ProductListCell.swift
 //  MySimpleTest
 //
 //  Created by Laverne  on 2020/4/7.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-class ProductCell: UICollectionViewCell {
+class ProductListCell: UICollectionViewCell {
     
-    static let reuseID = "ProductCell"
+    static let reuseID = "ProductListCell"
     
     private let containerView       = UIView()
     private let imageView           = FLRegularImageView(frame: .zero)
@@ -36,7 +36,7 @@ class ProductCell: UICollectionViewCell {
         titleLabel.text = title
         descriptionLabel.text = description
         
-        saleLabel.text = "\(Int(sale))"
+        saleLabel.text = "月售\(Int(sale))件"
         
         let priceStr = String(format: "%.2f", price)
         priceLabel.text = "$\(priceStr)"
@@ -45,18 +45,16 @@ class ProductCell: UICollectionViewCell {
     
     private func configureUI() {
         addSubview(containerView)
-        containerView.addSubviews(imageView, titleLabel, descriptionLabel, priceLabel)
+        containerView.addSubviews(imageView, titleLabel, descriptionLabel, priceLabel, saleLabel)
 
         containerView.backgroundColor       = FLColors.white
         containerView.layer.cornerRadius    = 6
         containerView.layer.masksToBounds   = true
         
-        starSymbol.image                = FLImages.star
         imageView.layer.cornerRadius    = 3
         imageView.layer.masksToBounds   = true
         
         containerView.pinToEdges(of: contentView)
-        starSymbol.translatesAutoresizingMaskIntoConstraints    = false
         
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),

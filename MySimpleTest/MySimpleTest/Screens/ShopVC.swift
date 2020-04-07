@@ -256,9 +256,8 @@ class ShopVC: UIViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
     }
-    
-
 }
+
 
 extension ShopVC: ShopHeaderSVDelegate {
     func didRequestToUpdateShops(for category: String) {
