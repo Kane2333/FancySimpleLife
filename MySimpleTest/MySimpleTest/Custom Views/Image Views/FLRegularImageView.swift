@@ -25,6 +25,7 @@ class FLRegularImageView: UIImageView {
     
     
     private func configure() {
+        image = UIImage(named: "avatar-placeholder")
         contentMode                                 = .scaleAspectFill
         clipsToBounds                               = true
         translatesAutoresizingMaskIntoConstraints   = false

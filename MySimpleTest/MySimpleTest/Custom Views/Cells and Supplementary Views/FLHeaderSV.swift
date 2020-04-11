@@ -12,6 +12,7 @@ import UIKit
 protocol FLHeaderSVDelegate: class {
     func requestToPushProductVC()
     func requestToPushEventVC()
+    func requestToClearSearchHistory()
 }
 
 class FLHeaderSV: UICollectionReusableView {
@@ -23,6 +24,7 @@ class FLHeaderSV: UICollectionReusableView {
     private let titleLabel      = FLTitleLabel(textAlignment: .center, fontSize: 16, textColor: FLColors.black, fontWeight: .medium)
     private let countLabel      = FLTitleLabel(textAlignment: .left, fontSize: 12, textColor: FLColors.black, fontWeight: .regular)
     private let button          = FLButton(title: "更多", textColor: FLColors.red, fontSize: 12)
+    private let deleteButton    = FLButton()
     
     
     override init(frame: CGRect) {
@@ -37,21 +39,28 @@ class FLHeaderSV: UICollectionReusableView {
     
     
     func removeView() {
-        let views: [UIView] = [titleLabel, countLabel, button]
+        let views: [UIView] = [titleLabel, countLabel, button, deleteButton]
         for view in views {
             view.removeFromSuperview()
         }
     }
     
     
-    func set(title: String, hasButton: Bool, commentCount: Int?=nil) {
+    func set(title: String, hasButton: Bool, hasDeleteButton: Bool, commentCount: Int?=nil) {
         configure()
         titleLabel.text = title
         countLabel.removeFromSuperview()
         button.removeFromSuperview()
+        deleteButton.removeFromSuperview()
+        
         if hasButton {
             button.removeTarget(self, action: nil, for: .allTouchEvents)
             configureButton()
+        }
+        
+        if hasDeleteButton {
+            deleteButton.removeTarget(self, action: nil, for: .allTouchEvents)
+            configureDeleteButton()
         }
         
         if commentCount != nil {
@@ -79,6 +88,14 @@ class FLHeaderSV: UICollectionReusableView {
         delegate.requestToPushEventVC()
     }
     
+    func addTargetToClearSearchHistory() {
+        deleteButton.addTarget(self, action: #selector(clearSearchHistory), for: .touchUpInside)
+    }
+    
+    @objc func clearSearchHistory() {
+        delegate.requestToClearSearchHistory()
+    }
+    
     
     private func configureButton() {
         addSubview(button)
@@ -89,6 +106,18 @@ class FLHeaderSV: UICollectionReusableView {
             button.heightAnchor.constraint(equalToConstant: 17),
             button.trailingAnchor.constraint(equalTo: trailingAnchor),
             button.widthAnchor.constraint(equalTo: button.widthAnchor)
+        ])
+    }
+    
+    private func configureDeleteButton() {
+        addSubview(deleteButton)
+        deleteButton.setBackgroundImage(FLImages.trashBin, for: .normal)
+        
+        NSLayoutConstraint.activate([
+            deleteButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            deleteButton.heightAnchor.constraint(equalToConstant: 16),
+            deleteButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+            deleteButton.widthAnchor.constraint(equalToConstant: 16)
         ])
     }
     
@@ -112,7 +141,6 @@ class FLHeaderSV: UICollectionReusableView {
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -14),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleLabel.widthAnchor.constraint(equalTo: titleLabel.widthAnchor),
-
         ])
     }
 }

@@ -31,6 +31,8 @@ enum FLColors {
     static let gray         = UIColor(red:0.55, green:0.55, blue:0.55, alpha:1.00)
     //#F0F0F0
     static let lightGray    = UIColor(red:0.94, green:0.94, blue:0.94, alpha:1.00)
+    //#B2B2B2
+    static let gray2        = UIColor(red:0.70, green:0.70, blue:0.70, alpha:1.00)
 }
 
 
@@ -67,5 +69,6 @@ enum FLImages {
     static let addToCartClicked             = UIImage(named: "addToCartClick")
     static let addToCartWithSymbol          = UIImage(named: "addToCartWithSymbol")
     static let addToCartClickedWithSymbol   = UIImage(named: "addToCartClickWithSymbol")
+    static let trashBin                     = UIImage(named: "delete")
     
 }

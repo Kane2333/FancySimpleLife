@@ -180,7 +180,7 @@ class HomeVC: UIViewController {
                 ofKind: kind,
                 withReuseIdentifier: FLHeaderSV.reuseID,
                 for: indexPath) as? FLHeaderSV else { fatalError("Cannot create new supplementary") }
-            supplementaryView.set(title: "团购", hasButton: true)
+            supplementaryView.set(title: "团购", hasButton: true, hasDeleteButton: false)
             supplementaryView.backgroundColor       = FLColors.white
             return supplementaryView
         }

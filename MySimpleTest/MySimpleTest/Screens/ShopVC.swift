@@ -46,9 +46,9 @@ class ShopVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = FLColors.white
         configureCollectionView()
         configureUI()
+        getShopItems()
         configureDataSource()
         configureSearchBar()
         customRightButton()
@@ -58,7 +58,7 @@ class ShopVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getShopItems()
+
         configureNavigationBar()
         if category != nil {
             self.tabBarController?.tabBar.isHidden = true
@@ -69,6 +69,12 @@ class ShopVC: UIViewController {
     private func configureSearchBar() {
         searchBar.setBackgroundImage(FLImages.searchBar, for: .normal)
         navigationItem.titleView = searchBar
+        searchBar.addTarget(self, action: #selector(pushSearchVC), for: .touchUpInside)
+    }
+    
+    
+    @objc func pushSearchVC() {
+        navigationController?.pushViewController(SearchVC(), animated: true)
     }
     
     
@@ -144,6 +150,7 @@ class ShopVC: UIViewController {
             
             if indexPath.section == 0 {
                 header.setImage()
+
             } else {
                 header.setFilterBar()
             }
@@ -152,9 +159,9 @@ class ShopVC: UIViewController {
                 header.changeOption(category: self.category!)
             }
             header.delegate = self
+            header.backgroundColor = FLColors.white
             return header
         }
-        
     }
     
     
@@ -163,9 +170,8 @@ class ShopVC: UIViewController {
         for section in [0,1] {
             snapshot.appendSections([section])
             snapshot.appendItems(shops[section])
-            DispatchQueue.main.async {self.dataSource.apply(snapshot, animatingDifferences: true)}
         }
-        
+        DispatchQueue.main.async {self.dataSource.apply(snapshot, animatingDifferences: true)}
     }
     
     
@@ -192,9 +198,10 @@ class ShopVC: UIViewController {
     
     private func configureUI() {
         view.addSubview(collectionView)
-        
+        view.backgroundColor = FLColors.white
+        extendedLayoutIncludesOpaqueBars = true
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 7),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 7),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)

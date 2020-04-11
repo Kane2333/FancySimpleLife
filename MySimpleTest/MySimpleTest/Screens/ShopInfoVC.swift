@@ -199,8 +199,8 @@ extension ShopInfoVC {
             section.interGroupSpacing = 11
             section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 13, bottom: 11, trailing: 13)
 
-            let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(5))
-            let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerFooterSize, elementKind: ShopInfoVC.sectionHeaderElementKind, alignment: .top)
+            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(5))
+            let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: ShopInfoVC.sectionHeaderElementKind, alignment: .top)
             section.boundarySupplementaryItems = [sectionHeader]
             return section
         }
@@ -292,17 +292,17 @@ extension ShopInfoVC {
             case 0:
                 supplementaryView.removeView()
             case 1:
-                supplementaryView.set(title: sectionTitle, hasButton: true)
+                supplementaryView.set(title: sectionTitle, hasButton: true, hasDeleteButton: false)
                 supplementaryView.addTargetToPushEventVC()
                 supplementaryView.delegate = self
             case 2:
-                supplementaryView.set(title: sectionTitle, hasButton: true)
+                supplementaryView.set(title: sectionTitle, hasButton: true, hasDeleteButton: false)
                 supplementaryView.addTargetToPushProductVC()
                 supplementaryView.delegate = self
             case 3:
-                supplementaryView.set(title: sectionTitle, hasButton: true, commentCount: self.totalReviews)
+                supplementaryView.set(title: sectionTitle, hasButton: true, hasDeleteButton: false, commentCount: self.totalReviews)
             case 4:
-                supplementaryView.set(title: sectionTitle, hasButton: true)
+                supplementaryView.set(title: sectionTitle, hasButton: true, hasDeleteButton: false)
             default:
                 break
             }
@@ -371,6 +371,8 @@ extension ShopInfoVC: ShopCellDelegate {
 }
 
 extension ShopInfoVC: FLHeaderSVDelegate {
+    func requestToClearSearchHistory() {}
+    
     func requestToPushProductVC() {
         pushProductVC()
     }

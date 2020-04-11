@@ -118,7 +118,7 @@ class ProductVC: UIViewController {
                 withReuseIdentifier: FLHeaderSV.reuseID,
                 for: indexPath) as? FLHeaderSV else { fatalError("Cannot create new advertisment header") }
             
-            if indexPath.section == 0 { header.removeView() } else { header.set(title: "近期热卖", hasButton: false) }
+            if indexPath.section == 0 { header.removeView() } else { header.set(title: "近期热卖", hasButton: false, hasDeleteButton: false) }
 
             return header
         }

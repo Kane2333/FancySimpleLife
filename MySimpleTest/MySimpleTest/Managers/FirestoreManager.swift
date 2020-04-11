@@ -17,6 +17,20 @@ class FirestoreManager {
     private init() {}
     
     
+    func getHotSearch(completed: @escaping (Result<[String], FLError>) -> Void) {
+        let hotSearchRef = db.collection("HotSearch")
+        hotSearchRef.order(by: "priority").getDocuments { (snapshot, error) in
+            var histories: [String] = []
+            if error == nil && snapshot != nil {
+                for document in snapshot!.documents {
+                    histories.append(document.get("name") as! String)
+                }
+                completed(.success(histories))
+            } else { completed(.failure(.invalidData)) }
+        }
+    }
+    
+    
     func getTuanGoList(for location: String, completed: @escaping (Result<[TuanGo], FLError>) -> Void) {
         let tuanGoRef = db.collection("TuanGo")
         tuanGoRef.whereField("location", isEqualTo: location).order(by: "priority").limit(to: 6).getDocuments { (snapshot, error) in
@@ -233,7 +247,7 @@ class FirestoreManager {
         let cacheKey = NSString(string: urlString)
         
         if let image = cache.object(forKey: cacheKey) {
-            completed(image)
+            DispatchQueue.main.async { completed(image) }
             return
         }
         
@@ -255,7 +269,6 @@ class FirestoreManager {
             self.cache.setObject(image, forKey: cacheKey)
             DispatchQueue.main.async { completed(image) }
         }
-        
         task.resume()
     }
     
