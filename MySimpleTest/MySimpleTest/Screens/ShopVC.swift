@@ -49,7 +49,6 @@ class ShopVC: UIViewController {
         view.backgroundColor = FLColors.white
         configureCollectionView()
         configureUI()
-        getShopItems()
         configureDataSource()
         configureSearchBar()
         customRightButton()
@@ -59,13 +58,11 @@ class ShopVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        getShopItems()
         configureNavigationBar()
         if category != nil {
             self.tabBarController?.tabBar.isHidden = true
         }
-            
-        
-        
     }
     
     
@@ -84,6 +81,7 @@ class ShopVC: UIViewController {
         if category != nil {
             let backButton = UIBarButtonItem(image: FLImages.backButton, style: .done, target: self, action: #selector(backToHome))
             navigationItem.leftBarButtonItem = backButton
+            searchBar.setBackgroundImage(FLImages.searchBarCut, for: .normal)
         }
     }
     

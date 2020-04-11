@@ -41,18 +41,17 @@ class ProductVC: UIViewController {
         configureCollectionView()
         configureUI()
         configureDataSource()
-        getProductList()
-
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
-        let backButton = UIBarButtonItem(image: FLImages.backButton, style: .done, target: self, action: #selector(backToHome))
+        let backButton = UIBarButtonItem(image: FLImages.backButton, style: .done, target: self, action: #selector(goBack))
         navigationItem.leftBarButtonItem = backButton
+        getProductList()
     }
     
     
-    @objc func backToHome() {
+    @objc func goBack() {
         navigationController?.popViewController(animated: true)
     }
     
@@ -138,7 +137,7 @@ class ProductVC: UIViewController {
     
     
     func getProductList() {
-        FirestoreManager.shared.getProducts(for: shopID, isLimisted: false) { [weak self] result in
+        FirestoreManager.shared.getProducts(for: shopID, isLimited: false) { [weak self] result in
             guard let self = self else { return }
             
             switch result {

@@ -11,6 +11,7 @@ import UIKit
 
 protocol FLHeaderSVDelegate: class {
     func requestToPushProductVC()
+    func requestToPushEventVC()
 }
 
 class FLHeaderSV: UICollectionReusableView {
@@ -67,6 +68,15 @@ class FLHeaderSV: UICollectionReusableView {
     
     @objc func pushProductVC() {
         delegate.requestToPushProductVC()
+    }
+    
+    func addTargetToPushEventVC() {
+        button.addTarget(self, action: #selector(pushEventVC), for: .touchUpInside)
+    }
+    
+    
+    @objc func pushEventVC() {
+        delegate.requestToPushEventVC()
     }
     
     

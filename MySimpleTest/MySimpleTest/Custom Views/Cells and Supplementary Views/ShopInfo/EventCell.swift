@@ -16,10 +16,10 @@ class EventCell: UICollectionViewCell {
     private let titleLabel              = FLTitleLabel(textAlignment: .left, fontSize: 16, textColor: FLColors.black, fontWeight: .regular)
     private let descriptionLabel        = FLTitleLabel(textAlignment: .left, fontSize: 12, textColor: FLColors.gray, fontWeight: .regular)
     private let timeLabel               = FLTitleLabel(textAlignment: .left, fontSize: 12, textColor: FLColors.gray, fontWeight: .regular)
-    private let priceLabel              = FLTitleLabel(textAlignment: .center, fontSize: 16, textColor: FLColors.red, fontWeight: .regular)
-    private let originalPriceLabel      = FLStrikeThroughLabel(textAlignment: .center, fontSize: 12)
-    private let likeButton              = FLButton()
-    private let ticketButton            = FLButton()
+    private let priceLabel              = FLTitleLabel(textAlignment: .left, fontSize: 16, textColor: FLColors.red, fontWeight: .regular)
+    private let originalPriceLabel      = FLStrikeThroughLabel(textAlignment: .left, fontSize: 12)
+    //private let likeButton              = FLButton()
+    private let buyButton            = FLButton()
     
     private var isOn                    = false
     
@@ -27,6 +27,7 @@ class EventCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
+        buyButtonTapped()
     }
     
     
@@ -41,13 +42,23 @@ class EventCell: UICollectionViewCell {
         
         titleLabel.text         = title
         descriptionLabel.text   = description
-        timeLabel.text          = "活动时间： \(startDate.converToYearMonthDayFormat())至\(endDate.converToYearMonthDayFormat())"
+        timeLabel.text          = "\(startDate.converToYearMonthDayFormat())至\(endDate.converToYearMonthDayFormat())"
         priceLabel.text         = "$\(priceStr)"
         originalPriceLabel.set(text: "$\(originalPriceStr)")
         imageView.downloadImage(fromURL: imageURL)
     }
     
     
+    func buyButtonTapped() {
+        buyButton.addTarget(self, action: #selector(addToCart), for: .touchUpInside)
+    }
+    
+    @objc func addToCart() {
+        print("Buy this Event!")
+        buyButton.isSelected = true
+    }
+    
+    /*
     func activateLikeButton(bool: Bool) {
         isOn = bool
         likeButton.isSelected = isOn
@@ -57,21 +68,24 @@ class EventCell: UICollectionViewCell {
     @objc func likeButtonPressed() {
         activateLikeButton(bool: !isOn)
     }
+ */
     
     
     private func configureUI() {
         addSubview(containerView)
-        containerView.addSubviews(imageView, titleLabel, descriptionLabel, timeLabel, priceLabel, originalPriceLabel, likeButton, ticketButton)
+        containerView.addSubviews(imageView, titleLabel, descriptionLabel, timeLabel, priceLabel, originalPriceLabel, buyButton)
         
         containerView.backgroundColor       = FLColors.white
         containerView.layer.cornerRadius    = 6
         containerView.layer.masksToBounds   = true
-        
+        /*
         likeButton.backgroundColor  = FLColors.white
         likeButton.setImage(FLImages.heart, for: .normal)
         likeButton.setImage(FLImages.redHeart, for: .selected)
         likeButton.addTarget(self, action: #selector(ShopCell.likeButtonPressed), for: .touchUpInside)
-        ticketButton.setBackgroundImage(FLImages.moreTicket, for: .normal)
+ */
+        buyButton.setBackgroundImage(FLImages.addToCart, for: .normal)
+        buyButton.setBackgroundImage(FLImages.addToCartClicked, for: .selected)
 
         
         imageView.layer.cornerRadius    = 3
@@ -104,23 +118,24 @@ class EventCell: UICollectionViewCell {
             
             priceLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             priceLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
-            priceLabel.widthAnchor.constraint(equalToConstant: 52),
+            priceLabel.widthAnchor.constraint(equalTo: priceLabel.widthAnchor),
             priceLabel.heightAnchor.constraint(equalToConstant: 19),
             
             originalPriceLabel.leadingAnchor.constraint(equalTo: priceLabel.trailingAnchor, constant: 7),
             originalPriceLabel.centerYAnchor.constraint(equalTo: priceLabel.centerYAnchor),
-            originalPriceLabel.widthAnchor.constraint(equalToConstant: 40),
+            originalPriceLabel.widthAnchor.constraint(equalToConstant: 45),
             originalPriceLabel.heightAnchor.constraint(equalToConstant: 14),
-            
+            /*
             likeButton.topAnchor.constraint(equalTo: titleLabel.topAnchor),
             likeButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
             likeButton.heightAnchor.constraint(equalToConstant: 19),
             likeButton.widthAnchor.constraint(equalToConstant: 21),
+ */
             
-            ticketButton.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
-            ticketButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
-            ticketButton.heightAnchor.constraint(equalToConstant: 26),
-            ticketButton.widthAnchor.constraint(equalToConstant: 101)
+            buyButton.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
+            buyButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
+            buyButton.heightAnchor.constraint(equalToConstant: 26),
+            buyButton.widthAnchor.constraint(equalToConstant: 101)
         ])
     }
 }

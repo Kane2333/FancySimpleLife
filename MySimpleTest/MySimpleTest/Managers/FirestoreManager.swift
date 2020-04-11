@@ -148,34 +148,39 @@ class FirestoreManager {
     
     
     
-    func getFirstEvent(for shopID: String, completed: @escaping (Result<Event, FLError>) -> Void) {
+    func getEvents(for shopID: String, isLimited: Bool, completed: @escaping (Result<[Event], FLError>) -> Void) {
         db.collection("Event").whereField("shopID", isEqualTo: shopID).order(by: "priority").getDocuments { (snapshot, error) in
+            var eventList: [Event] = []
             var count: Int = 0
             if error == nil && snapshot != nil {
-                if snapshot?.documents.count == 0 {
+                if snapshot!.documents.count == 0 {
                     completed(.failure(.incompletedInfo))
+                } else {
+                    for document in snapshot!.documents {
+                        let eventID             = document.documentID
+                        let eventTitle          = document.get("title") as! String
+                        let eventDescription    = document.get("description") as! String
+                        let startTS             = document.get("startTime") as! Timestamp
+                        let startDate           = startTS.dateValue()
+                        let endTS               = document.get("endTime") as! Timestamp
+                        let endDate             = endTS.dateValue()
+                        let eventPrice          = document.get("price") as! Double
+                        let eventOriginalPirce  = document.get("originalPrice") as! Double
+                        let eventImageURL       = document.get("imageURL") as! String
+                        let event               = Event(id: eventID, shopID: shopID, title: eventTitle, startDate: startDate, endDate: endDate, description: eventDescription, imageURL: eventImageURL, price: eventPrice, originalPrice: eventOriginalPirce)
+                        eventList.append(event)
+                        count += 1
+                        if isLimited && count == 1 { break }
+                    }
+                    completed(.success(eventList))
                 }
-                for document in snapshot!.documents {
-                    let eventID             = document.documentID
-                    let eventTitle          = document.get("title") as! String
-                    let eventDescription    = document.get("description") as! String
-                    let startTS             = document.get("startTime") as! Timestamp
-                    let startDate           = startTS.dateValue()
-                    let endTS               = document.get("endTime") as! Timestamp
-                    let endDate             = endTS.dateValue()
-                    let eventPrice          = document.get("price") as! Double
-                    let eventOriginalPirce  = document.get("originalPrice") as! Double
-                    let eventImageURL       = document.get("imageURL") as! String
-                    let event               = Event(id: eventID, shopID: shopID, title: eventTitle, startDate: startDate, endDate: endDate, description: eventDescription, imageURL: eventImageURL, price: eventPrice, originalPrice: eventOriginalPirce)
-                    count += 1
-                    if count == 1 { completed(.success(event)) }
-                }
+
             } else { completed(.failure(.invalidData)) }
         }
     }
     
     
-    func getProducts(for shopID: String, isLimisted: Bool, completed: @escaping (Result<[Product], FLError>) -> Void) {
+    func getProducts(for shopID: String, isLimited: Bool, completed: @escaping (Result<[Product], FLError>) -> Void) {
         db.collection("Product").whereField("shopID", isEqualTo: shopID).order(by: "priority").getDocuments { (snapshot, error) in
             var productList: [Product] = []
             var count: Int = 0
@@ -190,7 +195,7 @@ class FirestoreManager {
                     let product = Product(id: id, shopID: shopID, imageURL: imageURL as! String, title: title as! String, description: description as! String, price: price as! Double, sale: sale as! Double)
                     productList.append(product)
                     count += 1
-                    if isLimisted && count == 3 { break }
+                    if isLimited && count == 3 { break }
                 }
                 completed(.success(productList))
             } else { completed(.failure(.invalidData)) }
@@ -198,22 +203,27 @@ class FirestoreManager {
     }
     
     
-    func getFirstReview(for shopID: String, completed: @escaping (Result<Review, FLError>) -> Void) {
+    func getReviews(for shopID: String, isLimited: Bool, completed: @escaping (Result<[Review], FLError>) -> Void) {
         db.collection("Review").whereField("shopID", isEqualTo: shopID).whereField("priority", isEqualTo: 0).getDocuments { (snapshot, error) in
-            var review: Review!
+            var reviewList: [Review] = []
+            var count: Int = 0
             if error == nil && snapshot != nil {
-                let totalReviews    = snapshot!.documents.count
-                let document        = snapshot!.documents[0]
-                let id              = document.documentID
-                let userID          = document.get("userID") as! String
-                let username        = document.get("username") as! String
-                let avatarImageURL  = document.get("avatarImageURL") as! String
-                let content         = document.get("content") as! String
-                let likeAmount      = document.get("likeCount") as! Double
-                let imageURLs       = document.get("images") as! [String]
-                review = Review(id: id, shopID: shopID, username: username, avatarImageURL: avatarImageURL, imageURLs: imageURLs, content: content, likeAmount: likeAmount, userID: userID, totalReviews: totalReviews)
+                for document in snapshot!.documents {
+                    let id              = document.documentID
+                    let userID          = document.get("userID") as! String
+                    let username        = document.get("username") as! String
+                    let avatarImageURL  = document.get("avatarImageURL") as! String
+                    let content         = document.get("content") as! String
+                    let likeAmount      = document.get("likeCount") as! Double
+                    let imageURLs       = document.get("images") as! [String]
+                    let review = Review(id: id, shopID: shopID, username: username, avatarImageURL: avatarImageURL, imageURLs: imageURLs, content: content, likeAmount: likeAmount, userID: userID)
+                    reviewList.append(review)
+                    count += 1
+                    if isLimited && count == 1 { break }
+                }
+                completed(.success(reviewList))
             } else { completed(.failure(.invalidData)) }
-            completed(.success(review))
+            
         }
     }
     

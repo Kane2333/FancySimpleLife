@@ -18,7 +18,6 @@ struct Review {
     var content: String
     var likeAmount: Double
     var userID: String
-    var totalReviews: Int = 0
     //var rating: Double
     //var date: Date
     

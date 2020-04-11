@@ -43,8 +43,8 @@ class FLTabBarController: UITabBarController {
     
     func createWalletNC() -> UINavigationController {
         let walletVC = WalletVC()
-        walletVC.title = "Wallet"
-        walletVC.tabBarItem = UITabBarItem(title: "荷包", image: FLImages.wallet, tag: 2)
+        walletVC.title = "Cart"
+        walletVC.tabBarItem = UITabBarItem(title: "购物车", image: FLImages.cart, tag: 2)
         walletVC.tabBarItem.imageInsets = UIEdgeInsets(top: offset, left: 0, bottom: -offset, right: 0)
         walletVC.tabBarItem.titlePositionAdjustment = .init(horizontal: 0, vertical: offset)
         

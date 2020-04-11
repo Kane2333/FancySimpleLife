@@ -9,7 +9,6 @@
 import UIKit
 
 
-
 class ShopInfoVC: UIViewController {
     static let sectionHeaderElementKind = "section-header-element-kind"
     
@@ -60,12 +59,12 @@ class ShopInfoVC: UIViewController {
         configureCollectionView()
         configureUI()
         configureDataSource()
-        getShopInfoItems()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         let backButton = UIBarButtonItem(image: FLImages.backButton, style: .done, target: self, action: #selector(backToHome))
         navigationItem.leftBarButtonItem = backButton
+        getShopInfoItems()
     }
     
     
@@ -83,14 +82,14 @@ class ShopInfoVC: UIViewController {
     func getShopInfoItems() {
         var firstEvent: Event!
         var productList: [Product] = []
-        var firstReview: Review!
+        var firstReview: Review?=nil
         var shopList: [Shop] = []
-        FirestoreManager.shared.getFirstEvent(for: shopID) { [weak self] result in
+        FirestoreManager.shared.getEvents(for: shopID, isLimited: true) { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success(let event):
-                firstEvent = event
-                FirestoreManager.shared.getProducts(for: self.shopID, isLimisted: true) { [weak self] result in
+            case .success(let events):
+                firstEvent = events[0]
+                FirestoreManager.shared.getProducts(for: self.shopID, isLimited: true) { [weak self] result in
                     guard let self = self else { return }
                     switch result {
                     case .success(let products):
@@ -99,13 +98,16 @@ class ShopInfoVC: UIViewController {
                         for product in productList {
                             productImages.append(product.imageURL)
                         }
-                        FirestoreManager.shared.getFirstReview(for: self.shopID) { [weak self] result in
+                        FirestoreManager.shared.getReviews(for: self.shopID, isLimited: true) { [weak self] result in
                             guard let self = self else { return }
                             
                             switch result {
-                            case .success(let review):
-                                firstReview = review
-                                self.totalReviews = firstReview.totalReviews
+                            case .success(let reviews):
+                                self.totalReviews = reviews.count
+                                if self.totalReviews != 0 {
+                                    firstReview = reviews[0]
+                                }
+
                                 FirestoreManager.shared.getShopList(kind: self.shopKind, category: self.shopCategory, shopID: self.shopID) { [weak self] result in
                                     guard let self = self else { return }
                                     
@@ -126,7 +128,16 @@ class ShopInfoVC: UIViewController {
                                             shopScores.append(shop.score)
                                         }
                                         
-                                        var shopInfo = ShopInfo(id: UUID(), shopID: self.shopID, shopImageURL: self.shopImageURL, shopTitle: self.shopTitle, shopAddress: self.shopAddress, shopOpeningTime: self.shopOpenTime, eventID: firstEvent.id, eventTitle: firstEvent.title, eventDescription: firstEvent.description, eventStartDate: firstEvent.startDate, eventEndDate: firstEvent.endDate, eventPrice: firstEvent.price, eventOriginalPirce: firstEvent.originalPrice, eventImageURL: firstEvent.imageURL, productImageURLs: productImages, reviewUsername: firstReview.username, reviewAvatarImageURL: firstReview.avatarImageURL, reviewContent: firstReview.content, reviewImageURLs: firstReview.imageURLs, reviewAmount: firstReview.totalReviews, reviewLikeAmount: firstReview.likeAmount, recommendShopIDs: shopIDs, recommendShopTitles: shopTitles, recommendShopImages: shopImages, recommendShopScores: shopScores)
+                                        var shopInfo = ShopInfo(id: UUID(), shopID: self.shopID, shopImageURL: self.shopImageURL, shopTitle: self.shopTitle, shopAddress: self.shopAddress, shopOpeningTime: self.shopOpenTime, eventID: firstEvent.id, eventTitle: firstEvent.title, eventDescription: firstEvent.description, eventStartDate: firstEvent.startDate, eventEndDate: firstEvent.endDate, eventPrice: firstEvent.price, eventOriginalPirce: firstEvent.originalPrice, eventImageURL: firstEvent.imageURL, productImageURLs: productImages, reviewUsername: nil, reviewAvatarImageURL: nil, reviewContent: nil, reviewImageURLs: nil, reviewAmount: self.totalReviews, reviewLikeAmount: nil, recommendShopIDs: shopIDs, recommendShopTitles: shopTitles, recommendShopImages: shopImages, recommendShopScores: shopScores)
+                                        
+                                        if firstReview != nil {
+                                            shopInfo.reviewUsername = firstReview!.username
+                                            shopInfo.reviewImageURLs = firstReview!.imageURLs
+                                            shopInfo.reviewAvatarImageURL = firstReview!.avatarImageURL
+                                            shopInfo.reviewContent = firstReview!.content
+                                            shopInfo.reviewLikeAmount = firstReview!.likeAmount
+                                        }
+                                        
                                         for i in Array(0..<5) {
                                             if i == 2 || i == 4 {
                                                 var index = 0
@@ -281,7 +292,9 @@ extension ShopInfoVC {
             case 0:
                 supplementaryView.removeView()
             case 1:
-                supplementaryView.set(title: sectionTitle, hasButton: false)
+                supplementaryView.set(title: sectionTitle, hasButton: true)
+                supplementaryView.addTargetToPushEventVC()
+                supplementaryView.delegate = self
             case 2:
                 supplementaryView.set(title: sectionTitle, hasButton: true)
                 supplementaryView.addTargetToPushProductVC()
@@ -312,6 +325,16 @@ extension ShopInfoVC {
     
     private func pushProductVC() {
         let destVC  = ProductVC()
+        destVC.shopID       = shopID
+        destVC.shopImageURL = shopImageURL
+        destVC.shopOpenTime = shopOpenTime
+        destVC.shopAddress  = shopAddress
+        destVC.shopTitle    = shopTitle
+        navigationController?.pushViewController(destVC, animated: true)
+    }
+    
+    private func pushEventVC() {
+        let destVC  = EventVC()
         destVC.shopID       = shopID
         destVC.shopImageURL = shopImageURL
         destVC.shopOpenTime = shopOpenTime
@@ -350,5 +373,9 @@ extension ShopInfoVC: ShopCellDelegate {
 extension ShopInfoVC: FLHeaderSVDelegate {
     func requestToPushProductVC() {
         pushProductVC()
+    }
+    
+    func requestToPushEventVC() {
+        pushEventVC()
     }
 }

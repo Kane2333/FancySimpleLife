@@ -14,16 +14,18 @@ class EventListCell: UICollectionViewCell {
     
     private let containerView           = UIView()
     private let imageView               = FLRegularImageView(frame: .zero)
-    private let titleLabel              = FLTitleLabel(textAlignment: .left, fontSize: 16, textColor: FLColors.black, fontWeight: .regular)
-    private let descriptionLabel        = FLTitleLabel(textAlignment: .left, fontSize: 12, textColor: FLColors.gray, fontWeight: .regular)
-    private let priceLabel              = FLTitleLabel(textAlignment: .left, fontSize: 16, textColor: FLColors.red, fontWeight: .regular)
-    private let originalPriceLabel      = FLTitleLabel(textAlignment: .left, fontSize: 12, textColor: FLColors.gray, fontWeight: .regular)
+    private let titleLabel              = FLTitleLabel(textAlignment: .left, fontSize: 14, textColor: FLColors.black, fontWeight: .regular)
+    private let descriptionLabel        = FLTitleLabel(textAlignment: .left, fontSize: 10, textColor: FLColors.gray, fontWeight: .regular)
+    private let timeLabel               = FLTitleLabel(textAlignment: .left, fontSize: 10, textColor: FLColors.gray, fontWeight: .regular)
+    private let priceLabel              = FLTitleLabel(textAlignment: .left, fontSize: 18, textColor: FLColors.red, fontWeight: .regular)
+    private let originalPriceLabel      = FLStrikeThroughLabel(textAlignment: .left, fontSize: 12)
     private let button                  = FLButton()
     
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
+        buyButtonTapped()
     }
     
     
@@ -31,67 +33,84 @@ class EventListCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func buyButtonTapped() {
+        button.addTarget(self, action: #selector(addToCart), for: .touchUpInside)
+    }
     
-    func set(imageURL: String, title: String, description: String, price: Double, originalPrice: Double) {
+    @objc func addToCart() {
+        print("Buy this Event!")
+        button.isSelected = true
+    }
+    
+    
+    func set(imageURL: String, title: String, description: String,  startDate: Date, endDate: Date, price: Double, originalPrice: Double) {
         imageView.downloadImage(fromURL: imageURL)
         titleLabel.text             = title
         descriptionLabel.text       = description
+        timeLabel.text          = "\(startDate.converToYearMonthDayFormat())至\(endDate.converToYearMonthDayFormat())"
         
         let priceStr                = String(format: "%.2f", price)
         let originalPriceStr        = String(format: "%.2f", originalPrice)
-        priceLabel.text             = priceStr
-        originalPriceLabel.text     = originalPriceStr
+        priceLabel.text             = "$\(priceStr)"
+        originalPriceLabel.set(text: "$\(originalPriceStr)")
     }
     
     
     private func configureUI() {
         addSubview(containerView)
-        containerView.addSubviews(imageView, titleLabel, descriptionLabel, priceLabel, originalPriceLabel)
+        containerView.addSubviews(imageView, titleLabel, descriptionLabel, timeLabel, priceLabel, originalPriceLabel, button)
 
         containerView.backgroundColor       = FLColors.white
         containerView.layer.cornerRadius    = 6
         containerView.layer.masksToBounds   = true
         
-        button.setBackgroundImage(FLImages.getTicket, for: .normal)
-        button.setBackgroundImage(FLImages.getTicketDisable, for: .selected)
+        button.setBackgroundImage(FLImages.addToCart, for: .normal)
+        button.setBackgroundImage(FLImages.addToCartClicked, for: .selected)
         
         imageView.layer.cornerRadius    = 3
         imageView.layer.masksToBounds   = true
         
         containerView.pinToEdges(of: contentView)
         
-        let padding: CGFloat = 9
+        let padding: CGFloat = 12
         
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: padding),
             imageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
-            imageView.heightAnchor.constraint(equalToConstant: 67),
-            imageView.widthAnchor.constraint(equalToConstant: 67),
+            imageView.heightAnchor.constraint(equalToConstant: 68),
+            imageView.widthAnchor.constraint(equalToConstant: 71),
             
-            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: padding),
-            titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 16),
-            titleLabel.heightAnchor.constraint(equalToConstant: 22),
-            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -50),
+            button.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -11),
+            button.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -11),
+            button.heightAnchor.constraint(equalToConstant: 20),
+            button.widthAnchor.constraint(equalToConstant: 73),
             
-            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 3),
+            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 9),
+            titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 12),
+            titleLabel.heightAnchor.constraint(equalToConstant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: button.leadingAnchor),
+            
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
             descriptionLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            descriptionLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -50),
-            descriptionLabel.heightAnchor.constraint(equalToConstant: 17),
+            descriptionLabel.trailingAnchor.constraint(equalTo: button.leadingAnchor),
+            descriptionLabel.heightAnchor.constraint(equalToConstant: 14),
             
-            priceLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
+            timeLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            timeLabel.trailingAnchor.constraint(equalTo: button.leadingAnchor),
+            timeLabel.heightAnchor.constraint(equalToConstant: 14),
+            timeLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor),
+            
+            priceLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -9),
             priceLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            priceLabel.heightAnchor.constraint(equalToConstant: 22),
-            priceLabel.widthAnchor.constraint(equalTo: priceLabel.widthAnchor ),
+            priceLabel.heightAnchor.constraint(equalToConstant: 21),
+            priceLabel.widthAnchor.constraint(equalTo: priceLabel.widthAnchor),
             
             originalPriceLabel.centerYAnchor.constraint(equalTo: priceLabel.centerYAnchor, constant: 1),
-            originalPriceLabel.leadingAnchor.constraint(equalTo: priceLabel.trailingAnchor, constant: 7),
+            originalPriceLabel.leadingAnchor.constraint(equalTo: priceLabel.trailingAnchor, constant: 6.5),
             originalPriceLabel.heightAnchor.constraint(equalToConstant: 14),
-            originalPriceLabel.widthAnchor.constraint(equalTo: originalPriceLabel.widthAnchor),
+            originalPriceLabel.widthAnchor.constraint(equalToConstant: 45)
             
-            button.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
-            button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
-            button.heightAnchor.constraint(equalTo: button.heightAnchor),
-            button.widthAnchor.constraint(equalTo: button.widthAnchor),
+
 
         ])
     }

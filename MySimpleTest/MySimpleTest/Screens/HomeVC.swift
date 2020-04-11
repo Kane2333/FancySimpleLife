@@ -57,7 +57,6 @@ class HomeVC: UIViewController {
 
         updateCategoryData()
         configureCategoryDataSource()
-        getTuanGoItems()
         configureTuanGoDataSource()
         
         /*
@@ -73,6 +72,7 @@ class HomeVC: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
         self.tabBarController?.tabBar.isHidden = false
+        getTuanGoItems()
     }
     
     
@@ -224,7 +224,7 @@ class HomeVC: UIViewController {
             }
             
         } else {
-            homeLocationVC.setLocation(location: "Error locating")
+            homeLocationVC.setLocation(location: "Location is unavailable...")
         }
     }
     

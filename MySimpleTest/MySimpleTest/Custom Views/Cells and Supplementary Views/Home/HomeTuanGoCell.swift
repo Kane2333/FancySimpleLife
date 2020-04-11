@@ -18,8 +18,8 @@ class HomeTuanGoCell: UICollectionViewCell {
     private let secondaryLabel      = FLTitleLabel(textAlignment: .center, fontSize: 12, textColor: FLColors.gray, fontWeight: .regular)
     private let amountLabel         = FLTitleLabel(textAlignment: .center, fontSize: 10, textColor: FLColors.red, fontWeight: .regular)
     private let priceLabel          = FLTitleLabel(textAlignment: .center, fontSize: 16, textColor: FLColors.red, fontWeight: .regular)
-    private let originalPriceLabel   = FLStrikeThroughLabel(textAlignment: .center, fontSize: 8)
-    private let button              = UIButton()
+    private let originalPriceLabel  = FLStrikeThroughLabel(textAlignment: .center, fontSize: 8)
+    private let button              = FLButton()
     
     
     override init(frame: CGRect) {
@@ -51,6 +51,9 @@ class HomeTuanGoCell: UICollectionViewCell {
         containerView.layer.cornerRadius    = 6
         containerView.layer.masksToBounds   = true
         
+        button.setBackgroundImage(FLImages.buy, for: .normal)
+        button.setBackgroundImage(FLImages.buyClicked, for: .selected)
+        /*
         button.backgroundColor              = FLColors.red
         button.tintColor                    = FLColors.white
         button.titleLabel?.font             = UIFont.systemFont(ofSize: 10, weight: .regular)
@@ -59,6 +62,7 @@ class HomeTuanGoCell: UICollectionViewCell {
         button.setTitle("马上抢", for: .normal)
         button.imageEdgeInsets              = UIEdgeInsets(top: 0, left: -1, bottom: 0, right: 0)
         button.titleEdgeInsets              = UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 0)
+ */
         
     }
     

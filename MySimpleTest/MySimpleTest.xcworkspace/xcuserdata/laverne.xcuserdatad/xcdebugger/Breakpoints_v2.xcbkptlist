@@ -23,16 +23,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7CE99944-BBAD-46A7-8FBD-78D07C4018F6"
+            uuid = "DF5ECF2E-5C3B-4450-AE77-CD03FAEB90D5"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MySimpleTest/Screens/ShopInfoVC.swift"
+            filePath = "MySimpleTest/Managers/FirestoreManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
+            landmarkName = "getReviews(for:isLimited:completed:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
