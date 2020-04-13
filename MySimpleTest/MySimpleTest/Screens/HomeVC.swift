@@ -15,12 +15,12 @@ class HomeVC: UIViewController {
     
     let locationManager = CLLocationManager()
     
-    static let sectionHeaderElementKind = "section-header-element-kind"
-    private let containerView   = UIView()
-    private let locationView    = UIView()
-    private let homeLocationVC  = HomeLocationVC()
-    private let searchBar       = UIView()
-    private let adView          = UIView()
+    static  let sectionHeaderElementKind    = "section-header-element-kind"
+    private let containerView               = UIView()
+    private let locationView                = UIView()
+    private let homeLocationVC              = HomeLocationVC()
+    private let searchBar                   = UIView()
+    private let adView                      = UIView()
     
     var location: CLLocation?
     

@@ -17,9 +17,13 @@ enum PersistenceManager {
     
     static private let defaults = UserDefaults.standard
     
-    enum Keys { static let searchHistory = "searchHistory" }
+    enum Keys {
+        static let searchHistory    = "searchHistory"
+        static let hotSearch        = "hotSearch"
+        
+    }
     
-    static func updateWith(history: String?="", actionType: PersistenceActionType, completed: @escaping (Error?) -> Void) {
+    static func updateWith(history: SearchTag?, actionType: PersistenceActionType, completed: @escaping (Error?) -> Void) {
         retrieveHistories { result in
             switch result {
             case .success(var histories):
@@ -43,7 +47,7 @@ enum PersistenceManager {
     }
     
     
-    static func retrieveHistories(completed: @escaping (Result<[String], Error>) -> Void) {
+    static func retrieveHistories(completed: @escaping (Result<[SearchTag], Error>) -> Void) {
         guard let historiesData = defaults.object(forKey: Keys.searchHistory) as? Data else {
             completed(.success([]))
             return
@@ -51,7 +55,7 @@ enum PersistenceManager {
         
         do {
                let decoder = JSONDecoder()
-               let histories = try decoder.decode([String].self, from: historiesData)
+               let histories = try decoder.decode([SearchTag].self, from: historiesData)
                completed(.success(histories))
         } catch {
                 //completed(nil, error.localizedDescription)
@@ -61,7 +65,7 @@ enum PersistenceManager {
     }
     
     
-    static func saveHistories(histories: [String]) -> Error? {
+    static func saveHistories(histories: [SearchTag]) -> Error? {
         do {
             let encoder = JSONEncoder()
             let encodedhistories = try encoder.encode(histories)

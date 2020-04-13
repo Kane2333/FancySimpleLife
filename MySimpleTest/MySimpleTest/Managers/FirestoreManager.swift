@@ -17,13 +17,15 @@ class FirestoreManager {
     private init() {}
     
     
-    func getHotSearch(completed: @escaping (Result<[String], FLError>) -> Void) {
+    func getHotSearch(completed: @escaping (Result<[SearchTag], FLError>) -> Void) {
         let hotSearchRef = db.collection("HotSearch")
         hotSearchRef.order(by: "priority").getDocuments { (snapshot, error) in
-            var histories: [String] = []
+            var histories: [SearchTag] = []
             if error == nil && snapshot != nil {
                 for document in snapshot!.documents {
-                    histories.append(document.get("name") as! String)
+                    let history = document.get("name") as! String
+                    let searchTag = SearchTag(id: UUID(), name: history)
+                    histories.append(searchTag)
                 }
                 completed(.success(histories))
             } else { completed(.failure(.invalidData)) }

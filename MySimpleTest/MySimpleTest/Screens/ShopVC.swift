@@ -52,6 +52,7 @@ class ShopVC: FLDataLoadingVC {
         getShopItems()
         configureDataSource()
         configureSearchBar()
+        searchBarTapped()
         customRightButton()
         setUpLocationManager()
     }
@@ -63,6 +64,8 @@ class ShopVC: FLDataLoadingVC {
         configureNavigationBar()
         if category != nil {
             self.tabBarController?.tabBar.isHidden = true
+        } else {
+            self.tabBarController?.tabBar.isHidden = false
         }
     }
     
@@ -70,12 +73,17 @@ class ShopVC: FLDataLoadingVC {
     private func configureSearchBar() {
         searchBar.setBackgroundImage(FLImages.searchBar, for: .normal)
         navigationItem.titleView = searchBar
+    }
+    
+    
+    private func searchBarTapped() {
         searchBar.addTarget(self, action: #selector(pushSearchVC), for: .touchUpInside)
     }
     
     
     @objc func pushSearchVC() {
-        navigationController?.pushViewController(SearchVC(), animated: true)
+        let searchVC = SearchVC()
+        navigationController?.pushViewController(searchVC, animated: true)
     }
     
     

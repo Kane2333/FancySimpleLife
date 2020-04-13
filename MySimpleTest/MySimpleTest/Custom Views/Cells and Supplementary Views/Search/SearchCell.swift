@@ -33,7 +33,7 @@ class SearchCell: UICollectionViewCell {
     
     private func configureUI() {
         contentView.addSubview(label)
-        
+        self.isUserInteractionEnabled = true
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 6),
             label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -6),

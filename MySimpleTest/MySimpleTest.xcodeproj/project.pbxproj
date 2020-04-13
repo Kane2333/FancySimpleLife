@@ -13,6 +13,7 @@
 		570998B62441CCEB00929A49 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570998B52441CCEB00929A49 /* PersistenceManager.swift */; };
 		570998B82441D25E00929A49 /* FLDataLoadingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570998B72441D25E00929A49 /* FLDataLoadingVC.swift */; };
 		570998BA2442F58500929A49 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570998B92442F58500929A49 /* SearchResult.swift */; };
+		570998BC24446BA300929A49 /* SearchTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570998BB24446BA300929A49 /* SearchTag.swift */; };
 		5721C1FB24317B2700358042 /* ShopFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1FA24317B2700358042 /* ShopFilterCell.swift */; };
 		5721C1FD24317B7300358042 /* ShopHeaderSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1FC24317B7300358042 /* ShopHeaderSV.swift */; };
 		5721C1FF24317B9700358042 /* ShopListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1FE24317B9700358042 /* ShopListCell.swift */; };
@@ -113,6 +114,7 @@
 		570998B52441CCEB00929A49 /* PersistenceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
 		570998B72441D25E00929A49 /* FLDataLoadingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLDataLoadingVC.swift; sourceTree = "<group>"; };
 		570998B92442F58500929A49 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
+		570998BB24446BA300929A49 /* SearchTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTag.swift; sourceTree = "<group>"; };
 		5721C1FA24317B2700358042 /* ShopFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopFilterCell.swift; sourceTree = "<group>"; };
 		5721C1FC24317B7300358042 /* ShopHeaderSV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopHeaderSV.swift; sourceTree = "<group>"; };
 		5721C1FE24317B9700358042 /* ShopListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopListCell.swift; sourceTree = "<group>"; };
@@ -392,6 +394,7 @@
 				AB3C1604242F52D000EB87E2 /* AdImage.swift */,
 				574493962433218A0093F0DE /* ShopInfo.swift */,
 				570998B92442F58500929A49 /* SearchResult.swift */,
+				570998BB24446BA300929A49 /* SearchTag.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -678,6 +681,7 @@
 				AB2B466D241F47BA006EFE10 /* SignInVC.swift in Sources */,
 				AB4CF7F324114165001D02E9 /* FSLAlertVC.swift in Sources */,
 				AB3C15EE242F206800EB87E2 /* ShopVC.swift in Sources */,
+				570998BC24446BA300929A49 /* SearchTag.swift in Sources */,
 				AB3C15F9242F2C0F00EB87E2 /* FSLAvatarImageView.swift in Sources */,
 				AB3C1601242F529700EB87E2 /* FirestoreManager.swift in Sources */,
 				AB3C1609242F544A00EB87E2 /* UIHelper.swift in Sources */,
