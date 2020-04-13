@@ -20,6 +20,7 @@ class ProductListCell: UICollectionViewCell {
     private let priceLabel          = FLTitleLabel(textAlignment: .right, fontSize: 16, textColor: FLColors.red, fontWeight: .regular)
     private let button              = FLButton()
     
+    var onReuse: () -> Void = {}
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,14 +44,15 @@ class ProductListCell: UICollectionViewCell {
     }
     
     
-    func set(imageURL: String, title: String, description: String, sale: Double, price: Double) {
-        imageView.downloadImage(fromURL: imageURL)
-        titleLabel.text = title
-        descriptionLabel.text = description
+    
+    func set(product: Product) {
+        imageView.downloadImage(fromURL: product.imageURL)
+        titleLabel.text = product.title
+        descriptionLabel.text = product.description
         
-        saleLabel.text = "月售\(Int(sale))件"
+        saleLabel.text = "月售\(Int(product.sale))件"
         
-        let priceStr = String(format: "%.2f", price)
+        let priceStr = String(format: "%.2f", product.price)
         priceLabel.text = "$\(priceStr)"
     }
     
@@ -62,6 +64,7 @@ class ProductListCell: UICollectionViewCell {
         containerView.backgroundColor       = FLColors.white
         containerView.layer.cornerRadius    = 6
         containerView.layer.masksToBounds   = true
+        
         
         imageView.layer.cornerRadius    = 3
         imageView.layer.masksToBounds   = true

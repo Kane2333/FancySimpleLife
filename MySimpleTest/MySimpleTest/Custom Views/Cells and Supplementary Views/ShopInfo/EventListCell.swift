@@ -43,7 +43,17 @@ class EventListCell: UICollectionViewCell {
     }
     
     
-    func set(imageURL: String, title: String, description: String,  startDate: Date, endDate: Date, price: Double, originalPrice: Double) {
+    func set(event: Event) {
+        setData(imageURL: event.imageURL, title: event.title, description: event.description, startDate: event.startDate, endDate: event.endDate, price: event.price, originalPrice: event.originalPrice)
+    }
+    
+    
+    func set(searchResult: SearchResult) {
+        setData(imageURL: searchResult.imageURL, title: searchResult.title, description: searchResult.description, startDate: searchResult.eventStartDate!, endDate: searchResult.eventEndDate!, price: searchResult.price!, originalPrice: searchResult.originalPrice!)
+    }
+    
+    
+    private func setData(imageURL: String, title: String, description: String,  startDate: Date, endDate: Date, price: Double, originalPrice: Double) {
         imageView.downloadImage(fromURL: imageURL)
         titleLabel.text             = title
         descriptionLabel.text       = description
@@ -75,6 +85,7 @@ class EventListCell: UICollectionViewCell {
         let padding: CGFloat = 12
         
         NSLayoutConstraint.activate([
+            
             imageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: padding),
             imageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
             imageView.heightAnchor.constraint(equalToConstant: 68),
@@ -100,7 +111,7 @@ class EventListCell: UICollectionViewCell {
             timeLabel.heightAnchor.constraint(equalToConstant: 14),
             timeLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor),
             
-            priceLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -9),
+            priceLabel.topAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 3),
             priceLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             priceLabel.heightAnchor.constraint(equalToConstant: 21),
             priceLabel.widthAnchor.constraint(equalTo: priceLabel.widthAnchor),
@@ -109,9 +120,6 @@ class EventListCell: UICollectionViewCell {
             originalPriceLabel.leadingAnchor.constraint(equalTo: priceLabel.trailingAnchor, constant: 6.5),
             originalPriceLabel.heightAnchor.constraint(equalToConstant: 14),
             originalPriceLabel.widthAnchor.constraint(equalToConstant: 45)
-            
-
-
         ])
     }
 }

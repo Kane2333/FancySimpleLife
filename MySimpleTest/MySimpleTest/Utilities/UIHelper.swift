@@ -55,7 +55,7 @@
         section.interGroupSpacing           = 14
         section.contentInsets               = NSDirectionalEdgeInsets(top: 0, leading: 13, bottom: 0, trailing: 13)
                 
-        let headerFooterSize                = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(50))
+        let headerFooterSize                = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(5))
         let sectionHeader                   = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerFooterSize, elementKind: HomeVC.sectionHeaderElementKind, alignment: .top)
         section.boundarySupplementaryItems  = [sectionHeader]
         let layout                          = UICollectionViewCompositionalLayout(section: section)
@@ -64,22 +64,24 @@
     }
     
     
-    static func createListFlowLayout(in view: UIView) -> UICollectionViewCompositionalLayout {
+    static func createListFlowLayout(in view: UIView, hasHeader: Bool) -> UICollectionViewCompositionalLayout {
         let itemSize                        = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item                            = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize                       = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(85))
+        let groupSize                       = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(85))
         let group                           = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section                         = NSCollectionLayoutSection(group: group)
         section.contentInsets               = NSDirectionalEdgeInsets(top: 0, leading: 13, bottom: 0, trailing: 13)
         section.interGroupSpacing           = 7
-        
-        let sectionHeader                   = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(139)), elementKind: ShopVC.sectionHeaderElementKind, alignment: .top)
-        
-        sectionHeader.pinToVisibleBounds    = true
-        sectionHeader.zIndex                = 2
-        section.boundarySupplementaryItems  = [sectionHeader]
+        if hasHeader {
+            let sectionHeader                   = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(139)), elementKind: ShopVC.sectionHeaderElementKind, alignment: .top)
+            
+            sectionHeader.pinToVisibleBounds    = true
+            sectionHeader.zIndex                = 2
+            section.boundarySupplementaryItems  = [sectionHeader]
+            
+        }
         
         let layout                          = UICollectionViewCompositionalLayout(section: section)
         return layout

@@ -7,9 +7,14 @@
 //
 
 import UIKit
+import CoreLocation
+
 
 class SearchVC: UIViewController {
     static let sectionHeaderElementKind = "section-header-element-kind"
+    
+    private let label = FLTitleLabel(textAlignment: .center, fontSize: 14, textColor: FLColors.gray, fontWeight: .regular)
+    private let imageView = UIImageView(frame: .zero)
     
     private let searchController    = UISearchController()
     private var textList:[[String]] = [[],[]]
@@ -17,6 +22,13 @@ class SearchVC: UIViewController {
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Int, String>!
     
+    private var resultCollectionView: UICollectionView!
+    private var resultDataSource: UICollectionViewDiffableDataSource<Int, SearchResult>!
+    private var resultList:[SearchResult] = []
+    
+    let locationManager = CLLocationManager()
+    var userLocation: CLLocation?
+
     
     
     override func viewDidLoad() {
@@ -24,7 +36,7 @@ class SearchVC: UIViewController {
         view.backgroundColor = FLColors.white
         configureSearchController()
         configureCollectionView()
-        
+        getTexts()
         configureDataSource()
         customCancelButton()
         dismissKeyboardTapGesture()
@@ -49,8 +61,9 @@ class SearchVC: UIViewController {
     
     
     private func configureCollectionView() {
+        view.removeSubViews(label, imageView, resultCollectionView)
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createDynamicGridLayout(in: view))
-        //collectionView.delegate = self
+        collectionView.delegate = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(SearchCell.self, forCellWithReuseIdentifier: SearchCell.reuseID)
         collectionView.register(FLHeaderSV.self, forSupplementaryViewOfKind: SearchVC.sectionHeaderElementKind, withReuseIdentifier: FLHeaderSV.reuseID)
@@ -58,7 +71,7 @@ class SearchVC: UIViewController {
         collectionView.backgroundColor = FLColors.white
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 13),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -105,6 +118,31 @@ class SearchVC: UIViewController {
     }
     
     
+    private func configureNoResultUI() {
+        view.removeSubViews(collectionView, resultCollectionView)
+        view.addSubviews(imageView, label)
+        
+        imageView.image = UIImage(systemName: "exclamationmark.bubble")
+        imageView.backgroundColor = FLColors.white
+        imageView.tintColor = FLColors.red
+        label.text = "暂无搜索结果"
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
+            imageView.heightAnchor.constraint(equalTo: imageView.heightAnchor),
+            imageView.widthAnchor.constraint(equalTo: imageView.widthAnchor),
+            
+            label.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 14),
+            label.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+            label.heightAnchor.constraint(equalToConstant: 20),
+            label.widthAnchor.constraint(equalTo: label.widthAnchor)
+        ])
+    }
+    
+    
     private func updateData(on texts: [[String]] ) {
         var snapshot = NSDiffableDataSourceSnapshot<Int, String>()
         for section in [0,1] {
@@ -113,12 +151,14 @@ class SearchVC: UIViewController {
                 snapshot.appendItems(texts[section])
             }
         }
-        DispatchQueue.main.async {self.dataSource.apply(snapshot, animatingDifferences: true)}
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+            self.dataSource.apply(snapshot, animatingDifferences: false)
+        }
     }
     
     
-    func getTexts() {
-        
+    private func getTexts() {
         PersistenceManager.retrieveHistories { [weak self] result in
             guard let self = self else { return }
             
@@ -139,6 +179,24 @@ class SearchVC: UIViewController {
                 }
             case .failure(let error):
                 print(error)
+            }
+        }
+    }
+    
+    
+    private func getSearchResults(keyword: String) {
+        FirestoreManager.shared.getSearchResults(keyword: keyword) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let results):
+                self.resultList = results
+                if results.isEmpty {
+                    self.configureNoResultUI()
+                } else { self.updateResultData(on: results) }
+                
+            case .failure(let error):
+                self.presentFLAlertOnMainThread(title: "错误！", message: error.rawValue, buttonTitle: "确认")
             }
         }
     }
@@ -169,9 +227,11 @@ class SearchVC: UIViewController {
         navigationItem.rightBarButtonItem = cancelButton
     }
     
+    
     @objc func dismissKeyboard() {
         dismiss(animated: true)
     }
+    
     
     @objc func popView() {
         searchController.dismiss(animated: true) {
@@ -179,10 +239,12 @@ class SearchVC: UIViewController {
         }
     }
     
+    
     private func dismissKeyboardTapGesture() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
     }
+    
     
     private func clearSearchHistory() {
         PersistenceManager.updateWith(actionType: .remove) {[weak self] error in
@@ -194,6 +256,13 @@ class SearchVC: UIViewController {
             }
             print(error)
         }
+    }
+    
+    
+    func setUpLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
     }
  
 }
@@ -208,15 +277,42 @@ extension SearchVC: UISearchControllerDelegate {
 extension SearchVC: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let filter = searchController.searchBar.text, !filter.isEmpty else {
-            return
-        }
+        guard let filter = searchController.searchBar.text, !filter.isEmpty else { return }
+        configureResultCollectionView()
+        configureResultDataSource()
+        getSearchResults(keyword: filter)
+        
         PersistenceManager.updateWith(history: filter, actionType: .add) { [weak self] error in
             guard self != nil else { return }
             guard error != nil else { return }
         }
     }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            DispatchQueue.main.async {
+                self.configureCollectionView()
+                self.getTexts()
+                self.configureDataSource()
+            }
+        }
+    }
 }
+
+
+extension SearchVC: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("select")
+    }
+}
+
+
+extension SearchVC: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        userLocation = locations.last!
+    }
+}
+
 
 extension SearchVC: FLHeaderSVDelegate {
     func requestToPushProductVC() {}
@@ -229,7 +325,63 @@ extension SearchVC: FLHeaderSVDelegate {
 }
 
 
-
+extension SearchVC {
+    func configureResultCollectionView() {
+        view.removeSubViews(collectionView, label, imageView)
+        resultCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createListFlowLayout(in: self.view, hasHeader: false))
+        resultCollectionView.backgroundColor = FLColors.white
+        resultCollectionView.register(ShopListCell.self, forCellWithReuseIdentifier: ShopListCell.reuseID)
+        resultCollectionView.register(EventListCell.self, forCellWithReuseIdentifier: EventListCell.reuseID)
+        view.addSubview(resultCollectionView)
+        resultCollectionView.pinToEdges(of: view)
+        resultCollectionView.delegate = self
+    }
+    
+    
+    func configureCell(cell: UICollectionViewCell) -> UICollectionViewCell {
+        cell.layer.shadowColor     = FLColors.black.cgColor
+        cell.layer.shadowOpacity   = 0.06
+        cell.layer.shadowOffset    = CGSize(width: 0, height: 3)
+        cell.layer.masksToBounds   = false
+        cell.layer.shadowRadius    = 3
+        return cell
+    }
+    
+    func configureResultDataSource() {
+        resultDataSource = UICollectionViewDiffableDataSource<Int, SearchResult>(collectionView: resultCollectionView) {
+            (collectionView, indexPath, searchResult) -> UICollectionViewCell? in
+            
+            let kind = searchResult.kind
+            
+            if kind == "shop" {
+                if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShopListCell.reuseID, for: indexPath) as? ShopListCell {
+                    let shopLocation = CLLocation(latitude: searchResult.location![0], longitude: searchResult.location![1])
+                    let distance = self.userLocation?.distance(from: shopLocation) ?? 0
+                    cell.set(searchResult: searchResult, distance: distance)
+                    
+                    return self.configureCell(cell: cell)
+                } else { fatalError("Cannot create new cell") }
+            } else {
+                
+                if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EventListCell.reuseID, for: indexPath) as? EventListCell {
+                    cell.set(searchResult: searchResult)
+                    
+                    return self.configureCell(cell: cell)
+                } else { fatalError("Cannot create new cell") }
+            }
+        }
+    }
+    
+    
+    func updateResultData(on results: [SearchResult]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Int, SearchResult>()
+        snapshot.appendSections([0])
+        snapshot.appendItems(results)
+        DispatchQueue.main.async {
+            self.resultDataSource.apply(snapshot, animatingDifferences: false)
+        }
+    }
+}
 
 
 

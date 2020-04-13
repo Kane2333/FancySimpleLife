@@ -246,7 +246,7 @@ extension ShopInfoVC {
             switch section {
             case .shop:
                 if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShopCell.reuseID, for: indexPath) as? ShopCell {
-                    cell.set(title: shopInfo.shopTitle, address: shopInfo.shopAddress, time: shopInfo.shopOpeningTime, imageURL: shopInfo.shopImageURL, hasEntryButton: true)
+                    cell.set(shopInfo: shopInfo)
                     cell.layer.shadowColor     = FLColors.black.cgColor
                     cell.layer.shadowOpacity   = 0.06
                     cell.layer.shadowOffset    = CGSize(width: 0, height: 3)
@@ -257,27 +257,29 @@ extension ShopInfoVC {
                 } else { fatalError("Cannot create new cell") }
             case .event:
                 if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EventCell.reuseID, for: indexPath) as? EventCell {
-                    cell.set(title: shopInfo.eventTitle, description: shopInfo.eventDescription, startDate: shopInfo.eventStartDate, endDate: shopInfo.eventEndDate, price: shopInfo.eventPrice, originalPrice: shopInfo.eventOriginalPirce, imageURL: shopInfo.eventImageURL)
+                    cell.set(shopInfo: shopInfo)
                     
                     return self.configureCell(cell: cell)
                 } else { fatalError("Cannot create new cell") }
             case .product:
                 if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCell.reuseID, for: indexPath) as? ProductCell {
-                    cell.set(imageURL: shopInfo.productImageURLs[indexPath.item])
+                    //cell.prepareForReuse()
+                    cell.set(shopInfo: shopInfo, item: indexPath.row)
                     bottomLine.frame = CGRect(x: 0.0, y: cell.frame.height - 1, width: cell.frame.width, height: 1.0)
                     cell.layer.addSublayer(bottomLine)
                     return cell
                 } else { fatalError("Cannot create new cell") }
             case .review:
                 if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewCell.reuseID, for: indexPath) as? ReviewCell {
-                    cell.set(avatarImageURL: shopInfo.reviewAvatarImageURL, username: shopInfo.reviewUsername, content: shopInfo.reviewContent, likeCount: shopInfo.reviewLikeAmount, reviewImageURLs: shopInfo.reviewImageURLs)
+                    cell.set(shopInfo: shopInfo)
                     bottomLine.frame = CGRect(x: 0.0, y: cell.frame.height - 1, width: cell.frame.width, height: 1.0)
                     cell.layer.addSublayer(bottomLine)
                     return cell
                 } else { fatalError("Cannot create new cell") }
             case .recommendation:
                 if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendationCell.reuseID, for: indexPath) as? RecommendationCell {
-                    cell.set(title: shopInfo.recommendShopTitles[indexPath.item], imageURL: shopInfo.recommendShopImages[indexPath.item], score: shopInfo.recommendShopScores[indexPath.item])
+                    //cell.prepareForReuse()
+                    cell.set(shopInfo: shopInfo, item: indexPath.item)
                     
                     return self.configureCell(cell: cell)
                 } else { fatalError("Cannot create new cell") }
@@ -320,7 +322,11 @@ extension ShopInfoVC {
             snapshot.appendItems(shopInfo[i])
             i += 1
         }
-        DispatchQueue.main.async {self.dataSource.apply(snapshot, animatingDifferences: true)}
+        DispatchQueue.main.async {
+             self.collectionView.reloadData()
+            self.dataSource.apply(snapshot, animatingDifferences: false)
+            
+        }
     }
     
     private func pushProductVC() {

@@ -36,16 +36,18 @@ class EventCell: UICollectionViewCell {
     }
     
     
-    func set(title: String, description: String, startDate: Date, endDate: Date, price: Double, originalPrice: Double, imageURL: String) {
-        let priceStr = String(format: "%.2f", price)
-        let originalPriceStr = String(format: "%.2f", originalPrice)
+    func set(shopInfo: ShopInfo) {
+        //imageView.image = nil
+        imageView.downloadImage(fromURL: shopInfo.eventImageURL)
         
-        titleLabel.text         = title
-        descriptionLabel.text   = description
-        timeLabel.text          = "\(startDate.converToYearMonthDayFormat())至\(endDate.converToYearMonthDayFormat())"
+        let priceStr = String(format: "%.2f", shopInfo.eventPrice)
+        let originalPriceStr = String(format: "%.2f", shopInfo.eventOriginalPirce)
+        
+        titleLabel.text         = shopInfo.eventTitle
+        descriptionLabel.text   = shopInfo.eventDescription
+        timeLabel.text          = "\(shopInfo.eventStartDate.converToYearMonthDayFormat())至\(shopInfo.eventEndDate.converToYearMonthDayFormat())"
         priceLabel.text         = "$\(priceStr)"
         originalPriceLabel.set(text: "$\(originalPriceStr)")
-        imageView.downloadImage(fromURL: imageURL)
     }
     
     
@@ -74,6 +76,7 @@ class EventCell: UICollectionViewCell {
     private func configureUI() {
         addSubview(containerView)
         containerView.addSubviews(imageView, titleLabel, descriptionLabel, timeLabel, priceLabel, originalPriceLabel, buyButton)
+        
         
         containerView.backgroundColor       = FLColors.white
         containerView.layer.cornerRadius    = 6

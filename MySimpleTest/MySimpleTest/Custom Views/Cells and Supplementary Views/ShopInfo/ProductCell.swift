@@ -26,14 +26,14 @@ class ProductCell: UICollectionViewCell {
     }
     
     
-    func set(imageURL: String) {
-        imageView.downloadImage(fromURL: imageURL)
+    func set(shopInfo: ShopInfo, item: Int) {
+        //imageView.image = nil
+        imageView.downloadImage(fromURL: shopInfo.productImageURLs[item])
     }
     
     
     private func configureUI() {
         addSubview(imageView)
-    
         imageView.layer.cornerRadius    = 3
         imageView.layer.masksToBounds   = true
         

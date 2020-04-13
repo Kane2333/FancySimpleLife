@@ -41,13 +41,23 @@ class ShopCell: UICollectionViewCell {
     }
     
     
-    func set(title: String, address: String, time: String, imageURL: String, hasEntryButton: Bool) {
+    func set(title: String, address: String, time: String, imageURL: String) {
+        imageView.downloadImage(fromURL: imageURL)
         titleLabel.text     = title
         addressLabel.text   = address
         timeLabel.text      = "营业时间： \(time)"
-        imageView.downloadImage(fromURL: imageURL)
-        if hasEntryButton { configureEntryButton() }
+
     }
+    
+    func set(shopInfo: ShopInfo) {
+        //imageView.image = nil
+        imageView.downloadImage(fromURL: shopInfo.shopImageURL)
+        titleLabel.text     = shopInfo.shopTitle
+        addressLabel.text   = shopInfo.shopAddress
+        timeLabel.text      = "营业时间： \(shopInfo.shopOpeningTime)"
+        configureEntryButton()
+    }
+
     
     func activateLikeButton(bool: Bool) {
         isOn = bool
@@ -85,6 +95,7 @@ class ShopCell: UICollectionViewCell {
     
     private func configureUI() {
         addSubview(containerView)
+        
         containerView.addSubviews(imageView, titleLabel, addressLabel, timeLabel, likeButton, shareButton)
         
         containerView.backgroundColor       = FLColors.white

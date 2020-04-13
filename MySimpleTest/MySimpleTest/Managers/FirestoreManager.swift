@@ -237,39 +237,77 @@ class FirestoreManager {
                 }
                 completed(.success(reviewList))
             } else { completed(.failure(.invalidData)) }
-            
         }
     }
     
     
+    func getSearchResults(keyword: String,completed: @escaping (Result<[SearchResult], FLError>) -> Void) {
+        db.collection("Shop").whereField("keywords", arrayContains: keyword).order(by: "priority").getDocuments { (snapshot, error) in
+            var resultList: [SearchResult] = []
+            if error == nil && snapshot != nil {
+                for document in snapshot!.documents {
+                    let id              = document.documentID
+                    let title           = document.get("title") as! String
+                    let description     = document.get("secondaryTitle") as! String
+                    let score           = document.get("score") as! Double
+                    let imageURL        = document.get("imageURL") as! String
+                    let location        = document.get("location") as! [Double]
+                    let result          = SearchResult(id: UUID(), shopID: id, imageURL: imageURL, title: title, description: description, score: score, location: location, kind: "shop")
+                    resultList.append(result)
+                }
+                self.db.collection("Event").whereField("keywords", arrayContains: keyword).order(by: "priority").getDocuments { (snapshot, error) in
+                    if error == nil && snapshot != nil {
+                        for document in snapshot!.documents {
+                            let shopId              = document.get("shopID") as! String
+                            let title           = document.get("title") as! String
+                            let description     = document.get("description") as! String
+                            let imageURL        = document.get("imageURL") as! String
+                            let startTS             = document.get("startTime") as! Timestamp
+                            let startDate           = startTS.dateValue()
+                            let endTS               = document.get("endTime") as! Timestamp
+                            let endDate             = endTS.dateValue()
+                            let price           = document.get("price") as! Double
+                            let originalPrice   = document.get("originalPrice") as! Double
+                            let result          = SearchResult(id: UUID(), shopID: shopId, imageURL: imageURL, title: title, description: description, price: price, originalPrice: originalPrice, eventStartDate: startDate, eventEndDate: endDate, kind: "event")
+                            resultList.append(result)
+                        }
+                        completed(.success(resultList))
+                    } else { completed(.failure(.invalidData)) }
+                }
+            } else { completed(.failure(.invalidData)) }
+        }
+    }
     
-    func downloadImage(from urlString: String, completed: @escaping (UIImage?) -> Void) {
+    
+    func downloadImage(from urlString: String, completed: @escaping (UIImage) -> Void) {
         let cacheKey = NSString(string: urlString)
         
         if let image = cache.object(forKey: cacheKey) {
             DispatchQueue.main.async { completed(image) }
             return
         }
-        
-        guard let url = URL(string: urlString) else {
-            completed(nil)
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
-            guard let self = self,
-                error == nil,
-                let response = response as? HTTPURLResponse, response.statusCode == 200,
-                let data = data,
-                let image = UIImage(data: data) else {
-                    completed(nil)
-                    return
+        DispatchQueue.main.async {
+            guard let url = URL(string: urlString) else {
+                completed(UIImage(named: "avatar-placeholder")!)
+                return
             }
             
-            self.cache.setObject(image, forKey: cacheKey)
-            DispatchQueue.main.async { completed(image) }
+            let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
+                guard let self = self,
+                    error == nil,
+                    let response = response as? HTTPURLResponse, response.statusCode == 200,
+                    let data = data,
+                    let image = UIImage(data: data) else {
+                        completed(UIImage(named: "avatar-placeholder")!)
+                        return
+                }
+                
+                self.cache.setObject(image, forKey: cacheKey)
+                DispatchQueue.main.async { completed(image) }
+            }
+            task.resume()
         }
-        task.resume()
+        
     }
     
 }

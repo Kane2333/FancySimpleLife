@@ -43,8 +43,8 @@ class ReviewCell: UICollectionViewCell {
     }
     
     
-    func set(avatarImageURL: String?, username: String?, content: String?, likeCount: Double?, reviewImageURLs: [String]?) {
-        if avatarImageURL == nil {
+    func set(shopInfo: ShopInfo) {
+        if shopInfo.reviewAvatarImageURL == nil {
             self.removeSubViews(avatarImageView, usernameLabel, contentLabel, likeButton, collectionView)
             label.text = "暂无评论..."
             NSLayoutConstraint.activate([
@@ -54,14 +54,14 @@ class ReviewCell: UICollectionViewCell {
                 label.heightAnchor.constraint(equalToConstant: 50)
             ])
         } else {
-            avatarImageView.downloadImage(fromURL: avatarImageURL!)
-            usernameLabel.text  = username
-            contentLabel.text   = content
-            countLabel.text     = "\(Int(likeCount!))"
-            if reviewImageURLs!.count == 0 {
+            avatarImageView.downloadImage(fromURL: shopInfo.reviewAvatarImageURL!)
+            usernameLabel.text  = shopInfo.reviewUsername
+            contentLabel.text   = shopInfo.reviewContent
+            countLabel.text     = "\(Int(shopInfo.reviewLikeAmount!))"
+            if shopInfo.reviewImageURLs!.count == 0 {
                 self.removeSubViews(collectionView)
             } else {
-                imageURLs           = reviewImageURLs!
+                imageURLs       = shopInfo.reviewImageURLs!
                 updateData(images:imageURLs)
             }
         }
@@ -83,7 +83,6 @@ class ReviewCell: UICollectionViewCell {
         addSubviews(avatarImageView, usernameLabel, contentLabel, likeButton, countLabel)
         contentLabel.adjustsFontSizeToFitWidth  = false
         usernameLabel.adjustsFontSizeToFitWidth = false
-        
         contentLabel.numberOfLines = 2
         likeButton.backgroundColor  = FLColors.white
         likeButton.setImage(FLImages.smallHeart, for: .normal)

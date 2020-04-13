@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 
 
-class ShopVC: UIViewController {
+class ShopVC: FLDataLoadingVC {
     
     static let sectionHeaderElementKind = "section-header-element-kind"
     
@@ -22,6 +22,7 @@ class ShopVC: UIViewController {
     private var shopList: [Shop]        = []
     private var filterShopList: [Shop]  = []
     private var dataList: [[Shop]]      = [[], []]
+    private var isLoading: Bool         = false
     
     let locationManager = CLLocationManager()
     var userLocation: CLLocation?
@@ -110,7 +111,7 @@ class ShopVC: UIViewController {
     
     
     private func configureCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createListFlowLayout(in: view))
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createListFlowLayout(in: view, hasHeader: true))
         collectionView.delegate = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(ShopListCell.self, forCellWithReuseIdentifier: ShopListCell.reuseID)
@@ -128,7 +129,8 @@ class ShopVC: UIViewController {
                 else { fatalError("Cannot create new cell") }
             let shopLocation = CLLocation(latitude: shop.location[0], longitude: shop.location[1])
             let distance = self.userLocation?.distance(from: shopLocation) ?? 0
-            cell.set(imageURL: shop.imageURL, title: shop.title, secondaryTitle: shop.secondaryTitle, distance: distance, score: shop.score)
+            //cell.prepareForReuse()
+            cell.set(shop: shop, distance: distance)
             cell.layer.shadowColor     = FLColors.black.cgColor
             cell.layer.shadowOpacity   = 0.06
             cell.layer.shadowOffset    = CGSize(width: 0, height: 3)
@@ -171,27 +173,36 @@ class ShopVC: UIViewController {
             snapshot.appendSections([section])
             snapshot.appendItems(shops[section])
         }
-        DispatchQueue.main.async {self.dataSource.apply(snapshot, animatingDifferences: true)}
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+            self.dataSource.apply(snapshot, animatingDifferences: false)
+            
+        }
     }
     
     
     func getShopItems() {
+        showLoadingView()
+        isLoading = true
         FirestoreManager.shared.getShopList() { [weak self] result in
             guard let self = self else { return }
-            
+
             switch result {
             case .success(let shopList):
                 self.shopList = shopList
                 if self.category == nil {
                     self.dataList[1] = shopList
-                    self.updateData(on: self.dataList)
+
                 } else {
                     self.filterShop(category: self.category!)
                 }
+                 self.updateData(on: self.dataList)
                
             case .failure(let error):
                 self.presentFLAlertOnMainThread(title: "错误！", message: error.rawValue, buttonTitle: "确认")
             }
+                        self.dismissLoadingView()
+            self.isLoading = false
         }
     }
     
@@ -214,31 +225,10 @@ class ShopVC: UIViewController {
         case "推荐":
             filterShopList.removeAll()
             filterShopList = shopList
-        case "餐饮":
+        case "餐饮", "生鲜", "娱乐", "旅行":
             filterShopList.removeAll()
             for shop in shopList {
-                if shop.category == "food" {
-                    self.filterShopList.append(shop)
-                }
-            }
-        case "生鲜":
-            filterShopList.removeAll()
-            for shop in shopList {
-                if shop.category == "fresh" {
-                    self.filterShopList.append(shop)
-                }
-            }
-        case "娱乐":
-            filterShopList.removeAll()
-            for shop in shopList {
-                if shop.category == "fun" {
-                    self.filterShopList.append(shop)
-                }
-            }
-        case "旅行":
-            filterShopList.removeAll()
-            for shop in shopList {
-                if shop.category == "travel" {
+                if shop.category == category {
                     self.filterShopList.append(shop)
                 }
             }
@@ -252,7 +242,6 @@ class ShopVC: UIViewController {
             break
         }
         dataList[1] = filterShopList
-        updateData(on: dataList)
     }
     
 
@@ -266,8 +255,10 @@ class ShopVC: UIViewController {
 
 extension ShopVC: ShopHeaderSVDelegate {
     func didRequestToUpdateShops(for category: String) {
-        filterShop(category: category)
         
+        filterShop(category: category)
+        updateData(on: self.dataList)
+        collectionView.scrollToItem(at: IndexPath(item: 0, section: 1), at: .top, animated: true)
     }
 }
 

@@ -29,10 +29,11 @@ class RecommendationCell: UICollectionViewCell {
     }
     
     
-    func set(title: String, imageURL: String, score: Double) {
-        titleLabel.text = title
-        imageView.downloadImage(fromURL: imageURL)
-        let scoreStr    = String(format: "%.1f", score)
+    func set(shopInfo: ShopInfo, item: Int) {
+        //imageView.image = nil
+        imageView.downloadImage(fromURL: shopInfo.recommendShopImages[item])
+        titleLabel.text = shopInfo.recommendShopTitles[item]
+        let scoreStr    = String(format: "%.1f", shopInfo.recommendShopScores[item])
         scoreLabel.text = scoreStr
     }
     
@@ -45,6 +46,7 @@ class RecommendationCell: UICollectionViewCell {
 
         starSymbol.image                                        = FLImages.star
         starSymbol.translatesAutoresizingMaskIntoConstraints    = false
+        
         
         imageView.layer.cornerRadius    = 3
         imageView.layer.masksToBounds   = true

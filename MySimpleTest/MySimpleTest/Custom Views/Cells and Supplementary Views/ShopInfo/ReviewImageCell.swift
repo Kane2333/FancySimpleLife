@@ -25,12 +25,14 @@ class ReviewImageCell: UICollectionViewCell {
     
     
     func set(imageURL: String) {
+        //imageView.image = nil
         imageView.downloadImage(fromURL: imageURL)
     }
     
     
     private func configure() {
         addSubview(imageView)
+        
         imageView.pinToEdges(of: contentView)
     }
 }

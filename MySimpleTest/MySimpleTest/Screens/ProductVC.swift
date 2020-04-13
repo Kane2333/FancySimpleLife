@@ -94,15 +94,14 @@ class ProductVC: UIViewController {
                 guard let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: ShopCell.reuseID, for: indexPath) as? ShopCell
                     else { fatalError("Cannot create new cell") }
 
-                cell.set(title: self.shopTitle, address: self.shopAddress, time: self.shopOpenTime, imageURL: self.shopImageURL, hasEntryButton: false)
+                cell.set(title: self.shopTitle, address: self.shopAddress, time: self.shopOpenTime, imageURL: self.shopImageURL)
                 
                 return self.configureCell(cell: cell)
                 
             } else {
                 guard let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: ProductListCell.reuseID, for: indexPath) as? ProductListCell
                     else { fatalError("Cannot create new cell") }
-                
-                cell.set(imageURL: product.imageURL, title: product.title, description: product.description, sale: product.sale, price: product.price)
+                cell.set(product: product)
                 
                 return self.configureCell(cell: cell)
             }
@@ -130,7 +129,11 @@ class ProductVC: UIViewController {
         for section in [0,1] {
             snapshot.appendSections([section])
             snapshot.appendItems(products[section])
-            DispatchQueue.main.async {self.dataSource.apply(snapshot, animatingDifferences: true)}
+        }
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+            self.dataSource.apply(snapshot, animatingDifferences: false)
+            
         }
     }
     

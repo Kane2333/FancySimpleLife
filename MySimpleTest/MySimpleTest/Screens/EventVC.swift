@@ -94,7 +94,7 @@ class EventVC: UIViewController {
                 guard let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: ShopCell.reuseID, for: indexPath) as? ShopCell
                     else { fatalError("Cannot create new cell") }
                 
-                cell.set(title: self.shopTitle, address: self.shopAddress, time: self.shopOpenTime, imageURL: self.shopImageURL, hasEntryButton: false)
+                cell.set(title: self.shopTitle, address: self.shopAddress, time: self.shopOpenTime, imageURL: self.shopImageURL)
                 
                 return self.configureCell(cell: cell)
                 
@@ -102,7 +102,7 @@ class EventVC: UIViewController {
                 guard let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: EventListCell.reuseID, for: indexPath) as? EventListCell
                     else { fatalError("Cannot create new cell") }
                 
-                cell.set(imageURL: event.imageURL, title: event.title, description: event.description, startDate: event.startDate, endDate: event.endDate, price: event.price, originalPrice: event.originalPrice)
+                cell.set(event: event)
                 return self.configureCell(cell: cell)
             }
         }

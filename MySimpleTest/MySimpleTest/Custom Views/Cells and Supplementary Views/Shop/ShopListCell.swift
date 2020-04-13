@@ -32,7 +32,17 @@ class ShopListCell: UICollectionViewCell {
     }
     
     
-    func set(imageURL: String, title: String, secondaryTitle: String, distance: Double, score: Double) {
+    func set(shop: Shop, distance: Double) {
+        setData(title: shop.title, secondaryTitle: shop.secondaryTitle, imageURL: shop.imageURL, score: shop.score, distance: distance)
+    }
+    
+    
+    func set(searchResult: SearchResult, distance: Double) {
+        setData(title: searchResult.title, secondaryTitle: searchResult.description, imageURL: searchResult.imageURL, score: searchResult.score!, distance: distance)
+    }
+    
+    
+    private func setData(title: String, secondaryTitle: String, imageURL: String, score: Double, distance: Double) {
         imageView.downloadImage(fromURL: imageURL)
         titleLabel.text = title
         secondaryTitleLabel.text = secondaryTitle

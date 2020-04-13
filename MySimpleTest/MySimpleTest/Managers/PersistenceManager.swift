@@ -28,7 +28,7 @@ enum PersistenceManager {
                 case .add:
                     guard !histories.contains(history!) else { return }
                     
-                    histories.append(history!)
+                    histories.insert(history!, at: 0)
                     
                 case .remove:
                     histories.removeAll() // removeall where
