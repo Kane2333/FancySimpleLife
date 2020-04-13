@@ -35,17 +35,17 @@ class SearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = FLColors.white
+        extendedLayoutIncludesOpaqueBars = true
         configureCollectionView()
-        getTexts()
+        getTexts(onlyHistory: false)
         configureDataSource()
-        configureSearchController()
         customCancelButton()
 
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        configureSearchController()
         configureNavigationBar()
         searchController.hidesNavigationBarDuringPresentation           = false
         searchController.searchBar.showsCancelButton                    = false
@@ -72,7 +72,7 @@ class SearchVC: UIViewController {
         collectionView.backgroundColor = FLColors.white
         view.addSubviews(collectionView)
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 13),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -158,25 +158,28 @@ class SearchVC: UIViewController {
     }
     
     
-    private func getTexts() {
+    private func getTexts(onlyHistory: Bool) {
         PersistenceManager.retrieveHistories { [weak self] result in
             guard let self = self else { return }
             
             switch result {
             case .success(let histories):
                 self.textList[1] = histories
-                FirestoreManager.shared.getHotSearch() { [weak self] result in
-                    guard let self = self else { return }
-                    
-                    switch result {
-                    case .success(let hotSearch):
-                        self.textList[0] = hotSearch
-                        self.updateData(on: self.textList)
+                if !onlyHistory {
+                    FirestoreManager.shared.getHotSearch() { [weak self] result in
+                        guard let self = self else { return }
                         
-                    case .failure(let error):
-                        print(error.rawValue)
+                        switch result {
+                        case .success(let hotSearch):
+                            self.textList[0] = hotSearch
+                            self.updateData(on: self.textList)
+                            
+                        case .failure(let error):
+                            print(error.rawValue)
+                        }
                     }
-                }
+                } else { self.updateData(on: self.textList) }
+                
             case .failure(let error):
                 print(error)
             }
@@ -315,7 +318,7 @@ extension SearchVC: UISearchBarDelegate {
                 }
                 DispatchQueue.main.async {
                     self.configureCollectionView()
-                    self.getTexts()
+                    self.getTexts(onlyHistory: true)
                     self.configureDataSource()
                 }
             }
@@ -331,9 +334,20 @@ extension SearchVC: UICollectionViewDelegate {
             self.searchController.searchBar.text = textList[indexPath.section][indexPath.item].name
             activateSearchFunction()
         } else {
-            print("select: shop")
+            FirestoreManager.shared.getShop(shopId: self.resultList[indexPath.item].shopID) { [weak self] result in
+                guard let self = self else { return }
+                
+                switch result {
+                case .success(let shop):
+                    let shopInfo = ShopInfoVC()
+                    shopInfo.shop = shop
+                    self.navigationController?.pushViewController(shopInfo, animated: true)
+                case .failure(let error):
+                    self.presentFLAlertOnMainThread(title: "错误！", message: error.rawValue, buttonTitle: "确认")
+                }
+                
+            }
         }
-
     }
 }
 
@@ -364,7 +378,13 @@ extension SearchVC {
         resultCollectionView.register(EventListCell.self, forCellWithReuseIdentifier: EventListCell.reuseID)
         view.addSubview(resultCollectionView)
         view.bringSubviewToFront(resultCollectionView)
-        resultCollectionView.pinToEdges(of: view)
+        resultCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            resultCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15),
+            resultCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            resultCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            resultCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
         resultCollectionView.delegate = self
     }
     

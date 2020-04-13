@@ -38,13 +38,7 @@ class ShopInfoVC: UIViewController {
         }
     }
     
-    var shopID: String!
-    var shopTitle: String!
-    var shopAddress: String!
-    var shopOpenTime: String!
-    var shopImageURL: String!
-    var shopCategory: String!
-    var shopKind: String!
+    var shop: Shop!
     var totalReviews: Int = 0
     var recommendationShops: [Shop] = []
     var dataList: [[ShopInfo]] = []
@@ -75,6 +69,7 @@ class ShopInfoVC: UIViewController {
     
     private func configureUI() {
         view.addSubview(collectionView)
+        extendedLayoutIncludesOpaqueBars = true
         collectionView.pinToEdges(of: view)
     }
     
@@ -84,12 +79,12 @@ class ShopInfoVC: UIViewController {
         var productList: [Product] = []
         var firstReview: Review?=nil
         var shopList: [Shop] = []
-        FirestoreManager.shared.getEvents(for: shopID, isLimited: true) { [weak self] result in
+        FirestoreManager.shared.getEvents(for: shop.id, isLimited: true) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let events):
                 firstEvent = events[0]
-                FirestoreManager.shared.getProducts(for: self.shopID, isLimited: true) { [weak self] result in
+                FirestoreManager.shared.getProducts(for: self.shop.id, isLimited: true) { [weak self] result in
                     guard let self = self else { return }
                     switch result {
                     case .success(let products):
@@ -98,7 +93,7 @@ class ShopInfoVC: UIViewController {
                         for product in productList {
                             productImages.append(product.imageURL)
                         }
-                        FirestoreManager.shared.getReviews(for: self.shopID, isLimited: true) { [weak self] result in
+                        FirestoreManager.shared.getReviews(for: self.shop.id, isLimited: true) { [weak self] result in
                             guard let self = self else { return }
                             
                             switch result {
@@ -108,7 +103,7 @@ class ShopInfoVC: UIViewController {
                                     firstReview = reviews[0]
                                 }
 
-                                FirestoreManager.shared.getShopList(kind: self.shopKind, category: self.shopCategory, shopID: self.shopID) { [weak self] result in
+                                FirestoreManager.shared.getShopList(kind: self.shop.kind, category: self.shop.category, shopID: self.shop.id) { [weak self] result in
                                     guard let self = self else { return }
                                     
                                     switch result {
@@ -128,7 +123,7 @@ class ShopInfoVC: UIViewController {
                                             shopScores.append(shop.score)
                                         }
                                         
-                                        var shopInfo = ShopInfo(id: UUID(), shopID: self.shopID, shopImageURL: self.shopImageURL, shopTitle: self.shopTitle, shopAddress: self.shopAddress, shopOpeningTime: self.shopOpenTime, eventID: firstEvent.id, eventTitle: firstEvent.title, eventDescription: firstEvent.description, eventStartDate: firstEvent.startDate, eventEndDate: firstEvent.endDate, eventPrice: firstEvent.price, eventOriginalPirce: firstEvent.originalPrice, eventImageURL: firstEvent.imageURL, productImageURLs: productImages, reviewUsername: nil, reviewAvatarImageURL: nil, reviewContent: nil, reviewImageURLs: nil, reviewAmount: self.totalReviews, reviewLikeAmount: nil, recommendShopIDs: shopIDs, recommendShopTitles: shopTitles, recommendShopImages: shopImages, recommendShopScores: shopScores)
+                                        var shopInfo = ShopInfo(id: UUID(), shopID: self.shop.id, shopImageURL: self.shop.imageURL, shopTitle: self.shop.title, shopAddress: self.shop.address, shopOpeningTime: self.shop.openingTime, eventID: firstEvent.id, eventTitle: firstEvent.title, eventDescription: firstEvent.description, eventStartDate: firstEvent.startDate, eventEndDate: firstEvent.endDate, eventPrice: firstEvent.price, eventOriginalPirce: firstEvent.originalPrice, eventImageURL: firstEvent.imageURL, productImageURLs: productImages, reviewUsername: nil, reviewAvatarImageURL: nil, reviewContent: nil, reviewImageURLs: nil, reviewAmount: self.totalReviews, reviewLikeAmount: nil, recommendShopIDs: shopIDs, recommendShopTitles: shopTitles, recommendShopImages: shopImages, recommendShopScores: shopScores)
                                         
                                         if firstReview != nil {
                                             shopInfo.reviewUsername = firstReview!.username
@@ -199,7 +194,7 @@ extension ShopInfoVC {
             section.interGroupSpacing = 11
             section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 13, bottom: 11, trailing: 13)
 
-            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(5))
+            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
             let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: ShopInfoVC.sectionHeaderElementKind, alignment: .top)
             section.boundarySupplementaryItems = [sectionHeader]
             return section
@@ -293,6 +288,8 @@ extension ShopInfoVC {
             switch section {
             case 0:
                 supplementaryView.removeView()
+                NSLayoutConstraint.activate([ supplementaryView.heightAnchor.constraint(equalToConstant: 5) ])
+                
             case 1:
                 supplementaryView.set(title: sectionTitle, hasButton: true, hasDeleteButton: false)
                 supplementaryView.addTargetToPushEventVC()
@@ -331,21 +328,13 @@ extension ShopInfoVC {
     
     private func pushProductVC() {
         let destVC  = ProductVC()
-        destVC.shopID       = shopID
-        destVC.shopImageURL = shopImageURL
-        destVC.shopOpenTime = shopOpenTime
-        destVC.shopAddress  = shopAddress
-        destVC.shopTitle    = shopTitle
+        destVC.shop = shop
         navigationController?.pushViewController(destVC, animated: true)
     }
     
     private func pushEventVC() {
         let destVC  = EventVC()
-        destVC.shopID       = shopID
-        destVC.shopImageURL = shopImageURL
-        destVC.shopOpenTime = shopOpenTime
-        destVC.shopAddress  = shopAddress
-        destVC.shopTitle    = shopTitle
+        destVC.shop = shop
         navigationController?.pushViewController(destVC, animated: true)
     }
 }
@@ -357,13 +346,7 @@ extension ShopInfoVC: UICollectionViewDelegate {
             let activeArray = recommendationShops
             let shop        = activeArray[indexPath.item]
             let destVC      = ShopInfoVC()
-            destVC.shopCategory = shop.category
-            destVC.shopImageURL = shop.imageURL
-            destVC.shopOpenTime = shop.openingTime
-            destVC.shopTitle    = shop.title
-            destVC.shopID       = shop.id
-            destVC.shopAddress  = shop.address
-            destVC.shopKind     = shop.kind
+            destVC.shop     = shop
             navigationController?.pushViewController(destVC, animated: true)
         }
     }

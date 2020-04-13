@@ -29,11 +29,7 @@ class EventVC: UIViewController {
     private var eventList: [Event]        = []
     private var dataList: [[Event]]      = [[], []]
     
-    var shopID: String!
-    var shopTitle: String!
-    var shopAddress: String!
-    var shopOpenTime: String!
-    var shopImageURL: String!
+    var shop: Shop!
     
     
     override func viewDidLoad() {
@@ -94,7 +90,7 @@ class EventVC: UIViewController {
                 guard let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: ShopCell.reuseID, for: indexPath) as? ShopCell
                     else { fatalError("Cannot create new cell") }
                 
-                cell.set(title: self.shopTitle, address: self.shopAddress, time: self.shopOpenTime, imageURL: self.shopImageURL)
+                cell.set(title: self.shop.title, address: self.shop.address, time: self.shop.openingTime, imageURL: self.shop.imageURL)
                 
                 return self.configureCell(cell: cell)
                 
@@ -136,7 +132,7 @@ class EventVC: UIViewController {
     
     
     func getEventList() {
-        FirestoreManager.shared.getEvents(for: shopID, isLimited: false) { [weak self] result in
+        FirestoreManager.shared.getEvents(for: shop.id, isLimited: false) { [weak self] result in
             guard let self = self else { return }
             
             switch result {

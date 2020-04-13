@@ -19,7 +19,7 @@ enum PersistenceManager {
     
     enum Keys {
         static let searchHistory    = "searchHistory"
-        static let hotSearch        = "hotSearch"
+
         
     }
     
@@ -35,7 +35,7 @@ enum PersistenceManager {
                     histories.insert(history!, at: 0)
                     
                 case .remove:
-                    histories.removeAll() // removeall where
+                    histories.removeAll()
                 }
                 
                 completed(saveHistories(histories: histories))
@@ -78,3 +78,8 @@ enum PersistenceManager {
     }
 }
 
+extension SearchTag: Equatable {
+    static func == (lhs: SearchTag, rhs: SearchTag) -> Bool {
+        return lhs.name == rhs.name
+    }
+}

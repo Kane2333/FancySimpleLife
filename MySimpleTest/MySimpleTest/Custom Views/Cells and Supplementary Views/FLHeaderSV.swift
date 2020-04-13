@@ -137,10 +137,10 @@ class FLHeaderSV: UICollectionReusableView {
         addSubview(titleLabel)
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -14),
+            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            titleLabel.heightAnchor.constraint(equalToConstant: 22),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            titleLabel.widthAnchor.constraint(equalTo: titleLabel.widthAnchor),
+            titleLabel.widthAnchor.constraint(equalTo: titleLabel.widthAnchor)
         ])
     }
 }

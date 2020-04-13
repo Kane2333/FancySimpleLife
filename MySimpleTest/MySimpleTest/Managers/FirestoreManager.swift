@@ -72,6 +72,26 @@ class FirestoreManager {
     }
     
     
+    func getShop(shopId: String, completed: @escaping (Result<Shop, FLError>) -> Void) {
+        db.collection("Shop").document(shopId).getDocument { (document, error) in
+            if document != nil && error == nil {
+                let imageURL = document!.get("imageURL") as! String
+                let title    = document!.get("title") as! String
+                let secondaryTitle = document!.get("secondaryTitle") as! String
+                let score = document!.get("score") as! Double
+                let openTime = document!.get("openingTime") as! String
+                let category = document!.get("category") as! String
+                let address = document!.get("address") as! String
+                let kind = document!.get("kind") as! String
+                let location = document!.get("location") as! [Double]
+        
+                let shop = Shop(id: shopId, imageURL: imageURL, title: title, secondaryTitle: secondaryTitle, distance: 0, score: score, location: location, openingTime: openTime, category: category, address: address, kind: kind)
+                completed(.success(shop))
+            } else { completed(.failure(.invalidData)) }
+        }
+    }
+    
+    
     func getShopList(kind: String?=nil, category: String?=nil, shopsToGo: Int = 0, shopID: String?=nil, completed: @escaping (Result<[Shop], FLError>) -> Void) {
         let shopRef = db.collection("Shop")
         if category == nil && kind == nil {

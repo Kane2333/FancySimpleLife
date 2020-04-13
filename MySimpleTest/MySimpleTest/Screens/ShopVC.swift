@@ -283,13 +283,7 @@ extension ShopVC: UICollectionViewDelegate {
         let activeArray = dataList[1]
         let shop        = activeArray[indexPath.item]
         let destVC      = ShopInfoVC()
-        destVC.shopCategory = shop.category
-        destVC.shopImageURL = shop.imageURL
-        destVC.shopOpenTime = shop.openingTime
-        destVC.shopTitle    = shop.title
-        destVC.shopID       = shop.id
-        destVC.shopAddress  = shop.address
-        destVC.shopKind     = shop.kind
+        destVC.shop     = shop
         navigationController?.pushViewController(destVC, animated: true)
     }
 }

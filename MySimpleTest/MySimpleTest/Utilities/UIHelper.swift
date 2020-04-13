@@ -55,7 +55,7 @@
         section.interGroupSpacing           = 14
         section.contentInsets               = NSDirectionalEdgeInsets(top: 0, leading: 13, bottom: 0, trailing: 13)
                 
-        let headerFooterSize                = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(5))
+        let headerFooterSize                = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
         let sectionHeader                   = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerFooterSize, elementKind: HomeVC.sectionHeaderElementKind, alignment: .top)
         section.boundarySupplementaryItems  = [sectionHeader]
         let layout                          = UICollectionViewCompositionalLayout(section: section)
@@ -97,10 +97,10 @@
         group.interItemSpacing      = .fixed(11)
         
         let section                 = NSCollectionLayoutSection(group: group)
-        section.contentInsets       = NSDirectionalEdgeInsets(top: 10, leading: 13, bottom: 10, trailing: 13)
+        section.contentInsets       = NSDirectionalEdgeInsets(top: 0, leading: 13, bottom: 15, trailing: 13)
         section.interGroupSpacing   = 11
         
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(5))
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: SearchVC.sectionHeaderElementKind, alignment: .top)
         section.boundarySupplementaryItems = [sectionHeader]
         
