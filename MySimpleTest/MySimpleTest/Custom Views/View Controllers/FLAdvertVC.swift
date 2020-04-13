@@ -31,6 +31,7 @@ class FLAdvertVC: UIViewController {
         flowLayout = UIHelper.createAdImageFlowLayout(in: view)
         sliderCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: flowLayout)
         sliderCollectionView.register(AdvertCell.self, forCellWithReuseIdentifier: AdvertCell.reuseID)
+        sliderCollectionView.backgroundColor = FLColors.lightGray
         view.addSubviews(sliderCollectionView, pageControl)
   
         sliderCollectionView.layer.cornerRadius     = 3

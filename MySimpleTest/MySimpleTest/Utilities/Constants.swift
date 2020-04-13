@@ -70,5 +70,6 @@ enum FLImages {
     static let addToCartWithSymbol          = UIImage(named: "addToCartWithSymbol")
     static let addToCartClickedWithSymbol   = UIImage(named: "addToCartClickWithSymbol")
     static let trashBin                     = UIImage(named: "delete")
+    static let defaultBackground            = UIImage(named: "defaultBackground")
     
 }
