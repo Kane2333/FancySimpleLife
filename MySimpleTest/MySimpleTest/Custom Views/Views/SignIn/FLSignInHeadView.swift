@@ -11,7 +11,6 @@ import UIKit
 class FSLSignInHeadView: UIView {
 
     let welcomeLabel = FLTitleLabel(textAlignment: .left, fontSize: 24)
-    let avatarImageView = FSLAvatarImageView(frame: .zero)
     var welcomeText: String?
     
     override init(frame: CGRect) {
@@ -36,18 +35,13 @@ class FSLSignInHeadView: UIView {
     private func configure() {
         backgroundColor = FLColors.FSLbackgroundColor
         translatesAutoresizingMaskIntoConstraints = false
-        addSubviews(welcomeLabel, avatarImageView)
+        addSubview(welcomeLabel)
         
         NSLayoutConstraint.activate([
             welcomeLabel.topAnchor.constraint(equalTo: topAnchor),
             welcomeLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             welcomeLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-            welcomeLabel.heightAnchor.constraint(equalToConstant: 70),
-            
-            avatarImageView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 40),
-            avatarImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            avatarImageView.heightAnchor.constraint(equalToConstant: 146),
-            avatarImageView.widthAnchor.constraint(equalToConstant: 146),
+            welcomeLabel.heightAnchor.constraint(equalToConstant: 70)
         ])
     }
     

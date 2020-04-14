@@ -11,100 +11,128 @@ import FirebaseAuth
 import FirebaseFirestore
 
 class SignUpVC: UIViewController {
-
-    let headView = FSLHeadView(pageTitle: "注册")
-    let emailTextField = FSLTextField()
-    let passwordTextField = FSLTextField()
-    let passwordConfirmTextField = FSLTextField()
-    let inviteCodeTextField = FSLTextField()
-    var errorMessage:String!
-
-    let createBtn = FLButton(backgroundColor: .systemBackground, title: "注册", titleColor: .systemBlue)
     
+    let label1 = FLTitleLabel(frame: .zero)
+    let headView = FSLSignInHeadView(text: "欢迎您，\n注册成为我们的用户")
+    let emailTextField = FSLTextField(iconName: "mail")
+    let passwordTextField = FSLTextField(iconName: "unlock")
+    let confirmPasswordTextField = FSLTextField(iconName: "square_check")
+    let inviteCodeTextField = FSLTextField(iconName: "favor")
+    let validationMessageLabel = FLTitleLabel(textAlignment: .left, fontSize: 12.0)
+    let forgetPasswordLabel = FLTitleLabel(textAlignment: .left, fontSize: 12.0)
+    let nextStepButton = FLButton(backgroundColor: .red, title: "下一步", titleColor: .systemBackground)
+    let backButton = FLUnderlineTextButton(title: "已拥有账户?", titleColor: .black, fontSize: 12)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configure()
         configureHeadView()
-        configureTextFields()
-        configureButton()
-        // Do any additional setup after loading the view.
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+        configureTextField()
+        configureValidationMessage()
+        configureButtons()
         
-        navigationController?.setNavigationBarHidden(true, animated: false)
+        createDismissKeyboardTapGesture()
     }
     
     // MARK: Private Method
     private func configure() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = FLColors.FSLbackgroundColor
     }
     
     private func configureHeadView() {
         view.addSubview(headView)
+        headView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            headView.topAnchor.constraint(equalTo: view.topAnchor),
-            headView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            headView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            headView.heightAnchor.constraint(equalToConstant: 300)
+            headView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            headView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            headView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            headView.heightAnchor.constraint(equalToConstant: 200)
         ])
     }
     
-    private func configureTextFields() {
+    private func configureTextField() {
         let padding:CGFloat = 14
         
-        view.addSubview(emailTextField)
-        view.addSubview(passwordTextField)
-        view.addSubview(passwordConfirmTextField)
-        view.addSubview(inviteCodeTextField)
-        
-        emailTextField.backgroundColor = .black
-        emailTextField.placeholder = "Email Address"
-        passwordTextField.placeholder = "Password"
+        view.addSubviews(emailTextField, passwordTextField, confirmPasswordTextField, inviteCodeTextField)
+       
+        emailTextField.placeholder = "请输入邮箱"
+        passwordTextField.placeholder = "请输入密码"
+        confirmPasswordTextField.placeholder = "请确认密码"
+        inviteCodeTextField.placeholder = "请输入邀请码"
         passwordTextField.isSecureTextEntry = true
-        passwordConfirmTextField.placeholder = "Confirm Password"
-        passwordConfirmTextField.isSecureTextEntry = true
-        inviteCodeTextField.placeholder = "Invite Code"
+        passwordTextField.addRightIconView(imageNamed: "visible")
+        confirmPasswordTextField.isSecureTextEntry = true
+        confirmPasswordTextField.addRightIconView(imageNamed: "visible")
         
         NSLayoutConstraint.activate([
+            emailTextField.topAnchor.constraint(equalTo: headView.bottomAnchor, constant: 70),
             emailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             emailTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            emailTextField.topAnchor.constraint(equalTo: headView.bottomAnchor, constant: 2*padding),
-            emailTextField.heightAnchor.constraint(equalToConstant: 40),
+            emailTextField.heightAnchor.constraint(equalToConstant: 44),
             
+            passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 20),
             passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: padding),
-            passwordTextField.heightAnchor.constraint(equalToConstant: 40),
+            passwordTextField.heightAnchor.constraint(equalToConstant: 44),
             
-            passwordConfirmTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            passwordConfirmTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            passwordConfirmTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            passwordConfirmTextField.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: padding),
-            passwordConfirmTextField.heightAnchor.constraint(equalToConstant: 40),
+            confirmPasswordTextField.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 20),
+            confirmPasswordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            confirmPasswordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            confirmPasswordTextField.heightAnchor.constraint(equalToConstant: 44),
             
-            inviteCodeTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            inviteCodeTextField.topAnchor.constraint(equalTo: confirmPasswordTextField.bottomAnchor, constant: 20),
             inviteCodeTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             inviteCodeTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            inviteCodeTextField.topAnchor.constraint(equalTo: passwordConfirmTextField.bottomAnchor, constant: padding),
-            inviteCodeTextField.heightAnchor.constraint(equalToConstant: 40),
+            inviteCodeTextField.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
     
-    private func configureButton() {
-        view.addSubview(createBtn)
-        
-        createBtn.addTarget(self, action: #selector(createNewAccount), for: .touchUpInside)
+    private func configureValidationMessage() {
+        view.addSubview(validationMessageLabel)
+        validationMessageLabel.text = TestMessages.defaultTestMessage
+        validationMessageLabel.textColor = .red
         
         NSLayoutConstraint.activate([
-            createBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            createBtn.topAnchor.constraint(equalTo: inviteCodeTextField.bottomAnchor, constant: 14),
-            createBtn.heightAnchor.constraint(equalToConstant: 40),
-            createBtn.widthAnchor.constraint(equalToConstant: 60)
+            validationMessageLabel.topAnchor.constraint(equalTo: inviteCodeTextField.bottomAnchor, constant: 10),
+            validationMessageLabel.leadingAnchor.constraint(equalTo: passwordTextField.leadingAnchor),
+            validationMessageLabel.trailingAnchor.constraint(equalTo: passwordTextField.trailingAnchor),
+            validationMessageLabel.heightAnchor.constraint(equalToConstant: 18)
         ])
+    }
+    
+    private func configureButtons() {
+        view.addSubviews(nextStepButton, backButton)
+        
+        nextStepButton.translatesAutoresizingMaskIntoConstraints = false
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        nextStepButton.addTarget(self, action: #selector(nextStep), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(back), for: .touchUpInside)
+        
+        NSLayoutConstraint.activate([
+            nextStepButton.topAnchor.constraint(equalTo: validationMessageLabel.bottomAnchor, constant: 20),
+            nextStepButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            nextStepButton.leadingAnchor.constraint(equalTo: passwordTextField.leadingAnchor),
+            nextStepButton.trailingAnchor.constraint(equalTo: passwordTextField.trailingAnchor),
+            nextStepButton.heightAnchor.constraint(equalToConstant: 44),
+                
+            backButton.topAnchor.constraint(equalTo: nextStepButton.bottomAnchor, constant: 8),
+            backButton.trailingAnchor.constraint(equalTo: nextStepButton.trailingAnchor),
+            backButton.widthAnchor.constraint(equalToConstant: 72),
+            backButton.heightAnchor.constraint(equalToConstant: 44)
+        ])
+    }
+    
+    @objc func nextStep() {
+        
+        let fillAcccountDetailVC = FillAcccountDetailVC()
+        navigationController?.pushViewController(fillAcccountDetailVC, animated: false)
+    }
+    
+    @objc func back() {
+        navigationController?.popViewController(animated: false)
     }
     
     /*private func configureTextFields() {
@@ -169,7 +197,7 @@ class SignUpVC: UIViewController {
         
         if  emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
             passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
-            passwordConfirmTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+            confirmPasswordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
             
             validateMessage += "Please fill in all fields"
             isValid = false
@@ -202,7 +230,7 @@ class SignUpVC: UIViewController {
         let inviteCode = inviteCodeTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
         // Create the user
-        Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordConfirmTextField.text!) { (result, err) in
+        Auth.auth().createUser(withEmail: emailTextField.text!, password: confirmPasswordTextField.text!) { (result, err) in
             if err != nil {
                 // Their was an error creating the user
                 print("Error creating user")

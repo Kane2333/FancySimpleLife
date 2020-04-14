@@ -58,10 +58,10 @@ class FLAdvertVC: UIViewController {
     func activateScrollImages() {
         pageControl.numberOfPages   = images.count
         pageControl.currentPage     = 0
+        
         DispatchQueue.main.async {
             self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
         }
-        RunLoop.current.add(self.timer, forMode: RunLoop.Mode.common)
     }
     
     

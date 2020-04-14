@@ -44,6 +44,14 @@ class FLButton: UIButton {
         self.setTitle(title, for: .normal)
     }
     
+    convenience init(image: UIImage? = nil) {
+        self.init(frame:. zero)
+        configure()
+        if backgroundImage != nil {
+            self.setImage(image, for: .normal)
+        }
+    }
+    
     // MARK: Private Method
     
     private func configure() {

@@ -11,13 +11,10 @@ import GoogleSignIn
 import FirebaseAuth
 
 class SignInVC: UIViewController {
-
-    let scrollView = UIScrollView()
-    let contentView = UIView()
     
     let headView = FSLSignInHeadView(text: "欢迎您，\n请登录您的账户")
-    let emailTextField = FSLTextField(iconName: "person")
-    let passwordTextField = FSLTextField(iconName: "lock")
+    let emailTextField = FSLTextField(iconName: "mail")
+    let passwordTextField = FSLTextField(iconName: "unlock")
     let validationMessageLabel = FLTitleLabel(textAlignment: .left, fontSize: 12.0)
     let forgetPasswordLabel = FLTitleLabel(textAlignment: .left, fontSize: 12.0)
     let signInButton = FLButton(backgroundColor: .red, title: "登录", titleColor: .systemBackground)
@@ -25,9 +22,15 @@ class SignInVC: UIViewController {
     let leftLineView = FSLLine(frame: .zero)
     let rightLineView = FSLLine(frame: .zero)
     let thirdPartyLabel = FLTitleLabel(textAlignment: .center, fontSize: 18)
+    let wechatLogInBtn = FLButton(image: UIImage(named: "wechatLogIn"))
+    let facebookLogInBtn = FLButton(image: UIImage(named: "facebookLogIn"))
+    let googleLogInBtn = FLButton(image: UIImage(named: "googleLogIn"))
+    let bottomStackView = UIStackView()
+    let bottomLabel = FLTitleLabel(textAlignment: .left, fontSize: 12)
+    let bottomProtocolBtn = FLUnderlineTextButton(title: "《FancyLife注册协议及版权声明》", titleColor: .red, fontSize: 12)
     //let loginWithEmailBtn = FSLButton(backgroundImage: UIImage(named: "Email"), title: "Log in with Email", titleColor: .white, titleHorizontalAlignment: .center)
     //let loginWithFBBtn = FSLButton(backgroundImage: UIImage(named: "FB"), title: "Log in with Facebook", titleColor: .white, titleHorizontalAlignment: .center)
-    let loginWithGoogleBtn = GIDSignInButton(frame: CGRect(x: 0, y:0, width: 230, height: 48))
+    //let loginWithGoogleBtn = GIDSignInButton(frame: CGRect(x: 0, y:0, width: 230, height: 48))
     //FSLButton(backgroundImage: UIImage(named: "Google"), title: "Log in with Google", titleColor: .black, titleHorizontalAlignment: .center)
     //GIDSignInButton(frame: CGRect(x: 0, y:0, width: 230, height: 48))
     //let signUpBtn = FSLButton(backgroundImage: nil, title: "Create a new account", titleColor: .systemBlue, titleHorizontalAlignment: .center)
@@ -42,7 +45,6 @@ class SignInVC: UIViewController {
         //let db = Firestore.firestore()
         
         configure()
-        configureScrollView()
         configureHeadView()
         configureTextField()
         configureForgetPassword()
@@ -53,6 +55,7 @@ class SignInVC: UIViewController {
         configureLines()
         
         createDismissKeyboardTapGesture()
+        configureBottomStackView()
         //configureSigninBtns()
         //confiureSignUpBtn()
     }
@@ -62,29 +65,13 @@ class SignInVC: UIViewController {
         view.backgroundColor = FLColors.FSLbackgroundColor
     }
     
-    private func configureScrollView() {
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        scrollView.pinToEdges(of: view)
-        contentView.pinToEdges(of: scrollView)
-        
-        scrollView.showsVerticalScrollIndicator = false
-        //scrollView.setContentOffset(CGPoint(x: 0, y: 800), animated: true)
-        //scrollView.isScrollEnabled = false
-        
-        NSLayoutConstraint.activate([
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            contentView.heightAnchor.constraint(equalToConstant: 1200)
-        ])
-    }
-    
     private func configureHeadView() {
-        contentView.addSubview(headView)
+        view.addSubview(headView)
         
         NSLayoutConstraint.activate([
-            headView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 100),
-            headView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            headView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            headView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            headView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            headView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             headView.heightAnchor.constraint(equalToConstant: 200)
         ])
     }
@@ -92,27 +79,28 @@ class SignInVC: UIViewController {
     private func configureTextField() {
         let padding:CGFloat = 14
         
-        contentView.addSubviews(emailTextField, passwordTextField)
+        view.addSubviews(emailTextField, passwordTextField)
        
-        emailTextField.placeholder = "Email Address"
-        passwordTextField.placeholder = "Passwrod"
+        emailTextField.placeholder = "请输入用户名"
+        passwordTextField.placeholder = "请输入密码"
         passwordTextField.isSecureTextEntry = true
+        passwordTextField.addRightIconView(imageNamed: "visible")
         
         NSLayoutConstraint.activate([
-            emailTextField.topAnchor.constraint(equalTo: headView.bottomAnchor, constant: 100),
-            emailTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-            emailTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            emailTextField.topAnchor.constraint(equalTo: headView.bottomAnchor, constant: 70),
+            emailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            emailTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             emailTextField.heightAnchor.constraint(equalToConstant: 44),
             
             passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 20),
-            passwordTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-            passwordTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             passwordTextField.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
     
     private func configureForgetPassword() {
-        contentView.addSubview(forgetPasswordLabel)
+        view.addSubview(forgetPasswordLabel)
         forgetPasswordLabel.text = "忘记密码?"
         
         NSLayoutConstraint.activate([
@@ -124,7 +112,7 @@ class SignInVC: UIViewController {
     }
     
     private func configureValidationMessage() {
-        contentView.addSubview(validationMessageLabel)
+        view.addSubview(validationMessageLabel)
         validationMessageLabel.text = TestMessages.defaultTestMessage
         validationMessageLabel.textColor = .red
         
@@ -137,14 +125,14 @@ class SignInVC: UIViewController {
     }
     
     private func configureButtons() {
-        contentView.addSubviews(signInButton, signUpButton)
+        view.addSubviews(signInButton, signUpButton)
         
         signInButton.addTarget(self, action: #selector(signin), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(pushSignUpVC), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             signInButton.topAnchor.constraint(equalTo: validationMessageLabel.bottomAnchor, constant: 20),
-            signInButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            signInButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             signInButton.leadingAnchor.constraint(equalTo: passwordTextField.leadingAnchor),
             signInButton.trailingAnchor.constraint(equalTo: passwordTextField.trailingAnchor),
             signInButton.heightAnchor.constraint(equalToConstant: 44),
@@ -157,7 +145,7 @@ class SignInVC: UIViewController {
     }
     
     private func configureLines() {
-        contentView.addSubviews(leftLineView, rightLineView)
+        view.addSubviews(leftLineView, rightLineView)
         
         NSLayoutConstraint.activate([
             leftLineView.centerYAnchor.constraint(equalTo: thirdPartyLabel.centerYAnchor),
@@ -173,29 +161,57 @@ class SignInVC: UIViewController {
     }
     
     private func configureSignInWithThirdPartyMethod() {
-        contentView.addSubviews(thirdPartyLabel, loginWithGoogleBtn)
+        view.addSubviews(thirdPartyLabel, wechatLogInBtn, facebookLogInBtn, googleLogInBtn)
         
         thirdPartyLabel.text = "以第三方登录"
         thirdPartyLabel.textColor = .black
-        loginWithGoogleBtn.translatesAutoresizingMaskIntoConstraints = false
+        //loginWithGoogleBtn.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             thirdPartyLabel.topAnchor.constraint(equalTo: signUpButton.bottomAnchor, constant: 20),
-            thirdPartyLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 140),
-            thirdPartyLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -140),
+            thirdPartyLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 140),
+            thirdPartyLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -140),
             thirdPartyLabel.heightAnchor.constraint(equalToConstant: 18),
             
-            loginWithGoogleBtn.topAnchor.constraint(equalTo: thirdPartyLabel.bottomAnchor, constant: 20),
-            loginWithGoogleBtn.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 40),
-            loginWithGoogleBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40),
-            loginWithGoogleBtn.heightAnchor.constraint(equalToConstant: 50)
+            facebookLogInBtn.topAnchor.constraint(equalTo: thirdPartyLabel.bottomAnchor, constant: 26),
+            facebookLogInBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            facebookLogInBtn.heightAnchor.constraint(equalToConstant: 30),
+            facebookLogInBtn.widthAnchor.constraint(equalToConstant: 30),
+            
+            wechatLogInBtn.topAnchor.constraint(equalTo: facebookLogInBtn.topAnchor),
+            wechatLogInBtn.trailingAnchor.constraint(equalTo: facebookLogInBtn.leadingAnchor, constant: -80),
+            wechatLogInBtn.heightAnchor.constraint(equalToConstant: 30),
+            wechatLogInBtn.widthAnchor.constraint(equalToConstant: 30),
+            
+            googleLogInBtn.topAnchor.constraint(equalTo: facebookLogInBtn.topAnchor),
+            googleLogInBtn.leadingAnchor.constraint(equalTo: facebookLogInBtn.trailingAnchor, constant: 80),
+            googleLogInBtn.heightAnchor.constraint(equalToConstant: 30),
+            googleLogInBtn.widthAnchor.constraint(equalToConstant: 30),
+        ])
+    }
+    
+    private func configureBottomStackView() {
+        bottomLabel.text = "*使用即为同意"
+        bottomStackView.axis          = .horizontal
+        
+        bottomStackView.addArrangedSubview(bottomLabel)
+        bottomStackView.addArrangedSubview(bottomProtocolBtn)
+        bottomStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(bottomStackView)
+        
+        NSLayoutConstraint.activate([
+            bottomStackView.topAnchor.constraint(equalTo: facebookLogInBtn.bottomAnchor, constant: 24),
+            bottomStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            bottomStackView.heightAnchor.constraint(equalToConstant: 18),
+            bottomStackView.widthAnchor.constraint(equalToConstant: 265)
         ])
     }
     
     @objc func pushSignUpVC() {
         
         let signUpVC = SignUpVC()
-        navigationController?.setNavigationBarHidden(false, animated: false)
+        //navigationController?.setNavigationBarHidden(false, animated: false)
         navigationController?.pushViewController(signUpVC, animated: false)
     }
     
@@ -233,9 +249,5 @@ class SignInVC: UIViewController {
 extension SignInVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         return true
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.scrollView.setContentOffset(CGPoint(x: 0, y: 100), animated: true)
     }
 }

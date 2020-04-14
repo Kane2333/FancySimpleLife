@@ -10,12 +10,14 @@ import UIKit
 
 class FSLTextField: UITextField {
     
-    let leftIconView = UIImageView()
+    let rightIconView = UIView(frame: CGRect(x: 0, y: 0, width: 38, height: 28))
+    let leftIconView = UIView(frame: CGRect(x: 0, y: 0, width: 38, height: 28))
     var iconName:String!
     let padding = UIEdgeInsets(top: 0, left: 55, bottom: 0, right: 5)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configure()
     }
     
     
@@ -55,17 +57,17 @@ class FSLTextField: UITextField {
     
     private func configureLeftIconView() {
         
-        let padding = 20
-        let size = 20
+        let padding = 16
+        let iconHeight = 16
+        let iconWidth = 16
 
-        let outerView = UIView(frame: CGRect(x: 0, y: 0, width: size+padding, height: size) )
-        let iconView  = UIImageView(frame: CGRect(x: padding, y: 0, width: size, height: size))
+        let iconView  = UIImageView(frame: CGRect(x: padding, y: 0, width: iconWidth, height: iconHeight))
         iconView.image = UIImage(named: iconName)
-        outerView.addSubview(iconView)
-        outerView.backgroundColor = FLColors.FSLtextFieldBackgroundColor
-        leftIconView.translatesAutoresizingMaskIntoConstraints = false
+        leftIconView.addSubview(iconView)
+        leftIconView.backgroundColor = FLColors.FSLtextFieldBackgroundColor
+        //iconView.translatesAutoresizingMaskIntoConstraints = false
         
-        leftView = outerView
+        leftView = leftIconView
         leftViewMode = .always
     }
     
@@ -79,6 +81,23 @@ class FSLTextField: UITextField {
     
     override open func editingRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: padding)
+    }
+    
+    func addRightIconView(imageNamed: String) {
+        
+        let iconHeight = 28
+        let iconWidth = 22
+        
+        let iconBtn = UIButton(frame: CGRect(x: 0, y: 0, width: iconWidth, height: iconHeight))
+        iconBtn.setImage(UIImage(named: imageNamed), for: .normal)
+        iconBtn.contentMode = .left
+        iconBtn.imageView?.contentMode = .scaleAspectFit
+        rightIconView.addSubview(iconBtn)
+        rightIconView.backgroundColor = FLColors.FSLtextFieldBackgroundColor
+        //iconBtn.translatesAutoresizingMaskIntoConstraints = false
+        
+        rightView = rightIconView
+        rightViewMode = .always
     }
     
 }

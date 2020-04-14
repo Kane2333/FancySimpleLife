@@ -19,7 +19,7 @@ class AccountVC: UIViewController {
         super.viewDidLoad()
         navigationController?.setNavigationBarHidden(true, animated: false)
         
-        if isLoggedIn {
+        if !isLoggedIn {
             DispatchQueue.main.async {
                 self.add(childVC: SignInVC(), to: self.view)
             }
@@ -30,7 +30,7 @@ class AccountVC: UIViewController {
         super.viewDidAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
         
-        if isLoggedIn {
+        if !isLoggedIn {
             DispatchQueue.main.async {
                 self.add(childVC: SignInVC(), to: self.view)
             }

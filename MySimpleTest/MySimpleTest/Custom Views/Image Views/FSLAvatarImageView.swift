@@ -22,8 +22,23 @@ class FSLAvatarImageView: UIImageView {
     
     
     private func configure() {
-        layer.cornerRadius  = 10
+        let viewWidth = layer.frame.size.width
+        let viewrHeight = layer.frame.size.height
+        
+        //let borderViewWidth = 146 / 2 + 30
+        //let borderViewHeight = viewrHeight / 2 + 30
+        
+        //let borderView = UIView(frame: CGRect(x: 0, y: 0, width: borderViewWidth, height: borderViewHeight))
+        //borderView.layer.cornerRadius = borderViewWidth / 2
+        //borderView.clipsToBounds = true
+        //borderView.layer.borderColor = UIColor.red.cgColor
+        //borderView.layer.borderWidth = 5
+        //addSubview(borderView)
+        
+        layer.cornerRadius  = 146 / 2
         clipsToBounds       = true
+        layer.borderColor = UIColor.red.cgColor
+        layer.borderWidth = 5
         image               = UIImage(named: "placeholderImage")
         translatesAutoresizingMaskIntoConstraints = false
     }
