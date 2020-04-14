@@ -55,8 +55,13 @@ class EventVC: UIViewController {
     private func configureUI() {
         view.addSubview(collectionView)
         view.backgroundColor = FLColors.white
-        
-        collectionView.pinToEdges(of: view)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: -40),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
     
     
@@ -176,7 +181,7 @@ extension EventVC {
             section.interGroupSpacing = 7
             section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 13, bottom: 11, trailing: 13)
             
-            let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(5))
+            let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
             let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerFooterSize, elementKind: EventVC.sectionHeaderElementKind, alignment: .top)
             section.boundarySupplementaryItems = [sectionHeader]
             return section

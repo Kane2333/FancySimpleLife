@@ -61,7 +61,6 @@ class FLAdvertVC: UIViewController {
         DispatchQueue.main.async {
             self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
         }
-        RunLoop.current.add(self.timer, forMode: RunLoop.Mode.common)
     }
     
     

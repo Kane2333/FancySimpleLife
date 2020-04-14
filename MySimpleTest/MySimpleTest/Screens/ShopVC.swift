@@ -114,7 +114,7 @@ class ShopVC: FLDataLoadingVC {
     
     
     @objc func pushMapVC() {
-        print("push map vc")
+        navigationController?.pushViewController(MapVC(), animated: true)
     }
     
     

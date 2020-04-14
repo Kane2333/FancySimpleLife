@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchBarVC: UIViewController {
+class SearchBarVC: FLDataLoadingVC {
     
     private let searchBar           = UIButton()
     private let mapButton           = FLButton(title: "附近商家", textColor: FLColors.red, fontSize: 12)
@@ -18,6 +18,7 @@ class SearchBarVC: UIViewController {
         super.viewDidLoad()
         configureUI()
         searchBarTapped()
+        mapButtonTapped()
     }
     
     
@@ -52,6 +53,16 @@ class SearchBarVC: UIViewController {
     @objc func pushSearchVC() {
         let searchVC = SearchVC()
         navigationController?.pushViewController(searchVC, animated: true)
+    }
+    
+    
+    private func mapButtonTapped() {
+        mapButton.addTarget(self, action: #selector(pushMapVC), for: .touchUpInside)
+    }
+    
+    
+    @objc func pushMapVC() {
+        navigationController?.pushViewController(MapVC(), animated: true)
     }
 }
 

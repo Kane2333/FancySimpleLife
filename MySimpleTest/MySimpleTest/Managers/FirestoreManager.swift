@@ -37,7 +37,7 @@ class FirestoreManager {
     
     func getTuanGoList(for location: String, completed: @escaping (Result<[TuanGo], FLError>) -> Void) {
         let tuanGoRef = db.collection("TuanGo")
-        tuanGoRef.whereField("location", isEqualTo: location).order(by: "priority").getDocuments { (snapshot, error) in
+        tuanGoRef.whereField("location", isEqualTo: location).order(by: "priority").addSnapshotListener { (snapshot, error) in
             var tuanGoList: [TuanGo] = []
             if error == nil && snapshot != nil {
                 for document in snapshot!.documents {
@@ -59,7 +59,7 @@ class FirestoreManager {
     
     func getAdList(for location: String, completed: @escaping (Result<[AdImage], FLError>) -> Void) {
         let adRef = db.collection("AdImage")
-        adRef.whereField("location", isEqualTo: location).getDocuments { (snapshot, error) in
+        adRef.whereField("location", isEqualTo: location).addSnapshotListener { (snapshot, error) in
             var adList: [AdImage] = []
             if error == nil && snapshot != nil {
                 for document in snapshot!.documents {
@@ -75,7 +75,7 @@ class FirestoreManager {
     
     
     func getShop(shopId: String, completed: @escaping (Result<Shop, FLError>) -> Void) {
-        db.collection("Shop").document(shopId).getDocument { (document, error) in
+        db.collection("Shop").document(shopId).addSnapshotListener {  (document, error) in
             if document != nil && error == nil {
                 let imageURL = document!.get("imageURL") as! String
                 let title    = document!.get("title") as! String
@@ -86,7 +86,7 @@ class FirestoreManager {
                 let address = document!.get("address") as! String
                 let kind = document!.get("kind") as! String
                 let location = document!.get("location") as! [Double]
-        
+                
                 let shop = Shop(id: shopId, imageURL: imageURL, title: title, secondaryTitle: secondaryTitle, distance: 0, score: score, location: location, openingTime: openTime, category: category, address: address, kind: kind)
                 completed(.success(shop))
             } else { completed(.failure(.invalidData)) }
@@ -97,7 +97,7 @@ class FirestoreManager {
     func getShopList(kind: String?=nil, category: String?=nil, shopsToGo: Int = 0, shopID: String?=nil, completed: @escaping (Result<[Shop], FLError>) -> Void) {
         let shopRef = db.collection("Shop")
         if category == nil && kind == nil {
-            shopRef.order(by: "priority").getDocuments { (snapshot, error) in
+            shopRef.order(by: "priority").addSnapshotListener { (snapshot, error) in
                 var shopList: [Shop] = []
                 if error == nil && snapshot != nil {
                     for document in snapshot!.documents {
@@ -119,7 +119,7 @@ class FirestoreManager {
             }
         }
         if kind != nil {
-            shopRef.whereField("kind", isEqualTo: kind!).order(by: "priority").limit(to: 7).getDocuments { (snapshot, error) in
+            shopRef.whereField("kind", isEqualTo: kind!).order(by: "priority").limit(to: 7).addSnapshotListener { (snapshot, error) in
                 var shopList: [Shop] = []
                 var shopCount: Int = 0
                 if error == nil && snapshot != nil {
@@ -156,7 +156,7 @@ class FirestoreManager {
             }
         }
         if category != nil && kind == nil {
-            shopRef.whereField("category", isEqualTo: category!).order(by: "priority").limit(to: shopsToGo + 1).getDocuments { (snapshot, error) in
+            shopRef.whereField("category", isEqualTo: category!).order(by: "priority").limit(to: shopsToGo + 1).addSnapshotListener { (snapshot, error) in
                 var shopList: [Shop] = []
                 var shopCount: Int = 0
                 if error == nil && snapshot != nil {
@@ -184,10 +184,11 @@ class FirestoreManager {
         }
     }
     
+
     
     
     func getEvents(for shopID: String, isLimited: Bool, completed: @escaping (Result<[Event], FLError>) -> Void) {
-        db.collection("Event").whereField("shopID", isEqualTo: shopID).order(by: "priority").getDocuments { (snapshot, error) in
+        db.collection("Event").whereField("shopID", isEqualTo: shopID).order(by: "priority").addSnapshotListener { (snapshot, error) in
             var eventList: [Event] = []
             var count: Int = 0
             if error == nil && snapshot != nil {
@@ -212,14 +213,15 @@ class FirestoreManager {
                     }
                     completed(.success(eventList))
                 }
-
+                
             } else { completed(.failure(.invalidData)) }
         }
     }
+
     
     
     func getProducts(for shopID: String, isLimited: Bool, completed: @escaping (Result<[Product], FLError>) -> Void) {
-        db.collection("Product").whereField("shopID", isEqualTo: shopID).order(by: "priority").getDocuments { (snapshot, error) in
+        db.collection("Product").whereField("shopID", isEqualTo: shopID).order(by: "priority").addSnapshotListener { (snapshot, error) in
             var productList: [Product] = []
             var count: Int = 0
             if error == nil && snapshot != nil {
@@ -243,7 +245,7 @@ class FirestoreManager {
     
     func getReviews(for shopID: String, isLimited: Bool, completed: @escaping (Result<[Review], FLError>) -> Void) {
         /*
-        db.collection("Review").whereField("shopID", isEqualTo: shopID).whereField("priority", isEqualTo: 0).getDocuments { (snapshot, error) in
+        db.collection("Review").whereField("shopID", isEqualTo: shopID).whereField("priority", isEqualTo: 0).addSnapshotListener { (snapshot, error) in
             var reviewList: [Review] = []
             var count: Int = 0
             if error == nil && snapshot != nil {
@@ -268,7 +270,7 @@ class FirestoreManager {
     
     
     func getSearchResults(keyword: String,completed: @escaping (Result<[SearchResult], FLError>) -> Void) {
-        db.collection("Shop").whereField("keywords", arrayContains: keyword).order(by: "priority").getDocuments { (snapshot, error) in
+        db.collection("Shop").whereField("keywords", arrayContains: keyword).order(by: "priority").addSnapshotListener { (snapshot, error) in
             var resultList: [SearchResult] = []
             if error == nil && snapshot != nil {
                 for document in snapshot!.documents {
@@ -281,7 +283,7 @@ class FirestoreManager {
                     let result          = SearchResult(id: UUID(), shopID: id, imageURL: imageURL, title: title, description: description, score: score, location: location, kind: "shop")
                     resultList.append(result)
                 }
-                self.db.collection("Event").whereField("keywords", arrayContains: keyword).order(by: "priority").getDocuments { (snapshot, error) in
+                self.db.collection("Event").whereField("keywords", arrayContains: keyword).order(by: "priority").addSnapshotListener { (snapshot, error) in
                     if error == nil && snapshot != nil {
                         for document in snapshot!.documents {
                             let shopId              = document.get("shopID") as! String

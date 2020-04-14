@@ -16,6 +16,7 @@
 		570998BC24446BA300929A49 /* SearchTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570998BB24446BA300929A49 /* SearchTag.swift */; };
 		570998C2244561E400929A49 /* FLEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570998C1244561E400929A49 /* FLEmptyStateView.swift */; };
 		570998C42445841600929A49 /* FLAddToCartSuccessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570998C32445841600929A49 /* FLAddToCartSuccessVC.swift */; };
+		570998C62445A68300929A49 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570998C52445A68200929A49 /* MapVC.swift */; };
 		5721C1FB24317B2700358042 /* ShopFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1FA24317B2700358042 /* ShopFilterCell.swift */; };
 		5721C1FD24317B7300358042 /* ShopHeaderSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1FC24317B7300358042 /* ShopHeaderSV.swift */; };
 		5721C1FF24317B9700358042 /* ShopListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1FE24317B9700358042 /* ShopListCell.swift */; };
@@ -119,6 +120,7 @@
 		570998BB24446BA300929A49 /* SearchTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTag.swift; sourceTree = "<group>"; };
 		570998C1244561E400929A49 /* FLEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLEmptyStateView.swift; sourceTree = "<group>"; };
 		570998C32445841600929A49 /* FLAddToCartSuccessVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLAddToCartSuccessVC.swift; sourceTree = "<group>"; };
+		570998C52445A68200929A49 /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		5721C1FA24317B2700358042 /* ShopFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopFilterCell.swift; sourceTree = "<group>"; };
 		5721C1FC24317B7300358042 /* ShopHeaderSV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopHeaderSV.swift; sourceTree = "<group>"; };
 		5721C1FE24317B9700358042 /* ShopListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopListCell.swift; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 				57449392243321610093F0DE /* ShopInfoVC.swift */,
 				574493B0243C57BE0093F0DE /* ProductVC.swift */,
 				57099890243C9BB400929A49 /* EventVC.swift */,
+				570998C52445A68200929A49 /* MapVC.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -647,6 +650,7 @@
 				5721C1FF24317B9700358042 /* ShopListCell.swift in Sources */,
 				57099893243C9C0300929A49 /* EventListCell.swift in Sources */,
 				AB2B466B241F3C74006EFE10 /* FSLHeadView.swift in Sources */,
+				570998C62445A68300929A49 /* MapVC.swift in Sources */,
 				574493972433218A0093F0DE /* ShopInfo.swift in Sources */,
 				AB3C1627242F572300EB87E2 /* HomeTuanGoCell.swift in Sources */,
 				ABCD3BED2413B6700049AC73 /* Kandan.swift in Sources */,

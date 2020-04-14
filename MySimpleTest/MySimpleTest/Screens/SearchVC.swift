@@ -40,6 +40,7 @@ class SearchVC: FLDataLoadingVC {
         getTexts(onlyHistory: false)
         configureDataSource()
         customCancelButton()
+        setUpLocationManager()
 
     }
     

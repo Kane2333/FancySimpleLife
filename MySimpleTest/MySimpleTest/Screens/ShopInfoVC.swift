@@ -91,6 +91,7 @@ class ShopInfoVC: FLDataLoadingVC {
             
             switch result {
             case .success(let events):
+                print("EVENT")
                 if events.isEmpty {
                     self.dismissLoadingView()
                     self.showEmptyStateView(with: "此商家页面正在建设中...", in: self.view)

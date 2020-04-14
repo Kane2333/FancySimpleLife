@@ -21,8 +21,6 @@ class ShopFilterCell: UICollectionViewCell {
             titleLabel.textColor    = isSelected ? FLColors.black : FLColors.gray
             titleLabel.textAlignment = isSelected ? .justified : .center
         }
-        
-        
     }
  
     

@@ -32,7 +32,7 @@ class FLEmptyStateView: UIView {
     
     private func configureUI() {
         addSubview(messageLabel)
-        
+        backgroundColor = FLColors.white
         NSLayoutConstraint.activate([
             messageLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 100),
             messageLabel.centerXAnchor.constraint(equalTo: centerXAnchor),

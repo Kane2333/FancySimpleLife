@@ -16,7 +16,7 @@ class ReviewCell: UICollectionViewCell {
     
     private var imageURLs: [String] = []
     
-    private let label               = FLTitleLabel(textAlignment: .center, fontSize: 14, textColor: FLColors.gray, fontWeight: .medium)
+    private let label               = FLTitleLabel(textAlignment: .center, fontSize: 14, textColor: FLColors.gray, fontWeight: .regular)
     private let avatarImageView     = FLRegularImageView(frame: .zero)
     private let usernameLabel       = FLTitleLabel(textAlignment: .left, fontSize: 12, textColor: FLColors.gray, fontWeight: .medium)
     private let contentLabel        = FLTitleLabel(textAlignment: .left, fontSize: 12, textColor: FLColors.black, fontWeight: .regular)

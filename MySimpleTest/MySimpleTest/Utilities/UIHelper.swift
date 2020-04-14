@@ -75,7 +75,7 @@
         section.contentInsets               = NSDirectionalEdgeInsets(top: 0, leading: 13, bottom: 0, trailing: 13)
         section.interGroupSpacing           = 7
         if hasHeader {
-            let sectionHeader                   = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(139)), elementKind: ShopVC.sectionHeaderElementKind, alignment: .top)
+            let sectionHeader                   = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(60)), elementKind: ShopVC.sectionHeaderElementKind, alignment: .top)
             
             sectionHeader.pinToVisibleBounds    = true
             sectionHeader.zIndex                = 2
