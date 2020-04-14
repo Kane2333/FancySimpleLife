@@ -14,6 +14,8 @@
 		570998B82441D25E00929A49 /* FLDataLoadingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570998B72441D25E00929A49 /* FLDataLoadingVC.swift */; };
 		570998BA2442F58500929A49 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570998B92442F58500929A49 /* SearchResult.swift */; };
 		570998BC24446BA300929A49 /* SearchTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570998BB24446BA300929A49 /* SearchTag.swift */; };
+		570998C2244561E400929A49 /* FLEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570998C1244561E400929A49 /* FLEmptyStateView.swift */; };
+		570998C42445841600929A49 /* FLAddToCartSuccessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570998C32445841600929A49 /* FLAddToCartSuccessVC.swift */; };
 		5721C1FB24317B2700358042 /* ShopFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1FA24317B2700358042 /* ShopFilterCell.swift */; };
 		5721C1FD24317B7300358042 /* ShopHeaderSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1FC24317B7300358042 /* ShopHeaderSV.swift */; };
 		5721C1FF24317B9700358042 /* ShopListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721C1FE24317B9700358042 /* ShopListCell.swift */; };
@@ -115,6 +117,8 @@
 		570998B72441D25E00929A49 /* FLDataLoadingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLDataLoadingVC.swift; sourceTree = "<group>"; };
 		570998B92442F58500929A49 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		570998BB24446BA300929A49 /* SearchTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTag.swift; sourceTree = "<group>"; };
+		570998C1244561E400929A49 /* FLEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLEmptyStateView.swift; sourceTree = "<group>"; };
+		570998C32445841600929A49 /* FLAddToCartSuccessVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLAddToCartSuccessVC.swift; sourceTree = "<group>"; };
 		5721C1FA24317B2700358042 /* ShopFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopFilterCell.swift; sourceTree = "<group>"; };
 		5721C1FC24317B7300358042 /* ShopHeaderSV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopHeaderSV.swift; sourceTree = "<group>"; };
 		5721C1FE24317B9700358042 /* ShopListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopListCell.swift; sourceTree = "<group>"; };
@@ -297,6 +301,7 @@
 				AB3C1632242F57C200EB87E2 /* HomeLocationVC.swift */,
 				AB3C1634242F57CF00EB87E2 /* FLAlertVC.swift */,
 				570998B72441D25E00929A49 /* FLDataLoadingVC.swift */,
+				570998C32445841600929A49 /* FLAddToCartSuccessVC.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -325,6 +330,7 @@
 				AB2B46742420B9B6006EFE10 /* FSLItemInfoView.swift */,
 				AB3C1617242F565F00EB87E2 /* FLAlertContainerView.swift */,
 				5721C2082431BAAD00358042 /* ShopFilterView.swift */,
+				570998C1244561E400929A49 /* FLEmptyStateView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -655,6 +661,7 @@
 				AB3C15FF242F3FD000EB87E2 /* FSLLine.swift in Sources */,
 				57099891243C9BB400929A49 /* EventVC.swift in Sources */,
 				AB3C162B242F576C00EB87E2 /* FLTextField.swift in Sources */,
+				570998C2244561E400929A49 /* FLEmptyStateView.swift in Sources */,
 				AB3C1618242F565F00EB87E2 /* FLAlertContainerView.swift in Sources */,
 				AB3C1625242F571600EB87E2 /* HomeCategoryCell.swift in Sources */,
 				AB3C15F7242F275A00EB87E2 /* UIView+Ext.swift in Sources */,
@@ -673,6 +680,7 @@
 				AB3C163D242F584B00EB87E2 /* WalletVC.swift in Sources */,
 				57449393243321610093F0DE /* ShopInfoVC.swift in Sources */,
 				ABFCBDEF240F405600480CA7 /* SceneDelegate.swift in Sources */,
+				570998C42445841600929A49 /* FLAddToCartSuccessVC.swift in Sources */,
 				AB2B46712420A59D006EFE10 /* String+Ext.swift in Sources */,
 				5721C1FB24317B2700358042 /* ShopFilterCell.swift in Sources */,
 				AB3C162D242F577F00EB87E2 /* FLButton.swift in Sources */,

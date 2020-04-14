@@ -8,7 +8,12 @@
 
 import UIKit
 
+protocol ProductListCellDelegate: class {
+    func didRequestToAddToCart()
+}
+
 class ProductListCell: UICollectionViewCell {
+    weak var delegate: ProductListCellDelegate!
     
     static let reuseID = "ProductListCell"
     
@@ -25,7 +30,7 @@ class ProductListCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
-        buyButtonTapped()
+        addToCartButtonTapped()
     }
     
     
@@ -34,13 +39,14 @@ class ProductListCell: UICollectionViewCell {
     }
     
     
-    func buyButtonTapped() {
+    private func addToCartButtonTapped() {
         button.addTarget(self, action: #selector(addToCart), for: .touchUpInside)
     }
     
+    
     @objc func addToCart() {
-        print("Buy this Event!")
-        button.isSelected = true
+        print("!!! Add to Cart")
+        delegate.didRequestToAddToCart()
     }
     
     
@@ -70,7 +76,6 @@ class ProductListCell: UICollectionViewCell {
         imageView.layer.masksToBounds   = true
         
         button.setBackgroundImage(FLImages.addToCartWithSymbol, for: .normal)
-        button.setBackgroundImage(FLImages.addToCartClickedWithSymbol, for: .selected)
         
         containerView.pinToEdges(of: contentView)
         

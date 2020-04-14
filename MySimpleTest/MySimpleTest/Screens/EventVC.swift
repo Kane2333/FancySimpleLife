@@ -99,6 +99,8 @@ class EventVC: UIViewController {
                     else { fatalError("Cannot create new cell") }
                 
                 cell.set(event: event)
+                cell.delegate = self
+                
                 return self.configureCell(cell: cell)
             }
         }
@@ -180,5 +182,12 @@ extension EventVC {
             return section
         }
         return layout
+    }
+}
+
+
+extension EventVC: EventListCellDelegate {
+    func didRequestToAddToCart() {
+        presentAddToCartSuccessView()
     }
 }

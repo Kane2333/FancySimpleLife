@@ -45,13 +45,14 @@ class ReviewCell: UICollectionViewCell {
     
     func set(shopInfo: ShopInfo) {
         if shopInfo.reviewAvatarImageURL == nil {
-            self.removeSubViews(avatarImageView, usernameLabel, contentLabel, likeButton, collectionView)
-            label.text = "暂无评论..."
+            self.removeSubViews(avatarImageView, usernameLabel, contentLabel, likeButton, collectionView, countLabel)
+            addSubview(label)
+            label.text = "此功能尚未开放，敬请期待！"
             NSLayoutConstraint.activate([
                 label.topAnchor.constraint(equalTo: contentView.topAnchor),
-                label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 40),
-                label.widthAnchor.constraint(equalToConstant: 70),
-                label.heightAnchor.constraint(equalToConstant: 50)
+                label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+                label.widthAnchor.constraint(equalTo: label.widthAnchor),
+                label.heightAnchor.constraint(equalToConstant: 22)
             ])
         } else {
             avatarImageView.downloadImage(fromURL: shopInfo.reviewAvatarImageURL!)

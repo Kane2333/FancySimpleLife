@@ -19,8 +19,6 @@ enum PersistenceManager {
     
     enum Keys {
         static let searchHistory    = "searchHistory"
-
-        
     }
     
     static func updateWith(history: SearchTag?, actionType: PersistenceActionType, completed: @escaping (Error?) -> Void) {

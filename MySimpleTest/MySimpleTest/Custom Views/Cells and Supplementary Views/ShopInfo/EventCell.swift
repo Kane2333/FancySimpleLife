@@ -8,8 +8,14 @@
 
 import UIKit
 
+protocol EventCellDelegate: class {
+    func didRequestToAddToCart()
+}
+
 class EventCell: UICollectionViewCell {
     static let reuseID = "EventCell"
+    
+    weak var delegate: EventCellDelegate!
     
     private let containerView           = UIView()
     private let imageView               = FLRegularImageView(frame: .zero)
@@ -36,6 +42,17 @@ class EventCell: UICollectionViewCell {
     }
     
     
+    private func addToCartButtonTapped() {
+        buyButton.addTarget(self, action: #selector(addToCart), for: .touchUpInside)
+    }
+    
+    
+    @objc func addToCart() {
+        print("!!! Add to Cart")
+        delegate.didRequestToAddToCart()
+    }
+    
+    
     func set(shopInfo: ShopInfo) {
         //imageView.image = nil
         imageView.downloadImage(fromURL: shopInfo.eventImageURL)
@@ -55,10 +72,6 @@ class EventCell: UICollectionViewCell {
         buyButton.addTarget(self, action: #selector(addToCart), for: .touchUpInside)
     }
     
-    @objc func addToCart() {
-        print("Buy this Event!")
-        buyButton.isSelected = true
-    }
     
     /*
     func activateLikeButton(bool: Bool) {
@@ -88,8 +101,6 @@ class EventCell: UICollectionViewCell {
         likeButton.addTarget(self, action: #selector(ShopCell.likeButtonPressed), for: .touchUpInside)
  */
         buyButton.setBackgroundImage(FLImages.addToCart, for: .normal)
-        buyButton.setBackgroundImage(FLImages.addToCartClicked, for: .selected)
-
         
         imageView.layer.cornerRadius    = 3
         imageView.layer.masksToBounds   = true

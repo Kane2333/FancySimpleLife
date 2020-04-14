@@ -88,7 +88,7 @@ class ShopListCell: UICollectionViewCell {
             titleLabel.heightAnchor.constraint(equalToConstant: 22),
             titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -50),
             
-            secondaryTitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 0),
+            secondaryTitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 1),
             secondaryTitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             secondaryTitleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -50),
             secondaryTitleLabel.heightAnchor.constraint(equalToConstant: 17),

@@ -8,7 +8,12 @@
 
 import UIKit
 
+protocol EventListCellDelegate: class {
+    func didRequestToAddToCart()
+}
+
 class EventListCell: UICollectionViewCell {
+    weak var delegate: EventListCellDelegate!
     
     static let reuseID = "EventListCell"
     
@@ -25,7 +30,7 @@ class EventListCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
-        buyButtonTapped()
+        addToCartButtonTapped()
     }
     
     
@@ -33,13 +38,15 @@ class EventListCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func buyButtonTapped() {
+    
+    private func addToCartButtonTapped() {
         button.addTarget(self, action: #selector(addToCart), for: .touchUpInside)
     }
     
+    
     @objc func addToCart() {
-        print("Buy this Event!")
-        button.isSelected = true
+        print("!!! Add to Cart")
+        delegate.didRequestToAddToCart()
     }
     
     
@@ -75,7 +82,6 @@ class EventListCell: UICollectionViewCell {
         containerView.layer.masksToBounds   = true
         
         button.setBackgroundImage(FLImages.addToCart, for: .normal)
-        button.setBackgroundImage(FLImages.addToCartClicked, for: .selected)
         
         imageView.layer.cornerRadius    = 3
         imageView.layer.masksToBounds   = true

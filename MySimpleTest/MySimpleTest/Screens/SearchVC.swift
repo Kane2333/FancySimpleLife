@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 
 
-class SearchVC: UIViewController {
+class SearchVC: FLDataLoadingVC {
     static let sectionHeaderElementKind = "section-header-element-kind"
     
     private let label = FLTitleLabel(textAlignment: .center, fontSize: 14, textColor: FLColors.gray, fontWeight: .regular)
@@ -118,7 +118,7 @@ class SearchVC: UIViewController {
         }
     }
     
-    
+    /*
     private func configureNoResultUI() {
         view.addSubviews(imageView, label)
         
@@ -131,7 +131,7 @@ class SearchVC: UIViewController {
         
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60),
             imageView.heightAnchor.constraint(equalTo: imageView.heightAnchor),
             imageView.widthAnchor.constraint(equalTo: imageView.widthAnchor),
             
@@ -141,7 +141,7 @@ class SearchVC: UIViewController {
             label.widthAnchor.constraint(equalTo: label.widthAnchor)
         ])
     }
-    
+    */
     
     private func updateData(on texts: [[SearchTag]] ) {
         var snapshot = NSDiffableDataSourceSnapshot<Int, SearchTag>()
@@ -188,15 +188,16 @@ class SearchVC: UIViewController {
     
     
     private func getSearchResults(keyword: String) {
+        self.showLoadingView()
         FirestoreManager.shared.getSearchResults(keyword: keyword) { [weak self] result in
             guard let self = self else { return }
-            
+            self.dismissLoadingView()
             switch result {
             case .success(let results):
                 self.resultList = results
                 self.collectionView.removeFromSuperview()
                 if results.isEmpty {
-                    self.configureNoResultUI()
+                    self.showEmptyStateView(with: "暂无搜索结果", in: self.view)
                 } else { self.updateResultData(on: results) }
                 
             case .failure(let error):
@@ -219,8 +220,8 @@ class SearchVC: UIViewController {
         searchController.searchBar.tintColor                            = FLColors.black
         searchController.automaticallyShowsCancelButton                 = true
         searchController.searchBar.setImage(FLImages.clear, for: .clear, state: .normal)
-        let attributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12)]// ,NSAttributedString.Key.foregroundColor: FLColors.lightGray]
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = attributes
+        let attributes = [NSAttributedString.Key.font: UIFont(name:"PingFang SC", size: 12)]// ,NSAttributedString.Key.foregroundColor: FLColors.lightGray]
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = attributes as [NSAttributedString.Key : Any]
         navigationItem.titleView                                        = searchController.searchBar
         navigationItem.hidesBackButton                                  = true
     }

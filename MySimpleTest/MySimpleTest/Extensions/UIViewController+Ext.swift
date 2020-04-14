@@ -19,10 +19,25 @@ extension UIViewController {
         }
     }
     
+    
+    func presentAddToCartSuccessView() {
+        DispatchQueue.main.async {
+            let successVC = FLAddToCartSuccessVC()
+            successVC.modalPresentationStyle    = .overCurrentContext
+            successVC.modalTransitionStyle      = .crossDissolve
+            self.present(successVC, animated: true)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                successVC.dismiss(animated: true)
+            }
+        }
+    }
+    
+    
     func createDismissKeyboardTapGesture() {
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
         view.addGestureRecognizer(tap)
     }
+    
     
     func add(childVC: UIViewController, to containerView: UIView) {
         addChild(childVC)
@@ -30,5 +45,6 @@ extension UIViewController {
         childVC.view.frame = containerView.bounds
         childVC.didMove(toParent: self)
     }
+    
     
 }

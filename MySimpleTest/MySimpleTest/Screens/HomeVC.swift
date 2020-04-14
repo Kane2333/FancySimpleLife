@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class HomeVC: UIViewController {
+class HomeVC: FLDataLoadingVC {
     
     enum Section { case main }
     
@@ -168,6 +168,7 @@ class HomeVC: UIViewController {
             cell.layer.shadowOpacity   = 0.07
             cell.layer.shadowOffset    = CGSize(width: 0, height: 3)
             cell.layer.shadowRadius    = 3
+            cell.delegate              = self
             return cell
         }
         
@@ -180,7 +181,7 @@ class HomeVC: UIViewController {
                 ofKind: kind,
                 withReuseIdentifier: FLHeaderSV.reuseID,
                 for: indexPath) as? FLHeaderSV else { fatalError("Cannot create new supplementary") }
-            supplementaryView.set(title: "团购", hasButton: true, hasDeleteButton: false)
+            supplementaryView.set(title: "团购", hasButton: false, hasDeleteButton: false)
             supplementaryView.backgroundColor       = FLColors.white
             return supplementaryView
         }
@@ -196,9 +197,10 @@ class HomeVC: UIViewController {
     
     
     func getTuanGoItems() {
+        showLoadingView()
         FirestoreManager.shared.getTuanGoList(for: "homepage") { [weak self] result in
             guard let self = self else { return }
-            
+            self.dismissLoadingView()
             switch result {
             case .success(let tuanGoList):
                 self.tuanGoList = tuanGoList
@@ -314,5 +316,12 @@ extension HomeVC: UICollectionViewDelegate {
         navigationController?.pushViewController(shopVC, animated: true)
         //tabBarController?.selectedIndex = 1
         //tabBarController?.selectedViewController = shopVC
+    }
+}
+
+
+extension HomeVC: HomeTuanGoCellDelegate {
+    func didRequestToAddToCart() {
+        presentAddToCartSuccessView()
     }
 }

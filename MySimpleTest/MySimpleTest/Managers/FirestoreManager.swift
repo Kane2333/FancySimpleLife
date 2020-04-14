@@ -10,9 +10,11 @@ import UIKit
 import Firebase
 
 class FirestoreManager {
+    
     static let shared       = FirestoreManager()
     let db                  = Firestore.firestore()
     let cache               = NSCache<NSString, UIImage>()
+    
     
     private init() {}
     
@@ -35,7 +37,7 @@ class FirestoreManager {
     
     func getTuanGoList(for location: String, completed: @escaping (Result<[TuanGo], FLError>) -> Void) {
         let tuanGoRef = db.collection("TuanGo")
-        tuanGoRef.whereField("location", isEqualTo: location).order(by: "priority").limit(to: 6).getDocuments { (snapshot, error) in
+        tuanGoRef.whereField("location", isEqualTo: location).order(by: "priority").getDocuments { (snapshot, error) in
             var tuanGoList: [TuanGo] = []
             if error == nil && snapshot != nil {
                 for document in snapshot!.documents {
@@ -190,7 +192,7 @@ class FirestoreManager {
             var count: Int = 0
             if error == nil && snapshot != nil {
                 if snapshot!.documents.count == 0 {
-                    completed(.failure(.incompletedInfo))
+                    completed(.success([]))
                 } else {
                     for document in snapshot!.documents {
                         let eventID             = document.documentID
@@ -240,6 +242,7 @@ class FirestoreManager {
     
     
     func getReviews(for shopID: String, isLimited: Bool, completed: @escaping (Result<[Review], FLError>) -> Void) {
+        /*
         db.collection("Review").whereField("shopID", isEqualTo: shopID).whereField("priority", isEqualTo: 0).getDocuments { (snapshot, error) in
             var reviewList: [Review] = []
             var count: Int = 0
@@ -259,7 +262,8 @@ class FirestoreManager {
                 }
                 completed(.success(reviewList))
             } else { completed(.failure(.invalidData)) }
-        }
+        }*/
+        completed(.success([]))
     }
     
     

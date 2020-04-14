@@ -15,5 +15,5 @@ enum FLError: String, Error {
     case invalidData            = "从服务器获取的数据无效，请稍后再次尝试。"
     case unableToFavourite      = "There was an eror favouriting this user. Please try again"
     case alreadyInFavourites    = "You've already favourited this user. You must REALLY like them!"
-    case incompletedInfo         = "抱歉！商家尚未完善资料，页面正在建设中..."
+    //case incompletedInfo         = "抱歉！商家尚未完善资料，页面正在建设中..."
 }

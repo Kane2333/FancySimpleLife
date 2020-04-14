@@ -98,6 +98,7 @@ class ProductVC: UIViewController {
                 guard let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: ProductListCell.reuseID, for: indexPath) as? ProductListCell
                     else { fatalError("Cannot create new cell") }
                 cell.set(product: product)
+                cell.delegate = self
                 
                 return self.configureCell(cell: cell)
             }
@@ -186,5 +187,11 @@ extension ProductVC {
             return section
         }
         return layout
+    }
+}
+
+extension ProductVC: ProductListCellDelegate {
+    func didRequestToAddToCart() {
+        presentAddToCartSuccessView()
     }
 }

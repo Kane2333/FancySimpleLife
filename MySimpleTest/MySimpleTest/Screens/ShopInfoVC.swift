@@ -9,7 +9,7 @@
 import UIKit
 
 
-class ShopInfoVC: UIViewController {
+class ShopInfoVC: FLDataLoadingVC {
     static let sectionHeaderElementKind = "section-header-element-kind"
     
     enum SectionKind: Int, CaseIterable {
@@ -23,7 +23,7 @@ class ShopInfoVC: UIViewController {
             case .product:
                 return 129
             case .review:
-                return 125
+                return 50//125
             case .recommendation:
                 return 162
             }
@@ -70,7 +70,13 @@ class ShopInfoVC: UIViewController {
     private func configureUI() {
         view.addSubview(collectionView)
         extendedLayoutIncludesOpaqueBars = true
-        collectionView.pinToEdges(of: view)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: -40),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
     
     
@@ -79,121 +85,129 @@ class ShopInfoVC: UIViewController {
         var productList: [Product] = []
         var firstReview: Review?=nil
         var shopList: [Shop] = []
+        self.showLoadingView()
         FirestoreManager.shared.getEvents(for: shop.id, isLimited: true) { [weak self] result in
             guard let self = self else { return }
+            
             switch result {
             case .success(let events):
-                firstEvent = events[0]
-                FirestoreManager.shared.getProducts(for: self.shop.id, isLimited: true) { [weak self] result in
-                    guard let self = self else { return }
-                    switch result {
-                    case .success(let products):
-                        productList = products
-                        var productImages: [String] = []
-                        for product in productList {
-                            productImages.append(product.imageURL)
-                        }
-                        FirestoreManager.shared.getReviews(for: self.shop.id, isLimited: true) { [weak self] result in
-                            guard let self = self else { return }
-                            
-                            switch result {
-                            case .success(let reviews):
-                                self.totalReviews = reviews.count
-                                if self.totalReviews != 0 {
-                                    firstReview = reviews[0]
-                                }
-
-                                FirestoreManager.shared.getShopList(kind: self.shop.kind, category: self.shop.category, shopID: self.shop.id) { [weak self] result in
-                                    guard let self = self else { return }
-                                    
-                                    switch result {
-                                    case .success(let shops):
-                                        self.recommendationShops = shops
-                                        shopList = shops
-                                        var shopIDs: [String] = []
-                                        var shopTitles: [String] = []
-                                        var shopImages: [String] = []
-                                        var shopScores: [Double] = []
-                                        let shopCount: Int = shops.count
-
-                                        for shop in shopList {
-                                            shopIDs.append(shop.id)
-                                            shopTitles.append(shop.title)
-                                            shopImages.append(shop.imageURL)
-                                            shopScores.append(shop.score)
-                                        }
-                                        
-                                        var shopInfo = ShopInfo(id: UUID(), shopID: self.shop.id, shopImageURL: self.shop.imageURL, shopTitle: self.shop.title, shopAddress: self.shop.address, shopOpeningTime: self.shop.openingTime, eventID: firstEvent.id, eventTitle: firstEvent.title, eventDescription: firstEvent.description, eventStartDate: firstEvent.startDate, eventEndDate: firstEvent.endDate, eventPrice: firstEvent.price, eventOriginalPirce: firstEvent.originalPrice, eventImageURL: firstEvent.imageURL, productImageURLs: productImages, reviewUsername: nil, reviewAvatarImageURL: nil, reviewContent: nil, reviewImageURLs: nil, reviewAmount: self.totalReviews, reviewLikeAmount: nil, recommendShopIDs: shopIDs, recommendShopTitles: shopTitles, recommendShopImages: shopImages, recommendShopScores: shopScores)
-                                        
-                                        if firstReview != nil {
-                                            shopInfo.reviewUsername = firstReview!.username
-                                            shopInfo.reviewImageURLs = firstReview!.imageURLs
-                                            shopInfo.reviewAvatarImageURL = firstReview!.avatarImageURL
-                                            shopInfo.reviewContent = firstReview!.content
-                                            shopInfo.reviewLikeAmount = firstReview!.likeAmount
-                                        }
-                                        
-                                        for i in Array(0..<5) {
-                                            if i == 2 || i == 4 {
-                                                var index = 0
-                                                if i == 2 { index = 3 } else { index = shopCount }
-                                                var list: [ShopInfo] = []
-                                                for _ in Array(0..<index) {
-                                                    shopInfo.id = UUID()
-                                                    list.append(shopInfo)
-                                                }
-                                                self.dataList.append(list)
-                                            } else {
-                                                shopInfo.id = UUID()
-                                                self.dataList.append([shopInfo])
-                                            }
-                                        }
-                                        self.updateData(on: self.dataList)
-                                        
-                                    case .failure(let error):
-                                        self.presentFLAlertOnMainThread(title: "错误！", message: error.rawValue, buttonTitle: "确认")
-                                    }
-                                }
-                            case .failure(let error):
-                                self.presentFLAlertOnMainThread(title: "错误！", message: error.rawValue, buttonTitle: "确认")
+                if events.isEmpty {
+                    self.dismissLoadingView()
+                    self.showEmptyStateView(with: "此商家页面正在建设中...", in: self.view)
+                } else {
+                    firstEvent = events[0]
+                    FirestoreManager.shared.getProducts(for: self.shop.id, isLimited: true) { [weak self] result in
+                        guard let self = self else { return }
+                        switch result {
+                        case .success(let products):
+                            productList = products
+                            var productImages: [String] = []
+                            for product in productList {
+                                productImages.append(product.imageURL)
                             }
+                            FirestoreManager.shared.getReviews(for: self.shop.id, isLimited: true) { [weak self] result in
+                                guard let self = self else { return }
+                                
+                                switch result {
+                                case .success(let reviews):
+                                    self.totalReviews = reviews.count
+                                    if self.totalReviews != 0 {
+                                        firstReview = reviews[0]
+                                    }
+                                    
+                                    FirestoreManager.shared.getShopList(kind: self.shop.kind, category: self.shop.category, shopID: self.shop.id) { [weak self] result in
+                                        guard let self = self else { return }
+                                        self.dismissLoadingView()
+                                        switch result {
+                                        case .success(let shops):
+                                            self.recommendationShops = shops
+                                            shopList = shops
+                                            var shopIDs: [String] = []
+                                            var shopTitles: [String] = []
+                                            var shopImages: [String] = []
+                                            var shopScores: [Double] = []
+                                            let shopCount: Int = shops.count
+                                            
+                                            for shop in shopList {
+                                                shopIDs.append(shop.id)
+                                                shopTitles.append(shop.title)
+                                                shopImages.append(shop.imageURL)
+                                                shopScores.append(shop.score)
+                                            }
+                                            
+                                            var shopInfo = ShopInfo(id: UUID(), shopID: self.shop.id, shopImageURL: self.shop.imageURL, shopTitle: self.shop.title, shopAddress: self.shop.address, shopOpeningTime: self.shop.openingTime, eventID: firstEvent.id, eventTitle: firstEvent.title, eventDescription: firstEvent.description, eventStartDate: firstEvent.startDate, eventEndDate: firstEvent.endDate, eventPrice: firstEvent.price, eventOriginalPirce: firstEvent.originalPrice, eventImageURL: firstEvent.imageURL, productImageURLs: productImages, reviewUsername: nil, reviewAvatarImageURL: nil, reviewContent: nil, reviewImageURLs: nil, reviewAmount: self.totalReviews, reviewLikeAmount: nil, recommendShopIDs: shopIDs, recommendShopTitles: shopTitles, recommendShopImages: shopImages, recommendShopScores: shopScores)
+                                            
+                                            if firstReview != nil {
+                                                shopInfo.reviewUsername = firstReview!.username
+                                                shopInfo.reviewImageURLs = firstReview!.imageURLs
+                                                shopInfo.reviewAvatarImageURL = firstReview!.avatarImageURL
+                                                shopInfo.reviewContent = firstReview!.content
+                                                shopInfo.reviewLikeAmount = firstReview!.likeAmount
+                                            }
+                                            
+                                            for i in Array(0..<5) {
+                                                if i == 2 || i == 4 {
+                                                    var index = 0
+                                                    if i == 2 { index = 3 } else { index = shopCount }
+                                                    var list: [ShopInfo] = []
+                                                    for _ in Array(0..<index) {
+                                                        shopInfo.id = UUID()
+                                                        list.append(shopInfo)
+                                                    }
+                                                    self.dataList.append(list)
+                                                } else {
+                                                    shopInfo.id = UUID()
+                                                    self.dataList.append([shopInfo])
+                                                }
+                                            }
+                                            self.updateData(on: self.dataList)
+                                            
+                                        case .failure(let error):
+                                            self.presentFLAlertOnMainThread(title: "错误！", message: error.rawValue, buttonTitle: "确认")
+                                        }
+                                    }
+                                case .failure(let error):
+                                    self.presentFLAlertOnMainThread(title: "错误！", message: error.rawValue, buttonTitle: "确认")
+                                }
+                            }
+                        case .failure(let error):
+                            self.presentFLAlertOnMainThread(title: "错误！", message: error.rawValue, buttonTitle: "确认")
                         }
-                    case .failure(let error):
-                        self.presentFLAlertOnMainThread(title: "错误！", message: error.rawValue, buttonTitle: "确认")
                     }
                 }
+                
             case .failure(let error):
                 self.presentFLAlertOnMainThread(title: "错误！", message: error.rawValue, buttonTitle: "确认")
             }
         }
     }
 }
-    
+
 
 extension ShopInfoVC {
     func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int,
             layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-
+            
             guard let sectionKind = SectionKind(rawValue: sectionIndex) else { return nil }
             let columnHeight = sectionKind.height
             let columns       = sectionKind.columns
             let fracWidth: CGFloat   = 1 / CGFloat(columns)
-
+            
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(fracWidth),
-                                                 heightDimension: .fractionalHeight(1.0))
+                                                  heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
+            
             let groupHeight = NSCollectionLayoutDimension.absolute(columnHeight)
-
+            
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: groupHeight)
+                                                   heightDimension: groupHeight)
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: columns)
-
+            
             let section = NSCollectionLayoutSection(group: group)
             section.interGroupSpacing = 11
             section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 13, bottom: 11, trailing: 13)
-
+            
             let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
             let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: ShopInfoVC.sectionHeaderElementKind, alignment: .top)
             section.boundarySupplementaryItems = [sectionHeader]
@@ -214,7 +228,7 @@ extension ShopInfoVC {
         collectionView.register(ReviewCell.self, forCellWithReuseIdentifier: ReviewCell.reuseID)
         collectionView.register(RecommendationCell.self, forCellWithReuseIdentifier: RecommendationCell.reuseID)
         collectionView.register(FLHeaderSV.self, forSupplementaryViewOfKind: ShopInfoVC.sectionHeaderElementKind, withReuseIdentifier: FLHeaderSV.reuseID)
-
+        
         collectionView.delegate = self
     }
     
@@ -253,6 +267,7 @@ extension ShopInfoVC {
             case .event:
                 if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EventCell.reuseID, for: indexPath) as? EventCell {
                     cell.set(shopInfo: shopInfo)
+                    cell.delegate = self
                     
                     return self.configureCell(cell: cell)
                 } else { fatalError("Cannot create new cell") }
@@ -288,7 +303,6 @@ extension ShopInfoVC {
             switch section {
             case 0:
                 supplementaryView.removeView()
-                NSLayoutConstraint.activate([ supplementaryView.heightAnchor.constraint(equalToConstant: 5) ])
                 
             case 1:
                 supplementaryView.set(title: sectionTitle, hasButton: true, hasDeleteButton: false)
@@ -299,9 +313,9 @@ extension ShopInfoVC {
                 supplementaryView.addTargetToPushProductVC()
                 supplementaryView.delegate = self
             case 3:
-                supplementaryView.set(title: sectionTitle, hasButton: true, hasDeleteButton: false, commentCount: self.totalReviews)
+                supplementaryView.set(title: sectionTitle, hasButton: false, hasDeleteButton: false, commentCount: self.totalReviews)
             case 4:
-                supplementaryView.set(title: sectionTitle, hasButton: true, hasDeleteButton: false)
+                supplementaryView.set(title: sectionTitle, hasButton: false, hasDeleteButton: false)
             default:
                 break
             }
@@ -320,7 +334,7 @@ extension ShopInfoVC {
             i += 1
         }
         DispatchQueue.main.async {
-             self.collectionView.reloadData()
+            self.collectionView.reloadData()
             self.dataSource.apply(snapshot, animatingDifferences: false)
             
         }
@@ -359,6 +373,7 @@ extension ShopInfoVC: ShopCellDelegate {
     }
 }
 
+
 extension ShopInfoVC: FLHeaderSVDelegate {
     func requestToClearSearchHistory() {}
     
@@ -370,3 +385,11 @@ extension ShopInfoVC: FLHeaderSVDelegate {
         pushEventVC()
     }
 }
+
+
+extension ShopInfoVC: EventCellDelegate {
+    func didRequestToAddToCart() {
+        presentAddToCartSuccessView()
+    }
+}
+

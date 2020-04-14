@@ -10,26 +10,26 @@ import UIKit
 
 class FLDataLoadingVC: UIViewController {
 
-    var containerView: UIView!
+    var containerview: UIView!
        
     
     func showLoadingView() {
-        containerView = UIView(frame: view.bounds)
-        view.addSubview(containerView)
+        containerview = UIView(frame: view.bounds)
+        view.addSubview(containerview)
         
-        containerView.backgroundColor   = .systemBackground
-        containerView.alpha             = 0
+        containerview.backgroundColor   = .systemBackground
+        containerview.alpha             = 0
         // do not want the loading view suddenly pops up
-        UIView.animate(withDuration: 0.25) { self.containerView.alpha = 0.8 }
+        UIView.animate(withDuration: 0.25) { self.containerview.alpha = 0.8 }
         
         let activitIndicator = UIActivityIndicatorView(style: .large)
-        containerView.addSubview(activitIndicator)
+        containerview.addSubview(activitIndicator)
         
         activitIndicator.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            activitIndicator.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-            activitIndicator.centerXAnchor.constraint(equalTo: containerView.centerXAnchor)
+            activitIndicator.centerYAnchor.constraint(equalTo: containerview.centerYAnchor),
+            activitIndicator.centerXAnchor.constraint(equalTo: containerview.centerXAnchor)
         ])
         
         activitIndicator.startAnimating()
@@ -38,16 +38,16 @@ class FLDataLoadingVC: UIViewController {
     
     func dismissLoadingView() {
         DispatchQueue.main.async {
-            self.containerView.removeFromSuperview()
-            self.containerView = nil
+            self.containerview.removeFromSuperview()
+            self.containerview = nil
         }
     }
-    /*
+    
     
     func showEmptyStateView(with message: String, in view: UIView) {
-        let emptyStateView = GFEmptyStateView(message: message)
+        let emptyStateView = FLEmptyStateView(message: message)
         emptyStateView.frame = view.bounds
         view.addSubview(emptyStateView)
     }
-*/
+
 }
