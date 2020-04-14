@@ -30,7 +30,14 @@ class FLTitleLabel: UILabel {
     convenience init(textAlignment: NSTextAlignment, fontSize: CGFloat, textColor: UIColor, fontWeight: UIFont.Weight) {
         self.init(frame: .zero)
         self.textAlignment  = textAlignment
-        self.font           = UIFont.systemFont(ofSize: fontSize, weight: fontWeight)
+        var fontName = "PingFangSC-Regular"
+        if fontWeight == .medium {
+            fontName = "PingFangSC-Medium"
+        }
+        if fontWeight == .bold {
+            fontName = "PingFangSC-Bold"
+        }
+        self.font           = UIFont(name:fontName, size: fontSize)
         self.textColor      = textColor
     }
     

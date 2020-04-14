@@ -10,11 +10,15 @@ import Foundation
 
 struct Review {
     
-    var id:String
-    var shopID:String
-    var imageUrl:String
-    var body:String
-    var rating:Int
-    var date:Date
+    var id: String
+    var shopID: String
+    var username: String
+    var avatarImageURL: String
+    var imageURLs: [String]
+    var content: String
+    var likeAmount: Double
+    var userID: String
+    //var rating: Double
+    //var date: Date
     
 }

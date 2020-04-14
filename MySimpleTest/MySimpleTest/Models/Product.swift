@@ -8,11 +8,14 @@
 
 import Foundation
 
-struct Product {
+struct Product: Codable, Hashable {
     
-    var id:String
-    var shopID:String
-    var photoUrl:String
-    var name:String
+    var id: String
+    var shopID: String
+    var imageURL: String
+    var title: String
+    var description: String
+    var price: Double
+    var sale: Double
     
 }

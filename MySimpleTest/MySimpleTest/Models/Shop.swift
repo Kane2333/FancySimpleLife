@@ -1,24 +1,28 @@
 //
 //  Shop.swift
-//  MySimpleTest
+//  FancyLifeDemo
 //
-//  Created by YIPIN JIN on 7/3/20.
-//  Copyright © 2020 RickJin. All rights reserved.
+//  Created by Laverne  on 2020/3/29.
+//  Copyright © 2020 FancyLife. All rights reserved.
 //
 
 import Foundation
 
-struct Shop {
+struct Shop: Codable, Hashable {
     
-    var id:String
-    var merchantID:String
-    var name:String
-    var address:String
-    var openingTime:String
-    var closingTime:String
-    var photoUrl:String
-    var category:String
-    var content:String
-    var rating:Int
-    
+    var id: String
+    var imageURL: String
+    var title: String
+    var secondaryTitle: String
+    var distance: Double = 0
+    var score: Double
+    var location: [Double]
+    var openingTime: String
+    //var closeTime: String
+    var category: String
+    var address: String
+    var sameCategoryShops: Int?=0
+    var kind: String
+
 }
+

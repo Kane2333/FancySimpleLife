@@ -12,7 +12,7 @@ class FLAlertVC: UIViewController {
 
     let containerView = FLAlertContainerView()
     let titleLabel = FLTitleLabel(textAlignment: .center, fontSize: 20, textColor: FLColors.black, fontWeight: .bold)
-    let bodyLabel = FLTitleLabel(textAlignment: .center, fontSize: 12, textColor: FLColors.gray, fontWeight: .regular)
+    let bodyLabel = FSLBodyLabel(textAlignment: .center)
     let actionButtion = FLButton(backgroundColor: FLColors.red, title: "确认", titleColor: FLColors.white)
     
     var alertTitle: String?
@@ -63,7 +63,7 @@ class FLAlertVC: UIViewController {
             titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: padding),
             titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
             titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
-            titleLabel.heightAnchor.constraint(equalToConstant: 28)
+            titleLabel.heightAnchor.constraint(equalToConstant: 24)
         ])
     }
     

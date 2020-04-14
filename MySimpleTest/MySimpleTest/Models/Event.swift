@@ -8,12 +8,15 @@
 
 import Foundation
 
-struct Event {
+struct Event: Codable, Hashable {
     
-    var id:String
-    var startDate:Date
-    var endDate:Date
-    var description:String
-    var photoUrl:String
-    
+    var id: String
+    var shopID: String
+    var title: String
+    var startDate: Date
+    var endDate: Date
+    var description: String
+    var imageURL: String
+    var price: Double
+    var originalPrice: Double
 }

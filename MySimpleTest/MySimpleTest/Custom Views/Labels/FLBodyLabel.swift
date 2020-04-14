@@ -36,5 +36,4 @@ class FSLBodyLabel: UILabel {
         lineBreakMode               = .byWordWrapping
         translatesAutoresizingMaskIntoConstraints = false
     }
-
 }

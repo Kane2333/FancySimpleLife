@@ -25,6 +25,7 @@ class FLRegularImageView: UIImageView {
     
     
     private func configure() {
+        image                                       = FLImages.defaultBackground
         contentMode                                 = .scaleAspectFill
         clipsToBounds                               = true
         translatesAutoresizingMaskIntoConstraints   = false

@@ -24,4 +24,20 @@ extension UIView {
     func addSubviews(_ views: UIView...) {
         for view in views { addSubview(view) }
     }
+    
+    
+    func removeSubViews(_ views: UIView...) {
+        for view in views { view.removeFromSuperview() }
+    }
+    
+    
+    func center(of superview: UIView) {
+        translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            centerYAnchor.constraint(equalTo: superview.centerYAnchor),
+            centerXAnchor.constraint(equalTo: superview.centerXAnchor),
+            widthAnchor.constraint(equalTo: widthAnchor),
+            heightAnchor.constraint(equalTo: heightAnchor)
+        ])
+    }
 }

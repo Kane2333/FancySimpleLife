@@ -8,20 +8,19 @@
 
 import UIKit
 import CoreLocation
-import Firebase
 
-class HomeVC: UIViewController {
+class HomeVC: FLDataLoadingVC {
     
     enum Section { case main }
     
     let locationManager = CLLocationManager()
     
-    static let sectionHeaderElementKind = "section-header-element-kind"
-    private let containerView   = UIView()
-    private let locationView    = UIView()
-    private let homeLocationVC  = HomeLocationVC()
-    private let searchBar       = UIView()
-    private let adView          = UIView()
+    static  let sectionHeaderElementKind    = "section-header-element-kind"
+    private let containerView               = UIView()
+    private let locationView                = UIView()
+    private let homeLocationVC              = HomeLocationVC()
+    private let searchBar                   = UIView()
+    private let adView                      = UIView()
     
     var location: CLLocation?
     
@@ -30,7 +29,7 @@ class HomeVC: UIViewController {
     var isPerformingReverseGeocoding = false
     var lastGeocodingError: Error?
     
-    lazy var contentViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + 400)
+    lazy var contentViewSize = CGSize(width: self.view.frame.width, height: 1140)
     lazy var scrollView: FLScrollView = {
         let scrollView = FLScrollView(view: view, containerView: containerView, contentViewSize: contentViewSize, bounces: true)
         return scrollView
@@ -42,8 +41,6 @@ class HomeVC: UIViewController {
     var tuanGoDataSource: UICollectionViewDiffableDataSource<Section, TuanGo>!
     var categoryImages: [UIImage] = [FLImages.foodDrink!, FLImages.shengXian!, FLImages.fun!, FLImages.travel!]
     var tuanGoList: [TuanGo]      = []
-    
-    let db = Firestore.firestore()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,14 +57,22 @@ class HomeVC: UIViewController {
 
         updateCategoryData()
         configureCategoryDataSource()
-        getTuanGoItems()
         configureTuanGoDataSource()
+        
+        /*
+        db.collection("Shop").addDocument(data: ["imageURL": "https://firebasestorage.googleapis.com/v0/b/mysimpletest-a3323.appspot.com/o/shop11.png?alt=media&token=142b7ef3-949e-4032-a028-9dea24e724fe", "title": "寿司次郎", "address": "11 Star Alley, Melbourne, VIC, 3000", "category": "food", "location": [-37.812597, 144.965574], "openingTime": "10:30-21:00", "priority": "13", "score": 4.3, "secondaryTitle": "做最好吃的寿司", "kind": "日料"])
+*/
+        
+
+        
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
+        self.tabBarController?.tabBar.isHidden = false
+        getTuanGoItems()
     }
     
     
@@ -105,8 +110,8 @@ class HomeVC: UIViewController {
             categoryCollectionView.heightAnchor.constraint(equalToConstant: 139),
             
             tuanGoCollectionView.topAnchor.constraint(equalTo: categoryCollectionView.bottomAnchor, constant: 10),
-            tuanGoCollectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
-            tuanGoCollectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
+            tuanGoCollectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            tuanGoCollectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             tuanGoCollectionView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
     }
@@ -117,6 +122,7 @@ class HomeVC: UIViewController {
         categoryCollectionView.register(HomeCategoryCell.self, forCellWithReuseIdentifier: HomeCategoryCell.reuseID)
         categoryCollectionView.backgroundColor = FLColors.white
         categoryCollectionView.showsHorizontalScrollIndicator = false
+        categoryCollectionView.delegate = self
     }
     
     
@@ -144,7 +150,7 @@ class HomeVC: UIViewController {
     func configureTuanGoCollectionView() {
         tuanGoCollectionView = UICollectionView(frame: containerView.bounds, collectionViewLayout: UIHelper.createTwoColumnFlowLayout(in: containerView))
         tuanGoCollectionView.register(HomeTuanGoCell.self, forCellWithReuseIdentifier: HomeTuanGoCell.reuseID)
-        tuanGoCollectionView.register(HomeTuanGoSV.self, forSupplementaryViewOfKind: HomeVC.sectionHeaderElementKind, withReuseIdentifier: HomeTuanGoSV.reuseID)
+        tuanGoCollectionView.register(FLHeaderSV.self, forSupplementaryViewOfKind: HomeVC.sectionHeaderElementKind, withReuseIdentifier: FLHeaderSV.reuseID)
         tuanGoCollectionView.backgroundColor = FLColors.white
         tuanGoCollectionView.isScrollEnabled = false
         //categoryCollectionView.showsHorizontalScrollIndicator = false
@@ -160,8 +166,9 @@ class HomeVC: UIViewController {
             cell.set(tuanGoItem: tuanGo)
             cell.layer.shadowColor     = FLColors.black.cgColor
             cell.layer.shadowOpacity   = 0.07
-            cell.layer.shadowOffset    = CGSize(width: 1, height: 3)
+            cell.layer.shadowOffset    = CGSize(width: 0, height: 3)
             cell.layer.shadowRadius    = 3
+            cell.delegate              = self
             return cell
         }
         
@@ -172,9 +179,9 @@ class HomeVC: UIViewController {
 
             guard let supplementaryView = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,
-                withReuseIdentifier: HomeTuanGoSV.reuseID,
-                for: indexPath) as? HomeTuanGoSV else { fatalError("Cannot create new supplementary") }
-
+                withReuseIdentifier: FLHeaderSV.reuseID,
+                for: indexPath) as? FLHeaderSV else { fatalError("Cannot create new supplementary") }
+            supplementaryView.set(title: "团购", hasButton: false, hasDeleteButton: false)
             supplementaryView.backgroundColor       = FLColors.white
             return supplementaryView
         }
@@ -190,9 +197,10 @@ class HomeVC: UIViewController {
     
     
     func getTuanGoItems() {
+        showLoadingView()
         FirestoreManager.shared.getTuanGoList(for: "homepage") { [weak self] result in
             guard let self = self else { return }
-            
+            self.dismissLoadingView()
             switch result {
             case .success(let tuanGoList):
                 self.tuanGoList = tuanGoList
@@ -204,16 +212,8 @@ class HomeVC: UIViewController {
     }
     
     
-    func setUpLocationManager() {
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-
-    }
-    
-    
     func updateAddress() {
         if location != nil {
-            
             if let placemark = placemark {
                 homeLocationVC.setLocation(location: getAddress(from: placemark))
                 
@@ -226,10 +226,10 @@ class HomeVC: UIViewController {
             }
             
         } else {
-            homeLocationVC.setLocation(location: "Error locating")
+            homeLocationVC.setLocation(location: "Location is unavailable...")
         }
-        
     }
+    
     
     func getAddress(from placemark: CLPlacemark) -> String {
         var address = ""
@@ -243,12 +243,19 @@ class HomeVC: UIViewController {
     }
     
     
+    func setUpLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+
+    }
+    
+    
     func checkLocationSevices() {
         if CLLocationManager.locationServicesEnabled() {
             setUpLocationManager()
             checkLocationAuthorization()
         } else {
-            print("didn't turn on the location sevice")
+            presentFLAlertOnMainThread(title: "未开启定位服务", message: "请前往系统设置开启定位服务，来获取更好体验吧！😄", buttonTitle: "确认")
         }
     }
     
@@ -257,12 +264,12 @@ class HomeVC: UIViewController {
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         case .denied, .restricted:
-            presentFLAlertOnMainThread(title: "未允许定位服务", message: "请前往系统设置允许本应用取用位置", buttonTitle: "确认")
-        case .authorizedWhenInUse:
+            locationManager.requestWhenInUseAuthorization()
+            presentFLAlertOnMainThread(title: "未允许定位服务", message: "请前往系统设置允许本应用取用位置, 来享受更好的体验吧！😄", buttonTitle: "确认")
+        case .authorizedWhenInUse, .authorizedAlways:
+            locationManager.startUpdatingLocation()
             updateAddress()
-            locationManager.startUpdatingLocation()
-        case .authorizedAlways:
-            locationManager.startUpdatingLocation()
+
         @unknown default:
             presentFLAlertOnMainThread(title: "授权获取位置错误", message: "无法获取您的位置授权", buttonTitle: "确认")
         }
@@ -291,10 +298,30 @@ extension HomeVC: CLLocationManagerDelegate {
                 }
             }
         }
+        
     }
+    
     
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         checkLocationAuthorization()
+    }
+}
+
+extension HomeVC: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let options = ["餐饮", "生鲜", "娱乐", "旅行"]
+        let shopVC = ShopVC(category: options[indexPath.item])
+        
+        navigationController?.pushViewController(shopVC, animated: true)
+        //tabBarController?.selectedIndex = 1
+        //tabBarController?.selectedViewController = shopVC
+    }
+}
+
+
+extension HomeVC: HomeTuanGoCellDelegate {
+    func didRequestToAddToCart() {
+        presentAddToCartSuccessView()
     }
 }

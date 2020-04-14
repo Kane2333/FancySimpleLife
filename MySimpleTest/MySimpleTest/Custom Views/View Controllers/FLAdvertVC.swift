@@ -31,6 +31,7 @@ class FLAdvertVC: UIViewController {
         flowLayout = UIHelper.createAdImageFlowLayout(in: view)
         sliderCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: flowLayout)
         sliderCollectionView.register(AdvertCell.self, forCellWithReuseIdentifier: AdvertCell.reuseID)
+        sliderCollectionView.backgroundColor = FLColors.lightGray
         view.addSubviews(sliderCollectionView, pageControl)
   
         sliderCollectionView.layer.cornerRadius     = 3
@@ -60,20 +61,21 @@ class FLAdvertVC: UIViewController {
         DispatchQueue.main.async {
             self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
         }
+        RunLoop.current.add(self.timer, forMode: RunLoop.Mode.common)
     }
     
     
     @objc func changeImage() {
         if currentIndex < images.count {
             let indexPath = IndexPath.init(item: currentIndex, section: 0)
-            self.sliderCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            self.sliderCollectionView.scrollToItem(at: indexPath, at: .left, animated: true)
             pageControl.currentPage = currentIndex
             currentIndex += 1
         }
         else {
             currentIndex = 0
             let indexPath = IndexPath.init(item: currentIndex, section: 0)
-            self.sliderCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            self.sliderCollectionView.scrollToItem(at: indexPath, at: .left, animated: true)
             pageControl.currentPage = currentIndex
         }
     }
@@ -100,6 +102,7 @@ class FLAdvertVC: UIViewController {
     func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource(collectionView: sliderCollectionView, cellProvider: { (sliderCollectionView, indexPath, adImageItem) -> UICollectionViewCell? in
             let cell = sliderCollectionView.dequeueReusableCell(withReuseIdentifier:AdvertCell.reuseID, for: indexPath) as! AdvertCell
+            cell.backgroundColor = FLColors.lightGray
             cell.set(imageURL: adImageItem.imageURL)
             return cell
         })
@@ -113,5 +116,7 @@ class FLAdvertVC: UIViewController {
         DispatchQueue.main.async{self.dataSource.apply(snapshot, animatingDifferences: false)}
     }
 }
+
+
 
 
