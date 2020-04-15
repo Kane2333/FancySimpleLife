@@ -25,6 +25,20 @@ class AdvertCell: UICollectionViewCell {
     }
     
     
+    func setImage() {
+        FirestoreManager.shared.getAdList(for: "shoppage") { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case . success(let imageList):
+                self.imageView.downloadImage(fromURL: imageList[0].imageURL)
+            case .failure(let error):
+                print("image \(error.rawValue)")
+            }
+        }
+    }
+    
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -35,12 +49,7 @@ class AdvertCell: UICollectionViewCell {
         
         imageView.backgroundColor = FLColors.white
         
-        NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
+        imageView.pinToEdges(of: contentView)
         
     }
 }

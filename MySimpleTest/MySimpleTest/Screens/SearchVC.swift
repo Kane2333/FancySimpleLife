@@ -71,6 +71,7 @@ class SearchVC: FLDataLoadingVC {
         collectionView.register(FLHeaderSV.self, forSupplementaryViewOfKind: SearchVC.sectionHeaderElementKind, withReuseIdentifier: FLHeaderSV.reuseID)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = FLColors.white
+        view.bringSubviewToFront(collectionView)
         view.addSubviews(collectionView)
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),

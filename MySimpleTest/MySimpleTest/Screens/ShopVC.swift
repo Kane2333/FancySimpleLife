@@ -14,6 +14,18 @@ class ShopVC: FLDataLoadingVC {
     
     static let sectionHeaderElementKind = "section-header-element-kind"
     
+    enum SectionKind: Int, CaseIterable {
+        case empty, shop
+        var headerHeight: CGFloat {
+            switch self {
+            case .empty:
+                return 139
+            case .shop:
+                return 60
+            }
+        }
+    }
+    
     private var category: String?   = nil
 
     private let searchBar       = UIButton()
@@ -98,7 +110,7 @@ class ShopVC: FLDataLoadingVC {
             navigationItem.leftBarButtonItem = backButton
             searchBar.setBackgroundImage(FLImages.searchBarCut, for: .normal)
         }
-    }
+    } 
     
     
     @objc func backToHome() {
@@ -118,10 +130,35 @@ class ShopVC: FLDataLoadingVC {
     }
     
     
+    private func createLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int,
+            layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+            
+            guard let sectionKind = SectionKind(rawValue: sectionIndex) else { return nil }
+            let headerHeight = sectionKind.headerHeight
+            let itemSize                        = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(85))
+            let item                            = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            let groupSize                       = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(85))
+            let group                           = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            
+            let section                         = NSCollectionLayoutSection(group: group)
+            section.contentInsets               = NSDirectionalEdgeInsets(top: 7, leading: 13, bottom: 0, trailing: 13)
+            section.interGroupSpacing           = 7
+            let sectionHeader                   = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(headerHeight)), elementKind: ShopVC.sectionHeaderElementKind, alignment: .top)
+            
+            sectionHeader.pinToVisibleBounds    = true
+            sectionHeader.zIndex                = 2
+            section.boundarySupplementaryItems  = [sectionHeader]
+            return section
+        }
+        return layout
+    }
+    
+    
     private func configureCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createListFlowLayout(in: view, hasHeader: true))
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.delegate = self
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(ShopListCell.self, forCellWithReuseIdentifier: ShopListCell.reuseID)
         collectionView.register(ShopHeaderSV.self, forSupplementaryViewOfKind: ShopVC.sectionHeaderElementKind, withReuseIdentifier: ShopHeaderSV.reuseID)
         collectionView.showsVerticalScrollIndicator = false
@@ -191,16 +228,14 @@ class ShopVC: FLDataLoadingVC {
     
     func getShopItems() {
         showLoadingView()
-        isLoading = true
         FirestoreManager.shared.getShopList() { [weak self] result in
             guard let self = self else { return }
-
+            self.dismissLoadingView()
             switch result {
             case .success(let shopList):
                 self.shopList = shopList
                 if self.category == nil {
                     self.dataList[1] = shopList
-
                 } else {
                     self.filterShop(category: self.category!)
                 }
@@ -209,8 +244,7 @@ class ShopVC: FLDataLoadingVC {
             case .failure(let error):
                 self.presentFLAlertOnMainThread(title: "错误！", message: error.rawValue, buttonTitle: "确认")
             }
-                        self.dismissLoadingView()
-            self.isLoading = false
+                        
         }
     }
     
@@ -219,12 +253,7 @@ class ShopVC: FLDataLoadingVC {
         view.addSubview(collectionView)
         view.backgroundColor = FLColors.white
         extendedLayoutIncludesOpaqueBars = true
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 7),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+        collectionView.pinToEdges(of: view)
     }
     
     
@@ -263,11 +292,15 @@ class ShopVC: FLDataLoadingVC {
 
 extension ShopVC: ShopHeaderSVDelegate {
     func didRequestToUpdateShops(for category: String) {
-        
         filterShop(category: category)
         updateData(on: self.dataList)
-        collectionView.scrollToItem(at: IndexPath(item: 0, section: 1), at: .top, animated: true)
+        collectionView.layoutIfNeeded()
+        DispatchQueue.main.async {
+            self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 1), at: .top, animated: true)
+        }
+        
     }
+
 }
 
 

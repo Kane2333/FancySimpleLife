@@ -28,8 +28,12 @@ class FLScrollView: UIScrollView {
         addSubview(containerView)
         
         self.containerView = containerView
-        
-        
+    }
+    
+    func set(height: CGFloat) {
+        let width = contentSize.width
+        contentSize = CGSize(width: width, height: height)
+        containerView?.frame.size = contentSize
     }
     
     

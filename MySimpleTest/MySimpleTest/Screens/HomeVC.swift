@@ -63,8 +63,6 @@ class HomeVC: FLDataLoadingVC {
         db.collection("Shop").addDocument(data: ["imageURL": "https://firebasestorage.googleapis.com/v0/b/mysimpletest-a3323.appspot.com/o/shop11.png?alt=media&token=142b7ef3-949e-4032-a028-9dea24e724fe", "title": "寿司次郎", "address": "11 Star Alley, Melbourne, VIC, 3000", "category": "food", "location": [-37.812597, 144.965574], "openingTime": "10:30-21:00", "priority": "13", "score": 4.3, "secondaryTitle": "做最好吃的寿司", "kind": "日料"])
 */
         
-
-        
     }
     
     
@@ -204,7 +202,17 @@ class HomeVC: FLDataLoadingVC {
             switch result {
             case .success(let tuanGoList):
                 self.tuanGoList = tuanGoList
-                self.updateTuanGoData(on: tuanGoList)
+                
+                let count = self.tuanGoList.count
+                var height: CGFloat = 0
+                if count % 2 != 0 {
+                    height = CGFloat((count / 2) + 1) * 235
+                } else {
+                    height = CGFloat(count / 2) * 235
+                }
+                self.scrollView.set(height: 435 + height)
+                
+                self.updateTuanGoData(on: self.tuanGoList)
             case .failure(let error):
                 self.presentFLAlertOnMainThread(title: "错误！", message: error.rawValue, buttonTitle: "确认")
             }

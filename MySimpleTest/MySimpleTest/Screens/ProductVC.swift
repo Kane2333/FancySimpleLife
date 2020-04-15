@@ -71,7 +71,7 @@ class ProductVC: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(ProductListCell.self, forCellWithReuseIdentifier: ProductListCell.reuseID)
         collectionView.register(ShopCell.self, forCellWithReuseIdentifier: ShopCell.reuseID)
-        collectionView.register(FLHeaderSV.self, forSupplementaryViewOfKind: ShopVC.sectionHeaderElementKind, withReuseIdentifier: FLHeaderSV.reuseID)
+        collectionView.register(FLHeaderSV.self, forSupplementaryViewOfKind: ProductVC.sectionHeaderElementKind, withReuseIdentifier: FLHeaderSV.reuseID)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = FLColors.white
     }
