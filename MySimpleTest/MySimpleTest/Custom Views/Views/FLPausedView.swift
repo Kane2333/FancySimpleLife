@@ -14,7 +14,7 @@ class FLPausedView: UIView {
     
     
     override init(frame: CGRect) {
-        super.init(frame: frame)
+        super.init(frame: .zero)
     }
     
     
@@ -29,8 +29,10 @@ class FLPausedView: UIView {
         configure()
     }
     
-    
-    private func configure() {
+    public func configure() {
+        backgroundColor   = .systemBackground
+        //alpha             = 0
+        
         addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints  = false
         
@@ -40,6 +42,8 @@ class FLPausedView: UIView {
             imageView.heightAnchor.constraint(equalToConstant: 124),
             imageView.widthAnchor.constraint(equalToConstant: 124)
         ])
+        
+        translatesAutoresizingMaskIntoConstraints = false
     }
 
 }

@@ -87,7 +87,7 @@ class SignInVC: UIViewController {
         passwordTextField.addRightIconView(imageNamed: "visible")
         
         NSLayoutConstraint.activate([
-            emailTextField.topAnchor.constraint(equalTo: headView.bottomAnchor, constant: 70),
+            emailTextField.topAnchor.constraint(equalTo: headView.bottomAnchor, constant: 60),
             emailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             emailTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             emailTextField.heightAnchor.constraint(equalToConstant: 44),

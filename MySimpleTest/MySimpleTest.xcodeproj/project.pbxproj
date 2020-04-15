@@ -78,6 +78,8 @@
 		AB51174E2445A36100F3EEE4 /* FLUnderlineTextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB51174D2445A36100F3EEE4 /* FLUnderlineTextButton.swift */; };
 		AB5117502445D4D200F3EEE4 /* FillAcccountDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB51174F2445D4D200F3EEE4 /* FillAcccountDetailVC.swift */; };
 		AB5117522445DFDE00F3EEE4 /* FLPausedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5117512445DFDE00F3EEE4 /* FLPausedView.swift */; };
+		AB5117542446836D00F3EEE4 /* FLAvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5117532446836D00F3EEE4 /* FLAvatarImageView.swift */; };
+		AB51175624468AB700F3EEE4 /* FLVIPCardImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB51175524468AB700F3EEE4 /* FLVIPCardImageView.swift */; };
 		AB76C2EF240F448400D54A4E /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB76C2EE240F448400D54A4E /* HomeVC.swift */; };
 		AB76C2F3240F44B100D54A4E /* FavoritesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB76C2F2240F44B100D54A4E /* FavoritesVC.swift */; };
 		AB76C2F5240F44BC00D54A4E /* AccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB76C2F4240F44BC00D54A4E /* AccountVC.swift */; };
@@ -182,6 +184,8 @@
 		AB51174D2445A36100F3EEE4 /* FLUnderlineTextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLUnderlineTextButton.swift; sourceTree = "<group>"; };
 		AB51174F2445D4D200F3EEE4 /* FillAcccountDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillAcccountDetailVC.swift; sourceTree = "<group>"; };
 		AB5117512445DFDE00F3EEE4 /* FLPausedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLPausedView.swift; sourceTree = "<group>"; };
+		AB5117532446836D00F3EEE4 /* FLAvatarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLAvatarImageView.swift; sourceTree = "<group>"; };
+		AB51175524468AB700F3EEE4 /* FLVIPCardImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLVIPCardImageView.swift; sourceTree = "<group>"; };
 		AB76C2EE240F448400D54A4E /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		AB76C2F2240F44B100D54A4E /* FavoritesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesVC.swift; sourceTree = "<group>"; };
 		AB76C2F4240F44BC00D54A4E /* AccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVC.swift; sourceTree = "<group>"; };
@@ -339,6 +343,8 @@
 				5721C2082431BAAD00358042 /* ShopFilterView.swift */,
 				570998C1244561E400929A49 /* FLEmptyStateView.swift */,
 				AB5117512445DFDE00F3EEE4 /* FLPausedView.swift */,
+				AB5117532446836D00F3EEE4 /* FLAvatarImageView.swift */,
+				AB51175524468AB700F3EEE4 /* FLVIPCardImageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -692,6 +698,7 @@
 				57449393243321610093F0DE /* ShopInfoVC.swift in Sources */,
 				ABFCBDEF240F405600480CA7 /* SceneDelegate.swift in Sources */,
 				570998C42445841600929A49 /* FLAddToCartSuccessVC.swift in Sources */,
+				AB51175624468AB700F3EEE4 /* FLVIPCardImageView.swift in Sources */,
 				AB2B46712420A59D006EFE10 /* String+Ext.swift in Sources */,
 				5721C1FB24317B2700358042 /* ShopFilterCell.swift in Sources */,
 				AB3C162D242F577F00EB87E2 /* FLButton.swift in Sources */,
@@ -713,6 +720,7 @@
 				570998B42441CCB900929A49 /* SearchCell.swift in Sources */,
 				ABCD3BEB2413B5FF0049AC73 /* Product.swift in Sources */,
 				574493B1243C57BE0093F0DE /* ProductVC.swift in Sources */,
+				AB5117542446836D00F3EEE4 /* FLAvatarImageView.swift in Sources */,
 				574493AD2439A3CC0093F0DE /* ReviewImageCell.swift in Sources */,
 				AB3C163B242F582600EB87E2 /* SearchVC.swift in Sources */,
 				AB3C1605242F52D000EB87E2 /* AdImage.swift in Sources */,

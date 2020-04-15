@@ -12,7 +12,6 @@ class FLDataLoadingVC: UIViewController {
 
     var containerview: UIView!
        
-    
     func showLoadingView() {
         containerview = UIView(frame: view.bounds)
         view.addSubview(containerview)
@@ -43,11 +42,21 @@ class FLDataLoadingVC: UIViewController {
         }
     }
     
-    
     func showEmptyStateView(with message: String, in view: UIView) {
         let emptyStateView = FLEmptyStateView(message: message)
         emptyStateView.frame = view.bounds
         view.addSubview(emptyStateView)
+    }
+    
+    func showPausedView(with image: String, in view: UIView) {
+        containerview = FLPausedView(imageNamed: image)
+        containerview.frame = view.bounds
+        view.addSubview(containerview)
+        
+        NSLayoutConstraint.activate([
+            containerview.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            containerview.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
     }
 
 }

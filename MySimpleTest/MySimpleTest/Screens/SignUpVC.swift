@@ -10,7 +10,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 
-class SignUpVC: UIViewController {
+class SignUpVC: FLDataLoadingVC {
     
     let label1 = FLTitleLabel(frame: .zero)
     let headView = FSLSignInHeadView(text: "欢迎您，\n注册成为我们的用户")
@@ -67,7 +67,7 @@ class SignUpVC: UIViewController {
         confirmPasswordTextField.addRightIconView(imageNamed: "visible")
         
         NSLayoutConstraint.activate([
-            emailTextField.topAnchor.constraint(equalTo: headView.bottomAnchor, constant: 70),
+            emailTextField.topAnchor.constraint(equalTo: headView.bottomAnchor, constant: 60),
             emailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             emailTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             emailTextField.heightAnchor.constraint(equalToConstant: 44),
@@ -126,6 +126,12 @@ class SignUpVC: UIViewController {
     }
     
     @objc func nextStep() {
+        print("button pressed")
+        showPausedView(with: "loading", in: view)
+        
+        //createNewAccount()
+        
+        dismissLoadingView()
         
         let fillAcccountDetailVC = FillAcccountDetailVC()
         navigationController?.pushViewController(fillAcccountDetailVC, animated: false)
@@ -189,7 +195,7 @@ class SignUpVC: UIViewController {
         navigationController?.popViewController(animated: false)
     }
     
-    @objc func createNewAccount() {
+    func createNewAccount() {
         print("Button pressed")
         // Check that all fields are filled in
         var validateMessage = ""
@@ -200,7 +206,8 @@ class SignUpVC: UIViewController {
             confirmPasswordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
             
             validateMessage += "Please fill in all fields"
-            isValid = false
+            presentFLAlertOnMainThread(title: "Validation Message", message: validateMessage, buttonTitle: "Ok")
+            return
         }
         
         // Validate the fields
@@ -211,12 +218,14 @@ class SignUpVC: UIViewController {
         
         if !passwordTextField.text!.isValidPassword {
             validateMessage += "Password entered is invalid."
-            isValid = false
+            presentFLAlertOnMainThread(title: "Validation Message", message: validateMessage, buttonTitle: "Ok")
+            return
         }
         
         if !passwordTextField.text!.isValidPassword {
             validateMessage += "Confirm password  entered is invalid."
-            isValid = false
+            presentFLAlertOnMainThread(title: "Validation Message", message: validateMessage, buttonTitle: "Ok")
+            return
         }
         
         guard isValid else {
@@ -227,7 +236,10 @@ class SignUpVC: UIViewController {
         print("Validation: OK")
         
         // Create cleaned versions of the data
+        let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let inviteCode = inviteCodeTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        
         
         // Create the user
         Auth.auth().createUser(withEmail: emailTextField.text!, password: confirmPasswordTextField.text!) { (result, err) in
@@ -240,6 +252,8 @@ class SignUpVC: UIViewController {
                 
                 db.collection("users").document(result!.user.uid).setData([
                     "uid": result!.user.uid,
+                    "email": email,
+                    "password": password,
                     "inviteCode": inviteCode
                 ]) { (error) in
                     if error != nil {
@@ -248,10 +262,6 @@ class SignUpVC: UIViewController {
                 }
             }
         }
-        
-        // Transition to the home screen
-        let homeVC = HomeVC()
-        navigationController?.pushViewController(homeVC, animated: false)
     }
 
 }

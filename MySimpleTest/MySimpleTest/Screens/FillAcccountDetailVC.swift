@@ -14,7 +14,7 @@ class FillAcccountDetailVC: UIViewController {
     
     let label1 = FLTitleLabel(frame: .zero)
     let headView = FSLSignInHeadView(text: "请完善，\n您的个人信息")
-    let avatarImageView = FSLAvatarImageView(frame: .zero)
+    let avatarImageView = FLAvatarImageView(image: "placeholderImage")
     let surnameTextField = FSLTextField(frame: .zero)
     let firstnameTextField = FSLTextField(frame:. zero)
     let phonenoTextField = FSLTextField(iconName: "square_check")
@@ -75,7 +75,7 @@ class FillAcccountDetailVC: UIViewController {
         birthdayTextField.placeholder = "生日 MM/DD/YYYY"
         
         NSLayoutConstraint.activate([
-            surnameTextField.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 70),
+            surnameTextField.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 30),
             surnameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             surnameTextField.widthAnchor.constraint(equalToConstant: 120),
             surnameTextField.heightAnchor.constraint(equalToConstant: 44),
