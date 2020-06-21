@@ -1,1 +1,1 @@
-MySimpleTest
+FancySimpleLife
